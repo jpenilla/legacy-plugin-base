@@ -1,5 +1,6 @@
 package fun.ccmc.jmplib;
 
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -137,6 +138,16 @@ public class Chat {
     }
 
     private final static int CENTER_PX = 154;
+
+    /**
+     * Send a ComponentBuilder message to a player
+     *
+     * @param p The player to send to
+     * @param c The ComponentBuilder
+     */
+    public static void sendMsg(Player p, ComponentBuilder c) {
+        p.spigot().sendMessage(c.create());
+    }
 
     /**
      * Colorize and then broadcast a message to the server
