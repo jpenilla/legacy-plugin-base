@@ -3,6 +3,9 @@ package fun.ccmc.jmplib;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+/**
+ * Chat message sending utilities
+ */
 public class Chat {
     public enum DefaultFontInfo {
 
@@ -134,22 +137,56 @@ public class Chat {
 
     private final static int CENTER_PX = 154;
 
-    public static void sendMsg(Player p, String msg) {
-        p.sendMessage(TextUtil.colorize(msg));
+    /**
+     * Sends a message msg to Player player.
+     * Colorizes the message.
+     *
+     * @param player The player to send the message to
+     * @param msg The message to colorize and send
+     */
+    public static void sendMsg(Player player, String msg) {
+        player.sendMessage(TextUtil.colorize(msg));
     }
 
-    public static void sendMsg(Player p, String[] msg) {
-        p.sendMessage(TextUtil.colorize(msg));
+    /**
+     * Sends an array of messages msg to Player player
+     * Colorizes the messages.
+     *
+     * @param player The player to send the messages to
+     * @param msg The messages to colorize and send
+     */
+    public static void sendMsg(Player player, String[] msg) {
+        player.sendMessage(TextUtil.colorize(msg));
     }
 
-    public static void sendMsg(CommandSender s, String msg) {
-        s.sendMessage(TextUtil.colorize(msg));
+    /**
+     * Sends a message msg to CommandSender sender.
+     * Colorizes the message.
+     *
+     * @param sender The CommandSender to send the message to
+     * @param msg The message to colorize and send
+     */
+    public static void sendMsg(CommandSender sender, String msg) {
+        sender.sendMessage(TextUtil.colorize(msg));
     }
 
-    public static void sendMsg(CommandSender s, String[] msg) {
-        s.sendMessage(TextUtil.colorize(msg));
+    /**
+     * Sends an array of messages msg to CommandSender sender.
+     * Colorizes the messages.
+     *
+     * @param sender The CommandSender to send the messages to
+     * @param msg The messages to colorize and send
+     */
+    public static void sendMsg(CommandSender sender, String[] msg) {
+        sender.sendMessage(TextUtil.colorize(msg));
     }
 
+    /**
+     * Sends a colorized and centered message to a player
+     *
+     * @param player The player to send the centered message to
+     * @param message The message to colorize and center and send
+     */
     public static void sendCenteredMessage(Player player, String message){
         int messagePxSize = 0;
         boolean previousCode = false;
@@ -180,12 +217,25 @@ public class Chat {
         sendMsg(player, sb.toString() + message);
     }
 
+    /**
+     * Sends an array of colorized and centered messages to a player
+     *
+     * @param player The player to send the centered messages to
+     * @param message The messages to colorize and center and send
+     */
     public static void sendCenteredMessage(Player player, String[] message) {
         for(String s : message) {
             sendCenteredMessage(player, s);
         }
     }
 
+    /**
+     * Sends a colorized and centered message to a CommandSender
+     * Only centers if the CommandSender is a Player
+     *
+     * @param sender The CommandSender to send the centered message to
+     * @param message The message to colorize and center and send
+     */
     public static void sendCenteredMessage(CommandSender sender, String message) {
         if(sender instanceof Player) {
             sendCenteredMessage((Player) sender, message);
@@ -194,6 +244,13 @@ public class Chat {
         }
     }
 
+    /**
+     * Sends an array of colorized and centered message to a CommandSender
+     * Only centers if the CommandSender is a Player
+     *
+     * @param sender The CommandSender to send the centered message to
+     * @param message The message to colorize and center and send
+     */
     public static void sendCenteredMessage(CommandSender sender, String[] message) {
         if(sender instanceof Player) {
             sendCenteredMessage((Player) sender, message);

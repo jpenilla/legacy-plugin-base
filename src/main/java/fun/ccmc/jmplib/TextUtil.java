@@ -7,20 +7,49 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Text Utilities
+ */
 public class TextUtil {
-    public static String colorize(String s) {
-        return ChatColor.translateAlternateColorCodes('&', s);
+    /**
+     * Colorize the given string using the '&' color code
+     *
+     * @param string The string to colorize
+     * @return The colorized string
+     */
+    public static String colorize(String string) {
+        return ChatColor.translateAlternateColorCodes('&', string);
     }
 
-    public static String[] colorize(String[] s) {
-        return (String[]) Arrays.stream(s).map(TextUtil::colorize).toArray();
+    /**
+     * Colorize the given array of strings using the '&' color code
+     *
+     * @param strings The array of strings to colorize
+     * @return The colorized string array
+     */
+    public static String[] colorize(String[] strings) {
+        return (String[]) Arrays.stream(strings).map(TextUtil::colorize).toArray();
     }
 
-    public static ArrayList<String> colorize(List<String> stringArray) {
-        return stringArray.stream().map(TextUtil::colorize).collect(Collectors.toCollection(ArrayList::new));
+    /**
+     * Colorize the given list of strings using the '&' color code
+     *
+     * @param stringList The list of strings to colorize
+     * @return The colorized strings as an ArrayList
+     */
+    public static ArrayList<String> colorize(List<String> stringList) {
+        return stringList.stream().map(TextUtil::colorize).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public static boolean containsCaseInsensitive(String s, List<String> l){
-        return l.stream().anyMatch(x -> x.equalsIgnoreCase(s));
+    /**
+     * Checks a list of strings for the given string,
+     * ignoring case.
+     *
+     * @param string The string to look for
+     * @param list The list to look for the string in
+     * @return True if the list contains the string case-insensitive
+     */
+    public static boolean containsCaseInsensitive(String string, List<String> list){
+        return list.stream().anyMatch(x -> x.equalsIgnoreCase(string));
     }
 }
