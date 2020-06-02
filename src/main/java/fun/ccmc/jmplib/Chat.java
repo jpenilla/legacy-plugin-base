@@ -2,6 +2,7 @@ package fun.ccmc.jmplib;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Chat message sending utilities
@@ -136,6 +137,18 @@ public class Chat {
     }
 
     private final static int CENTER_PX = 154;
+
+    /**
+     * Colorize and then broadcast a message to the server
+     *
+     * @param plugin instance of plugin main class
+     * @param msg the message to broadcast
+     */
+    public static void broadcastMsg(JavaPlugin plugin, String msg) {
+        if(msg != null && !msg.equals("")) {
+            plugin.getServer().broadcastMessage(TextUtil.colorize(msg));
+        }
+    }
 
     /**
      * Sends a message msg to Player player.
