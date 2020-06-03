@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 
 /**
  * Text Utilities
+ *
+ * @author jmp
  */
 public class TextUtil {
     /**
@@ -43,7 +45,7 @@ public class TextUtil {
 
     /**
      * Checks a list of strings for the given string,
-     * ignoring case.
+     *  ignoring case.
      *
      * @param string The string to look for
      * @param list The list to look for the string in

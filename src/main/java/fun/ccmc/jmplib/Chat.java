@@ -7,6 +7,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Chat message sending utilities
+ *
+ * @author jmp
  */
 public class Chat {
     public enum DefaultFontInfo {
@@ -163,7 +165,7 @@ public class Chat {
 
     /**
      * Sends a message msg to Player player.
-     * Colorizes the message.
+     *  Colorizes the message.
      *
      * @param player The player to send the message to
      * @param msg The message to colorize and send
@@ -174,7 +176,7 @@ public class Chat {
 
     /**
      * Sends an array of messages msg to Player player
-     * Colorizes the messages.
+     *  Colorizes the messages.
      *
      * @param player The player to send the messages to
      * @param msg The messages to colorize and send
@@ -185,7 +187,7 @@ public class Chat {
 
     /**
      * Sends a message msg to CommandSender sender.
-     * Colorizes the message.
+     *  Colorizes the message.
      *
      * @param sender The CommandSender to send the message to
      * @param msg The message to colorize and send
@@ -196,7 +198,7 @@ public class Chat {
 
     /**
      * Sends an array of messages msg to CommandSender sender.
-     * Colorizes the messages.
+     *  Colorizes the messages.
      *
      * @param sender The CommandSender to send the messages to
      * @param msg The messages to colorize and send
@@ -255,7 +257,7 @@ public class Chat {
 
     /**
      * Sends a colorized and centered message to a CommandSender
-     * Only centers if the CommandSender is a Player
+     *  Only centers if the CommandSender is a Player
      *
      * @param sender The CommandSender to send the centered message to
      * @param message The message to colorize and center and send
@@ -270,7 +272,7 @@ public class Chat {
 
     /**
      * Sends an array of colorized and centered message to a CommandSender
-     * Only centers if the CommandSender is a Player
+     *  Only centers if the CommandSender is a Player
      *
      * @param sender The CommandSender to send the centered message to
      * @param message The message to colorize and center and send

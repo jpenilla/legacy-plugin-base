@@ -9,6 +9,8 @@ import java.util.Collections;
 
 /**
  * Various ItemStack builders for GUIs
+ *
+ * @author jmp
  */
 public class Gui {
 
@@ -24,10 +26,9 @@ public class Gui {
     }
 
     /**
-     * Build an ItemStack from material, name, and lore
-     * ArrayList of strings lore
+     * Build an ItemStack from material, name, and ArrayList of strings lore
      *
-     * @param m The Material
+     * @param m    The Material
      * @param name The Custom Display Name
      * @param lore The Lore
      * @return The ItemStack
@@ -37,10 +38,9 @@ public class Gui {
     }
 
     /**
-     * Build an ItemStack from material, name, and lore
-     * Single string lore
+     * Build an ItemStack from material, name, and a single string lore
      *
-     * @param m The Material
+     * @param m    The Material
      * @param name The Custom Display Name
      * @param lore The Lore
      * @return The ItemStack
@@ -53,7 +53,7 @@ public class Gui {
     /**
      * Build an ItemStack from material and custom name
      *
-     * @param m The Material
+     * @param m    The Material
      * @param name The Custom Display Name
      * @return The ItemStack
      */
@@ -73,10 +73,10 @@ public class Gui {
 
     /**
      * Build a Player Head ItemStack from a custom name,
-     * lore arraylist, and a base64 head skin url
+     *  lore arraylist, and a base64 head skin url
      *
-     * @param name The custom name
-     * @param lore the lore arraylist
+     * @param name   The custom name
+     * @param lore   the lore arraylist
      * @param base64 the base64 head skin
      * @return The Player Head ItemStack
      */
@@ -87,10 +87,10 @@ public class Gui {
 
     /**
      * Build a Player Head ItemStack from a custom name,
-     * lore string, and a base64 head skin url
+     *  lore string, and a base64 head skin url
      *
-     * @param name the custom name
-     * @param lore the lore string
+     * @param name   the custom name
+     * @param lore   the lore string
      * @param base64 the base64 head skin
      * @return The Player Head ItemStack
      */
@@ -101,9 +101,9 @@ public class Gui {
 
     /**
      * Build a Player Head ItemStack from a custom name
-     * and a base64 head skin url
+     *  and a base64 head skin url
      *
-     * @param name the custom name
+     * @param name   the custom name
      * @param base64 the base64 head skin
      * @return The Player Head ItemStack
      */
