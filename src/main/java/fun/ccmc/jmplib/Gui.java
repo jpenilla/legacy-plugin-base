@@ -55,7 +55,7 @@ public class Gui {
      *
      * @param m The Material
      * @param name The Custom Display Name
-     * @return
+     * @return The ItemStack
      */
     public static ItemStack build(Material m, String name) {
         return build(m, name, null);

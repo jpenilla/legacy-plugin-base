@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  */
 public class TextUtil {
     /**
-     * Colorize the given string using the '&' color code
+     * Colorize the given string using the and symbol color code
      *
      * @param string The string to colorize
      * @return The colorized string
@@ -22,7 +22,7 @@ public class TextUtil {
     }
 
     /**
-     * Colorize the given array of strings using the '&' color code
+     * Colorize the given array of strings using the and symbol color code
      *
      * @param strings The array of strings to colorize
      * @return The colorized string array
@@ -32,7 +32,7 @@ public class TextUtil {
     }
 
     /**
-     * Colorize the given list of strings using the '&' color code
+     * Colorize the given list of strings using the and symbol color code
      *
      * @param stringList The list of strings to colorize
      * @return The colorized strings as an ArrayList
