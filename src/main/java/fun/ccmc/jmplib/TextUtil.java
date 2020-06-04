@@ -34,7 +34,7 @@ public class TextUtil {
      * @return The colorized string array
      */
     public static String[] colorize(String[] strings) {
-        return (String[]) Arrays.stream(strings).map(TextUtil::colorize).toArray();
+        return Arrays.stream(strings).map(TextUtil::colorize).toArray(String[]::new);
     }
 
     /**
