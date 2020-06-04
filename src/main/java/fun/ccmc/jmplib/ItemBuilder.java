@@ -1,5 +1,7 @@
 package fun.ccmc.jmplib;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -7,18 +9,28 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
  * <p>
- *     Builder style class for ItemStacks
+ * Builder style class for ItemStacks
  * </p>
  *
  * @author jmp
  */
 public class ItemBuilder {
     private final ItemStack itemStack;
-    private final ItemMeta itemMeta;
+
+    /**
+     * The temporary {@link ItemMeta} store for the {@link ItemBuilder}
+     *
+     * @param meta The new {@link ItemMeta} to use for the Builder instance
+     * @return The {@link ItemMeta} of the Builder instance
+     */
+    @Getter
+    @Setter
+    private ItemMeta meta;
 
     /**
      * ItemBuilder constructor from {@link Material}
@@ -27,7 +39,7 @@ public class ItemBuilder {
      */
     public ItemBuilder(Material material) {
         this.itemStack = new ItemStack(material);
-        this.itemMeta = itemStack.getItemMeta();
+        this.meta = itemStack.getItemMeta();
     }
 
     /**
@@ -37,7 +49,7 @@ public class ItemBuilder {
      */
     public ItemBuilder(ItemStack itemStack) {
         this.itemStack = itemStack;
-        this.itemMeta = itemStack.getItemMeta();
+        this.meta = itemStack.getItemMeta();
     }
 
     /**
@@ -47,7 +59,17 @@ public class ItemBuilder {
      */
     public ItemBuilder(String base64) {
         this.itemStack = SkullCreator.itemFromBase64(base64);
-        this.itemMeta = itemStack.getItemMeta();
+        this.meta = itemStack.getItemMeta();
+    }
+
+    /**
+     * ItemBuilder constructor from Player {@link UUID} to get their head
+     *
+     * @param uuid the {@link UUID} of the player whose head we want
+     */
+    public ItemBuilder(UUID uuid) {
+        this.itemStack = SkullCreator.itemFromUuid(uuid);
+        this.meta = itemStack.getItemMeta();
     }
 
     /**
@@ -57,7 +79,7 @@ public class ItemBuilder {
      * @return The ItemBuilder instance
      */
     public ItemBuilder setName(String displayName) {
-        itemMeta.setDisplayName(TextUtil.colorize(displayName));
+        meta.setDisplayName(TextUtil.colorize(displayName));
         return this;
     }
 
@@ -68,7 +90,7 @@ public class ItemBuilder {
      * @return The ItemBuilder instance
      */
     public ItemBuilder setLore(String... lore) {
-        itemMeta.setLore(TextUtil.colorize(Arrays.stream(lore).collect(Collectors.toList())));
+        meta.setLore(TextUtil.colorize(Arrays.stream(lore).collect(Collectors.toList())));
         return this;
     }
 
@@ -79,7 +101,7 @@ public class ItemBuilder {
      * @return The ItemBuilder instance
      */
     public ItemBuilder setLore(List<String> lore) {
-        itemMeta.setLore(TextUtil.colorize(lore));
+        meta.setLore(TextUtil.colorize(lore));
         return this;
     }
 
@@ -89,7 +111,7 @@ public class ItemBuilder {
      * @return The ItemBuilder instance
      */
     public ItemBuilder clearLore() {
-        itemMeta.setLore(new ArrayList<>());
+        meta.setLore(new ArrayList<>());
         return this;
     }
 
@@ -99,7 +121,7 @@ public class ItemBuilder {
      * @return The built {@link ItemStack}
      */
     public ItemStack build() {
-        itemStack.setItemMeta(itemMeta);
+        itemStack.setItemMeta(meta);
         return itemStack;
     }
 }
