@@ -3,13 +3,11 @@ package fun.ccmc.jmplib;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -123,6 +121,60 @@ public class ItemBuilder {
      */
     public ItemBuilder clearLore() {
         meta.setLore(new ArrayList<>());
+        return this;
+    }
+
+    /**
+     * Get the Enchantments and levels of those Enchantments for the ItemBuilder instance
+     *
+     * @return {@link Map} of {@link Enchantment},{@link Integer}
+     */
+    public Map<Enchantment, Integer> getEnchants() {
+        return meta.getEnchants();
+    }
+
+    /**
+     * Clears the Enchantments from the ItemBuilder and replaces them with the provided ones
+     *
+     * @param enchants {@link Map} of {@link Enchantment},{@link Integer} containing the Enchants and their levels
+     * @return The ItemBuilder instance
+     */
+    public ItemBuilder setEnchants(Map<Enchantment, Integer> enchants) {
+        clearEnchants();
+        addEnchants(enchants);
+        return this;
+    }
+
+    /**
+     * Add an Enchantment to the ItemBuilder with a level
+     *
+     * @param enchantment The {@link Enchantment} to add
+     * @param level       The level to use for the Enchantment
+     * @return The ItemBuilder instance
+     */
+    public ItemBuilder addEnchant(Enchantment enchantment, int level) {
+        meta.addEnchant(enchantment, level, true);
+        return this;
+    }
+
+    /**
+     * Adds multiple Enchantments to the ItemBuilder with levels
+     *
+     * @param enchants {@link Map} of {@link Enchantment},{@link Integer} containing the Enchants and their levels
+     * @return The ItemBuilder instance
+     */
+    public ItemBuilder addEnchants(Map<Enchantment, Integer> enchants) {
+        enchants.keySet().forEach(e -> addEnchant(e, enchants.get(e)));
+        return this;
+    }
+
+    /**
+     * Clears all {@link Enchantment}s from the ItemBuilder
+     *
+     * @return The ItemBuilder instance
+     */
+    public ItemBuilder clearEnchants() {
+        meta.getEnchants().keySet().forEach(meta::removeEnchant);
         return this;
     }
 
