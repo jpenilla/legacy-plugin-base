@@ -42,10 +42,12 @@
 
 
 	<build>
+		<sourceDirectory>${project.build.directory}/generated-sources/delombok</sourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
 				<configuration>
 					<source>8</source>
 					<target>8</target>
@@ -71,6 +73,10 @@
 						<goals>
 							<goal>delombok</goal>
 						</goals>
+						<configuration>
+							<addOutputDirectory>false</addOutputDirectory>
+							<sourceDirectory>src/main/java</sourceDirectory>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
