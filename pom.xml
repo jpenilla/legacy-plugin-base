@@ -5,7 +5,7 @@
 	
 	<groupId>fun.ccmc.jmplib</groupId>
 	<artifactId>jmplib</artifactId>
-	<version>1.0.0-SNAPSHOT.${env.BUILD_NUMBER}</version>
+	<version>1.0.0-SNAPSHOT.{BUILD_NUMBER}</version>
 	
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Shared classes for my plugins</description>
