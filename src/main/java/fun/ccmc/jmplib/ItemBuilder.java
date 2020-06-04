@@ -73,6 +73,17 @@ public class ItemBuilder {
     }
 
     /**
+     * Set the amount of Items in the ItemStack for this ItemBuilder instance
+     *
+     * @param amount The amount of items for the ItemStack
+     * @return The ItemBuilder instance
+     */
+    public ItemBuilder setAmount(int amount) {
+        itemStack.setAmount(amount);
+        return this;
+    }
+
+    /**
      * Set the Display Name of the ItemStack
      *
      * @param displayName The display name to use. Will be colorized using the {@literal &} color code
