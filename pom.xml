@@ -100,10 +100,14 @@
 
 	<distributionManagement>
 		<repository>
-			<id>jmplib</id>
-			<name>jmp-repo</name>
-			<url>http://mvn.ccmc.fun/</url>
-			<layout>default</layout>
+			<id>archiva.internal</id>
+			<name>jmp-release</name>
+			<url>http://mvn.ccmc.fun/repository/internal/</url>
 		</repository>
+		<snapshotRepository>
+			<id>archiva.snapshots</id>
+			<name>jmp-snapshot</name>
+			<url>http://mvn.ccmc.fun/repository/snapshots/</url>
+		</snapshotRepository>
 	</distributionManagement>
 </project>
