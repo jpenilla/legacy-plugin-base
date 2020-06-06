@@ -104,6 +104,40 @@ public class ItemBuilder {
     }
 
     /**
+     * Add one or more Strings to the lore of the ItemStack
+     *
+     * @param lore The String(s) to add to the lore. Will be colorized using the {@literal &} color code
+     * @return The ItemBuilder instance
+     */
+    public ItemBuilder addLore(String... lore) {
+        List<String> temp = meta.getLore();
+        if (temp == null) {
+            temp = Arrays.stream(lore).collect(Collectors.toList());
+        } else {
+            temp.addAll(Arrays.stream(lore).collect(Collectors.toList()));
+        }
+        setLore(temp);
+        return this;
+    }
+
+    /**
+     * Add a List of Strings to the lore of the ItemStack
+     *
+     * @param lore The List of Strings to add to the lore. Will be colorized using the {@literal &} color code
+     * @return The ItemBuilder instance
+     */
+    public ItemBuilder addLore(List<String> lore) {
+        List<String> temp = meta.getLore();
+        if (temp == null) {
+            temp = lore;
+        } else {
+            temp.addAll(lore);
+        }
+        setLore(temp);
+        return this;
+    }
+
+    /**
      * Set the lore of the ItemStack from a List of Strings
      *
      * @param lore The {@link List} of {@link String} to use as lore. Will be colorized using the {@literal &} color code
