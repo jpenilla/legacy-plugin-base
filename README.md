@@ -24,4 +24,4 @@
 [Gradle Usage](https://jitpack.io/#jmanpenilla/jmplib)
 
 
-[JavaDoc](https://jmanpenilla.github.io/jmplib/fun/ccmc/jmplib/package-summary.html)
+[JavaDoc](https://tc.ccmc.fun/repository/download/Jmplib_Build/.lastSuccessful/docs/fun/ccmc/jmplib/package-summary.html)

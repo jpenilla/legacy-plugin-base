@@ -86,8 +86,6 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>3.2.0</version>
 				<configuration>
-					<reportOutputDirectory>${project.reporting.outputDirectory}/../../docs</reportOutputDirectory>
-					<destDir>docs</destDir>
 					<source>8</source>
 					<links>
 						<link>https://hub.spigotmc.org/javadocs/spigot/</link>
