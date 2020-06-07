@@ -11,8 +11,8 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author jmp
  */
 public class Chat {
-    public enum DefaultFontInfo {
 
+    public enum DefaultFontInfo {
         A('A', 5),
         a('a', 5),
         B('B', 5),
@@ -110,8 +110,8 @@ public class Chat {
         SPACE(' ', 3),
         DEFAULT('a', 4);
 
-        private char character;
-        private int length;
+        private final char character;
+        private final int length;
 
         DefaultFontInfo(char character, int length) {
             this.character = character;
@@ -155,20 +155,20 @@ public class Chat {
      * Colorize and then broadcast a message to the server
      *
      * @param plugin instance of plugin main class
-     * @param msg the message to broadcast
+     * @param msg    the message to broadcast
      */
     public static void broadcastMsg(JavaPlugin plugin, String msg) {
-        if(msg != null && !msg.equals("")) {
+        if (msg != null && !msg.equals("")) {
             plugin.getServer().broadcastMessage(TextUtil.colorize(msg));
         }
     }
 
     /**
      * Sends a message msg to Player player.
-     *  Colorizes the message.
+     * Colorizes the message.
      *
      * @param player The player to send the message to
-     * @param msg The message to colorize and send
+     * @param msg    The message to colorize and send
      */
     public static void sendMsg(Player player, String msg) {
         player.sendMessage(TextUtil.colorize(msg));
@@ -176,10 +176,10 @@ public class Chat {
 
     /**
      * Sends an array of messages msg to Player player
-     *  Colorizes the messages.
+     * Colorizes the messages.
      *
      * @param player The player to send the messages to
-     * @param msg The messages to colorize and send
+     * @param msg    The messages to colorize and send
      */
     public static void sendMsg(Player player, String[] msg) {
         player.sendMessage(TextUtil.colorize(msg));
@@ -187,10 +187,10 @@ public class Chat {
 
     /**
      * Sends a message msg to CommandSender sender.
-     *  Colorizes the message.
+     * Colorizes the message.
      *
      * @param sender The CommandSender to send the message to
-     * @param msg The message to colorize and send
+     * @param msg    The message to colorize and send
      */
     public static void sendMsg(CommandSender sender, String msg) {
         sender.sendMessage(TextUtil.colorize(msg));
@@ -198,10 +198,10 @@ public class Chat {
 
     /**
      * Sends an array of messages msg to CommandSender sender.
-     *  Colorizes the messages.
+     * Colorizes the messages.
      *
      * @param sender The CommandSender to send the messages to
-     * @param msg The messages to colorize and send
+     * @param msg    The messages to colorize and send
      */
     public static void sendMsg(CommandSender sender, String[] msg) {
         sender.sendMessage(TextUtil.colorize(msg));
@@ -210,18 +210,18 @@ public class Chat {
     /**
      * Sends a colorized and centered message to a player
      *
-     * @param player The player to send the centered message to
+     * @param player  The player to send the centered message to
      * @param message The message to colorize and center and send
      */
-    public static void sendCenteredMessage(Player player, String message){
+    public static void sendCenteredMessage(Player player, String message) {
         int messagePxSize = 0;
         boolean previousCode = false;
         boolean isBold = false;
 
-        for(char c : message.toCharArray()) {
-            if(c == '&') {
+        for (char c : message.toCharArray()) {
+            if (c == '&') {
                 previousCode = true;
-            } else if(previousCode) {
+            } else if (previousCode) {
                 previousCode = false;
                 isBold = c == 'l' || c == 'L';
             } else {
@@ -236,7 +236,7 @@ public class Chat {
         int spaceLength = DefaultFontInfo.SPACE.getLength() + 1;
         int compensated = 0;
         StringBuilder sb = new StringBuilder();
-        while(compensated < toCompensate){
+        while (compensated < toCompensate) {
             sb.append(" ");
             compensated += spaceLength;
         }
@@ -246,24 +246,24 @@ public class Chat {
     /**
      * Sends an array of colorized and centered messages to a player
      *
-     * @param player The player to send the centered messages to
+     * @param player  The player to send the centered messages to
      * @param message The messages to colorize and center and send
      */
     public static void sendCenteredMessage(Player player, String[] message) {
-        for(String s : message) {
+        for (String s : message) {
             sendCenteredMessage(player, s);
         }
     }
 
     /**
      * Sends a colorized and centered message to a CommandSender
-     *  Only centers if the CommandSender is a Player
+     * Only centers if the CommandSender is a Player
      *
-     * @param sender The CommandSender to send the centered message to
+     * @param sender  The CommandSender to send the centered message to
      * @param message The message to colorize and center and send
      */
     public static void sendCenteredMessage(CommandSender sender, String message) {
-        if(sender instanceof Player) {
+        if (sender instanceof Player) {
             sendCenteredMessage((Player) sender, message);
         } else {
             sender.sendMessage(TextUtil.colorize(message));
@@ -272,13 +272,13 @@ public class Chat {
 
     /**
      * Sends an array of colorized and centered message to a CommandSender
-     *  Only centers if the CommandSender is a Player
+     * Only centers if the CommandSender is a Player
      *
-     * @param sender The CommandSender to send the centered message to
+     * @param sender  The CommandSender to send the centered message to
      * @param message The message to colorize and center and send
      */
     public static void sendCenteredMessage(CommandSender sender, String[] message) {
-        if(sender instanceof Player) {
+        if (sender instanceof Player) {
             sendCenteredMessage((Player) sender, message);
         } else {
             sender.sendMessage(TextUtil.colorize(message));

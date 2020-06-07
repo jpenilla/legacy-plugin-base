@@ -1,10 +1,6 @@
 package fun.ccmc.jmplib;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,13 +45,13 @@ public class TextUtil {
 
     /**
      * Checks a list of strings for the given string,
-     *  ignoring case.
+     * ignoring case.
      *
      * @param string The string to look for
-     * @param list The list to look for the string in
+     * @param list   The list to look for the string in
      * @return True if the list contains the string case-insensitive
      */
-    public static boolean containsCaseInsensitive(String string, List<String> list){
+    public static boolean containsCaseInsensitive(String string, List<String> list) {
         return list.stream().anyMatch(x -> x.equalsIgnoreCase(string));
     }
 }
