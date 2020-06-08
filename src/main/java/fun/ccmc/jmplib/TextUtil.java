@@ -1,5 +1,6 @@
 package fun.ccmc.jmplib;
 
+import lombok.NonNull;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
@@ -19,7 +20,8 @@ public class TextUtil {
      * @param string The string to colorize
      * @return The colorized string
      */
-    public static String colorize(String string) {
+    @NonNull
+    public static String colorize(@NonNull String string) {
         return ChatColor.translateAlternateColorCodes('&', string);
     }
 
@@ -29,7 +31,8 @@ public class TextUtil {
      * @param strings The array of strings to colorize
      * @return The colorized string array
      */
-    public static String[] colorize(String[] strings) {
+    @NonNull
+    public static String[] colorize(@NonNull String[] strings) {
         return Arrays.stream(strings).map(TextUtil::colorize).toArray(String[]::new);
     }
 
@@ -39,7 +42,8 @@ public class TextUtil {
      * @param stringList The list of strings to colorize
      * @return The colorized strings as an ArrayList
      */
-    public static ArrayList<String> colorize(List<String> stringList) {
+    @NonNull
+    public static ArrayList<String> colorize(@NonNull List<String> stringList) {
         return stringList.stream().map(TextUtil::colorize).collect(Collectors.toCollection(ArrayList::new));
     }
 

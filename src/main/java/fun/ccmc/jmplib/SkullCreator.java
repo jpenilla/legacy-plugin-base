@@ -1,5 +1,6 @@
 package fun.ccmc.jmplib;
 
+import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -45,10 +46,7 @@ public class SkullCreator {
      * @deprecated names don't make for good identifiers
      */
     @Deprecated
-    public static ItemStack itemWithName(ItemStack item, String name) {
-        notNull(item, "item");
-        notNull(name, "name");
-
+    public static ItemStack itemWithName(@NonNull ItemStack item, @NonNull String name) {
         return Bukkit.getUnsafe().modifyItemStack(item,
                 "{SkullOwner:\"" + name + "\"}"
         );
@@ -73,10 +71,7 @@ public class SkullCreator {
      * @param id   The Player's UUID
      * @return The head of the Player
      */
-    public static ItemStack itemWithUuid(ItemStack item, UUID id) {
-        notNull(item, "item");
-        notNull(id, "id");
-
+    public static ItemStack itemWithUuid(@NonNull ItemStack item, @NonNull UUID id) {
         SkullMeta meta = (SkullMeta) item.getItemMeta();
         meta.setOwningPlayer(Bukkit.getOfflinePlayer(id));
         item.setItemMeta(meta);
@@ -104,10 +99,7 @@ public class SkullCreator {
      * @param url  The URL of the Mojang skin
      * @return The head associated with the URL
      */
-    public static ItemStack itemWithUrl(ItemStack item, String url) {
-        notNull(item, "item");
-        notNull(url, "url");
-
+    public static ItemStack itemWithUrl(@NonNull ItemStack item, @NonNull String url) {
         return itemWithBase64(item, urlToBase64(url));
     }
 
@@ -129,10 +121,7 @@ public class SkullCreator {
      * @param base64 The base64 string containing the texture
      * @return The head with a custom texture
      */
-    public static ItemStack itemWithBase64(ItemStack item, String base64) {
-        notNull(item, "item");
-        notNull(base64, "base64");
-
+    public static ItemStack itemWithBase64(@NonNull ItemStack item, @NonNull String base64) {
         UUID hashAsId = new UUID(base64.hashCode(), base64.hashCode());
         return Bukkit.getUnsafe().modifyItemStack(item,
                 "{SkullOwner:{Id:\"" + hashAsId + "\",Properties:{textures:[{Value:\"" + base64 + "\"}]}}}"
@@ -147,10 +136,7 @@ public class SkullCreator {
      * @deprecated names don't make for good identifiers
      */
     @Deprecated
-    public static void blockWithName(Block block, String name) {
-        notNull(block, "block");
-        notNull(name, "name");
-
+    public static void blockWithName(@NonNull Block block, @NonNull String name) {
         setBlockType(block);
         ((Skull) block.getState()).setOwningPlayer(Bukkit.getOfflinePlayer(name));
     }
@@ -161,10 +147,7 @@ public class SkullCreator {
      * @param block The block to set
      * @param id    The player to set it to
      */
-    public static void blockWithUuid(Block block, UUID id) {
-        notNull(block, "block");
-        notNull(id, "id");
-
+    public static void blockWithUuid(@NonNull Block block, @NonNull UUID id) {
         setBlockType(block);
         ((Skull) block.getState()).setOwningPlayer(Bukkit.getOfflinePlayer(id));
     }
@@ -175,10 +158,7 @@ public class SkullCreator {
      * @param block The block to set
      * @param url   The mojang URL to set it to use
      */
-    public static void blockWithUrl(Block block, String url) {
-        notNull(block, "block");
-        notNull(url, "url");
-
+    public static void blockWithUrl(@NonNull Block block, @NonNull String url) {
         blockWithBase64(block, urlToBase64(url));
     }
 
@@ -188,10 +168,7 @@ public class SkullCreator {
      * @param block  The block to set
      * @param base64 The base64 to set it to use
      */
-    public static void blockWithBase64(Block block, String base64) {
-        notNull(block, "block");
-        notNull(base64, "base64");
-
+    public static void blockWithBase64(@NonNull Block block, @NonNull String base64) {
         UUID hashAsId = new UUID(base64.hashCode(), base64.hashCode());
 
         String args = String.format(
@@ -233,12 +210,6 @@ public class SkullCreator {
             block.setType(Material.valueOf("PLAYER_HEAD"), false);
         } catch (IllegalArgumentException e) {
             block.setType(Material.valueOf("SKULL"), false);
-        }
-    }
-
-    private static void notNull(Object o, String name) {
-        if (o == null) {
-            throw new NullPointerException(name + " should not be null!");
         }
     }
 
