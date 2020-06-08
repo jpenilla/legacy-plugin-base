@@ -18,6 +18,7 @@ public class TextUtil {
      * Colorize the given string using the {@literal &} color code
      *
      * @param string The string to colorize
+     *
      * @return The colorized string
      */
     @NonNull
@@ -29,6 +30,7 @@ public class TextUtil {
      * Colorize the given array of strings using the {@literal &} color code
      *
      * @param strings The array of strings to colorize
+     *
      * @return The colorized string array
      */
     @NonNull
@@ -40,6 +42,7 @@ public class TextUtil {
      * Colorize the given list of strings using the {@literal &} color code
      *
      * @param stringList The list of strings to colorize
+     *
      * @return The colorized strings as an ArrayList
      */
     @NonNull
@@ -53,9 +56,10 @@ public class TextUtil {
      *
      * @param string The string to look for
      * @param list   The list to look for the string in
+     *
      * @return True if the list contains the string case-insensitive
      */
-    public static boolean containsCaseInsensitive(String string, List<String> list) {
+    public static boolean containsCaseInsensitive(String string, @NonNull List<String> list) {
         return list.stream().anyMatch(x -> x.equalsIgnoreCase(string));
     }
 }

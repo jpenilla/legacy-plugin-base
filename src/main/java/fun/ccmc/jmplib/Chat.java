@@ -128,13 +128,17 @@ public class Chat {
         }
 
         public int getBoldLength() {
-            if (this == DefaultFontInfo.SPACE) return this.getLength();
+            if (this == DefaultFontInfo.SPACE) {
+                return this.getLength();
+            }
             return this.length + 1;
         }
 
         public static DefaultFontInfo getDefaultFontInfo(char c) {
             for (DefaultFontInfo dFI : DefaultFontInfo.values()) {
-                if (dFI.getCharacter() == c) return dFI;
+                if (dFI.getCharacter() == c) {
+                    return dFI;
+                }
             }
             return DefaultFontInfo.DEFAULT;
         }

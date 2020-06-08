@@ -27,7 +27,9 @@ public class SkullCreator {
      * Creates a player skull based on a player's name.
      *
      * @param name The Player's name
+     *
      * @return The head of the Player
+     *
      * @deprecated names don't make for good identifiers
      */
     @Deprecated
@@ -42,7 +44,9 @@ public class SkullCreator {
      *
      * @param item The item to apply the name to
      * @param name The Player's name
+     *
      * @return The head of the Player
+     *
      * @deprecated names don't make for good identifiers
      */
     @Deprecated
@@ -56,6 +60,7 @@ public class SkullCreator {
      * Creates a player skull with a UUID. 1.13 only.
      *
      * @param id The Player's UUID
+     *
      * @return The head of the Player
      */
     public static ItemStack itemFromUuid(UUID id) {
@@ -69,6 +74,7 @@ public class SkullCreator {
      *
      * @param item The item to apply the name to
      * @param id   The Player's UUID
+     *
      * @return The head of the Player
      */
     public static ItemStack itemWithUuid(@NonNull ItemStack item, @NonNull UUID id) {
@@ -83,6 +89,7 @@ public class SkullCreator {
      * Creates a player skull based on a Mojang server URL.
      *
      * @param url The URL of the Mojang skin
+     *
      * @return The head associated with the URL
      */
     public static ItemStack itemFromUrl(String url) {
@@ -97,6 +104,7 @@ public class SkullCreator {
      *
      * @param item The item to apply the skin to
      * @param url  The URL of the Mojang skin
+     *
      * @return The head associated with the URL
      */
     public static ItemStack itemWithUrl(@NonNull ItemStack item, @NonNull String url) {
@@ -107,6 +115,7 @@ public class SkullCreator {
      * Creates a player skull based on a base64 string containing the link to the skin.
      *
      * @param base64 The base64 string containing the texture
+     *
      * @return The head with a custom texture
      */
     public static ItemStack itemFromBase64(String base64) {
@@ -119,6 +128,7 @@ public class SkullCreator {
      *
      * @param item   The ItemStack to put the base64 onto
      * @param base64 The base64 string containing the texture
+     *
      * @return The head with a custom texture
      */
     public static ItemStack itemWithBase64(@NonNull ItemStack item, @NonNull String base64) {
@@ -133,6 +143,7 @@ public class SkullCreator {
      *
      * @param block The block to set
      * @param name  The player to set it to
+     *
      * @deprecated names don't make for good identifiers
      */
     @Deprecated
