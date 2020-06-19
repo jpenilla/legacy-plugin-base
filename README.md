@@ -12,13 +12,13 @@
 
 ```
 <dependency>
-  <groupId>fun.ccmc.jmplib</groupId>
+  <groupId>fun.ccmc</groupId>
   <artifactId>jmplib</artifactId>
   <version>VERSION</version>
   <scope>compile</scope>
 </dependency>
 ```
-* Replace VERSION with a version from the list [here](http://mvn.ccmc.fun/#artifact/fun.ccmc.jmplib/jmplib)
+* Replace VERSION with a version from the list [here](http://mvn.ccmc.fun/#artifact/fun.ccmc/jmplib)
 
 
 [Gradle Usage](https://jitpack.io/#jmanpenilla/jmplib)
