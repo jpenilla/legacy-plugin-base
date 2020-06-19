@@ -3,7 +3,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	
-	<groupId>fun.ccmc.jmplib</groupId>
+	<groupId>fun.ccmc</groupId>
 	<artifactId>jmplib</artifactId>
 	<version>1.0.0-SNAPSHOT.{BUILD_NUMBER}</version>
 	
