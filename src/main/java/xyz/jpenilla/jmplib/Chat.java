@@ -1,4 +1,4 @@
-package fun.ccmc.jmplib;
+package xyz.jpenilla.jmplib;
 
 import lombok.NonNull;
 import net.md_5.bungee.api.chat.ComponentBuilder;

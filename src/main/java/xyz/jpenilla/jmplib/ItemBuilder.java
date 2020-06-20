@@ -1,4 +1,4 @@
-package fun.ccmc.jmplib;
+package xyz.jpenilla.jmplib;
 
 import lombok.Getter;
 import lombok.NonNull;

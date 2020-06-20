@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package fun.ccmc.jmplib;
+package xyz.jpenilla.jmplib;
 
 import lombok.NonNull;
 import org.bukkit.Bukkit;

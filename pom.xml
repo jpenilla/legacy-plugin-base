@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	
-	<groupId>fun.ccmc</groupId>
+
+	<groupId>xyz.jpenilla</groupId>
 	<artifactId>jmplib</artifactId>
 	<version>1.0.0-SNAPSHOT.{BUILD_NUMBER}</version>
-	
+
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Shared classes for my plugins</description>
 
@@ -17,14 +17,14 @@
 
 	<packaging>jar</packaging>
 
-	
+
 	<repositories>
 		<repository>
 			<id>spigot-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
 	</repositories>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -58,7 +58,7 @@
 					<source>8</source>
 					<target>8</target>
 				</configuration>
-			</plugin>		
+			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -106,12 +106,12 @@
 		<repository>
 			<id>archiva.internal</id>
 			<name>jmp-release</name>
-			<url>https://mvn.ccmc.fun/repository/internal/</url>
+			<url>https://mvn.jpenilla.xyz/repository/internal/</url>
 		</repository>
 		<snapshotRepository>
 			<id>archiva.snapshots</id>
 			<name>jmp-snapshot</name>
-			<url>https://mvn.ccmc.fun/repository/snapshots/</url>
+			<url>https://mvn.jpenilla.xyz/repository/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
