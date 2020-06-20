@@ -5,23 +5,23 @@
 ```
 <repository>
   <id>jmp-repo</id>
-  <url>http://mvn.ccmc.fun/repository/internal</url>
+  <url>http://mvn.jpenilla.xyz/repository/internal</url>
 </repository>
 ```
 
 
 ```
 <dependency>
-  <groupId>fun.ccmc</groupId>
+  <groupId>xyz.jpenilla</groupId>
   <artifactId>jmplib</artifactId>
   <version>VERSION</version>
   <scope>compile</scope>
 </dependency>
 ```
-* Replace VERSION with a version from the list [here](http://mvn.ccmc.fun/#artifact/fun.ccmc/jmplib)
+* Replace VERSION with a version from the list [here](http://mvn.ccmc.fun/#artifact/xyz.jpenilla/jmplib)
 
 
 [Gradle Usage](https://jitpack.io/#jmanpenilla/jmplib)
 
 
-[JavaDoc](https://tc.ccmc.fun/repository/download/Jmplib_Build/.lastSuccessful/docs/fun/ccmc/jmplib/package-summary.html)
+[JavaDoc](https://tc.jpenilla.xyz/viewType.html?buildTypeId=Jmplib_Build&tab=buildTypeStatusDiv)
