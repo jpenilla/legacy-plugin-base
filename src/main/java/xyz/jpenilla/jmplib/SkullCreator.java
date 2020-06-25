@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2017 Dean Bassett
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -51,9 +51,7 @@ public class SkullCreator {
      * Creates a player skull based on a player's name.
      *
      * @param name The Player's name
-     *
      * @return The head of the Player
-     *
      * @deprecated names don't make for good identifiers
      */
     @Deprecated
@@ -68,9 +66,7 @@ public class SkullCreator {
      *
      * @param item The item to apply the name to
      * @param name The Player's name
-     *
      * @return The head of the Player
-     *
      * @deprecated names don't make for good identifiers
      */
     @Deprecated
@@ -84,7 +80,6 @@ public class SkullCreator {
      * Creates a player skull with a UUID. 1.13 only.
      *
      * @param id The Player's UUID
-     *
      * @return The head of the Player
      */
     public static ItemStack itemFromUuid(UUID id) {
@@ -98,7 +93,6 @@ public class SkullCreator {
      *
      * @param item The item to apply the name to
      * @param id   The Player's UUID
-     *
      * @return The head of the Player
      */
     public static ItemStack itemWithUuid(@NonNull ItemStack item, @NonNull UUID id) {
@@ -113,7 +107,6 @@ public class SkullCreator {
      * Creates a player skull based on a Mojang server URL.
      *
      * @param url The URL of the Mojang skin
-     *
      * @return The head associated with the URL
      */
     public static ItemStack itemFromUrl(String url) {
@@ -128,7 +121,6 @@ public class SkullCreator {
      *
      * @param item The item to apply the skin to
      * @param url  The URL of the Mojang skin
-     *
      * @return The head associated with the URL
      */
     public static ItemStack itemWithUrl(@NonNull ItemStack item, @NonNull String url) {
@@ -139,7 +131,6 @@ public class SkullCreator {
      * Creates a player skull based on a base64 string containing the link to the skin.
      *
      * @param base64 The base64 string containing the texture
-     *
      * @return The head with a custom texture
      */
     public static ItemStack itemFromBase64(String base64) {
@@ -152,24 +143,22 @@ public class SkullCreator {
      *
      * @param item   The ItemStack to put the base64 onto
      * @param base64 The base64 string containing the texture
-     *
      * @return The head with a custom texture
      */
     public static ItemStack itemWithBase64(@NonNull ItemStack item, @NonNull String base64) {
         UUID hashAsId = new UUID(base64.hashCode(), base64.hashCode());
-        long m = hashAsId.getMostSignificantBits();
-        long l = hashAsId.getLeastSignificantBits();
-        int[] i = new int[]{(int) l, (int) (l >> 32), (int) m, (int) (m >> 32)};
         if (Bukkit.getVersion().contains("1.16")) {
+            long m = hashAsId.getMostSignificantBits();
+            long l = hashAsId.getLeastSignificantBits();
+            int[] id = new int[]{(int) l, (int) (l >> 32), (int) m, (int) (m >> 32)};
             return Bukkit.getUnsafe().modifyItemStack(item,
-                    "{SkullOwner:{Id:[I;" + i[0] + "," + i[1] + "," + i[2] + "," + i[3] + "],Properties:{textures:[{Value:\"" + base64 + "\"}]}}}"
+                    "{SkullOwner:{Id:[I;" + id[0] + "," + id[1] + "," + id[2] + "," + id[3] + "],Properties:{textures:[{Value:\"" + base64 + "\"}]}}}"
             );
         } else {
             return Bukkit.getUnsafe().modifyItemStack(item,
                     "{SkullOwner:{Id:\"" + hashAsId + "\",Properties:{textures:[{Value:\"" + base64 + "\"}]}}}"
             );
         }
-
     }
 
     /**
@@ -177,7 +166,6 @@ public class SkullCreator {
      *
      * @param block The block to set
      * @param name  The player to set it to
-     *
      * @deprecated names don't make for good identifiers
      */
     @Deprecated
