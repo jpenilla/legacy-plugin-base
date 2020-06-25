@@ -147,16 +147,17 @@ public class SkullCreator {
      */
     public static ItemStack itemWithBase64(@NonNull ItemStack item, @NonNull String base64) {
         UUID hashAsId = new UUID(base64.hashCode(), base64.hashCode());
-        if (Bukkit.getVersion().contains("1.16")) {
+        String v = Bukkit.getVersion();
+        if (v.contains("1.13") || v.contains("1.14") || v.contains("1.15")) {
+            return Bukkit.getUnsafe().modifyItemStack(item,
+                    "{SkullOwner:{Id:\"" + hashAsId + "\",Properties:{textures:[{Value:\"" + base64 + "\"}]}}}"
+            );
+        } else {
             long m = hashAsId.getMostSignificantBits();
             long l = hashAsId.getLeastSignificantBits();
             int[] id = new int[]{(int) l, (int) (l >> 32), (int) m, (int) (m >> 32)};
             return Bukkit.getUnsafe().modifyItemStack(item,
                     "{SkullOwner:{Id:[I;" + id[0] + "," + id[1] + "," + id[2] + "," + id[3] + "],Properties:{textures:[{Value:\"" + base64 + "\"}]}}}"
-            );
-        } else {
-            return Bukkit.getUnsafe().modifyItemStack(item,
-                    "{SkullOwner:{Id:\"" + hashAsId + "\",Properties:{textures:[{Value:\"" + base64 + "\"}]}}}"
             );
         }
     }
