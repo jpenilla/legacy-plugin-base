@@ -10,6 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
+import xyz.jpenilla.jmplib.compatability.JMPLibPAPIHook;
+import xyz.jpenilla.jmplib.compatability.JMPLibPrismaHook;
 
 import java.util.List;
 import java.util.Map;
@@ -24,17 +26,17 @@ public class Chat {
     private final JavaPlugin instance;
     private final BukkitAudiences audience;
     private final MiniMessage miniMessage;
-    private PAPICompat papi = null;
-    private PrismaCompat prisma = null;
+    private JMPLibPAPIHook papi = null;
+    private JMPLibPrismaHook prisma = null;
 
     public Chat(JavaPlugin plugin) {
         instance = plugin;
         audience = BukkitAudiences.create(plugin);
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            papi = new PAPICompat();
+            papi = new JMPLibPAPIHook();
         }
         if (Bukkit.getPluginManager().isPluginEnabled("Prisma")) {
-            prisma = new PrismaCompat();
+            prisma = new JMPLibPrismaHook();
         }
         miniMessage = MiniMessage.instance();
     }

@@ -1,9 +1,9 @@
-package xyz.jpenilla.jmplib;
+package xyz.jpenilla.jmplib.compatability;
 
 import lombok.NonNull;
 import us.eunoians.prisma.ColorProvider;
 
-public class PrismaCompat {
+public class JMPLibPrismaHook {
     public String translate(@NonNull String message) {
         return ColorProvider.translatePrismaToHex(message);
     }
