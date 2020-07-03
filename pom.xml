@@ -69,9 +69,9 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.github.jmanpenilla</groupId>
+			<groupId>com.github.DiamondDagger590</groupId>
 			<artifactId>Prisma</artifactId>
-			<version>f428549ce6</version>
+			<version>a622d01b80</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
