@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -197,34 +198,38 @@ public class Chat {
         }
     }
 
-    /**
-     * Send a message formatted in MiniMessage. Will parse PAPI placeholders and Prisma color codes.
-     *
-     * @param sender  Recipient of the message
-     * @param message The message formatted in MiniMessage
-     */
-    public void send(@NonNull CommandSender sender, @NonNull String message) {
-        send(sender, message, null);
+    public void sendPlaceholders(@NonNull CommandSender sender, @NonNull List<String> messages) {
+        sendPlaceholders(sender, messages, null);
     }
 
-    /**
-     * Send a message formatted in MiniMessage. Will parse PAPI placeholders, Prisma color codes,
-     * and supplied placeholders.
-     * <p>
-     * The supplied Placeholders will be parsed like this: {key} -> value
-     *
-     * @param sender       Recipient of the message
-     * @param message      The message formatted in MiniMessage
-     * @param placeholders The Placeholders
-     */
-    public void send(@NonNull CommandSender sender, @NonNull String message, @Nullable Map<String, String> placeholders) {
-        String finalMessage;
-        if (sender instanceof Player) {
-            finalMessage = replacePlaceholders((Player) sender, message, placeholders);
-        } else {
-            finalMessage = miniMessage.stripTokens(replacePlaceholders(null, message, placeholders));
+    public void sendPlaceholders(@NonNull CommandSender sender, @NonNull List<String> messages, @Nullable Map<String, String> placeholders) {
+        for (String message : messages) {
+            sendPlaceholders(sender, message, placeholders);
         }
-        Component component = miniMessage.parse(finalMessage);
+    }
+
+    public void send(@NonNull CommandSender sender, @NonNull List<String> messages) {
+        for (String message : messages) {
+            send(sender, message);
+        }
+    }
+
+    public void sendPlaceholders(@NonNull CommandSender sender, @NonNull String message, @Nullable Map<String, String> placeholders) {
+        String msg;
+        if (sender instanceof Player) {
+            msg = replacePlaceholders((Player) sender, message, placeholders);
+        } else {
+            msg = miniMessage.stripTokens(replacePlaceholders(null, message, placeholders));
+        }
+        send(sender, msg);
+    }
+
+    public void sendPlaceholders(@NonNull CommandSender sender, @NonNull String message) {
+        sendPlaceholders(sender, message, null);
+    }
+
+    public void send(@NonNull CommandSender sender, @NonNull String message) {
+        Component component = miniMessage.parse(message);
         if (sender instanceof Player) {
             audience.player((Player) sender).sendMessage(component);
         } else {
