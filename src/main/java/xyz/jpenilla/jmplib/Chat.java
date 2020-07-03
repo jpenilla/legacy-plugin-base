@@ -1,10 +1,17 @@
 package xyz.jpenilla.jmplib;
 
 import lombok.NonNull;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Map;
 
 /**
  * Chat message sending utilities
@@ -12,6 +19,75 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author jmp
  */
 public class Chat {
+    private final JavaPlugin instance;
+    private final BukkitAudiences audience;
+    private final MiniMessage miniMessage;
+    private PAPICompat papi = null;
+    private PrismaCompat prisma = null;
+
+    public Chat(JavaPlugin plugin) {
+        instance = plugin;
+        audience = BukkitAudiences.create(plugin);
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            papi = new PAPICompat();
+        }
+        if (Bukkit.getPluginManager().isPluginEnabled("Prisma")) {
+            prisma = new PrismaCompat();
+        }
+        miniMessage = MiniMessage.instance();
+    }
+
+    /**
+     * Send a message formatted in MiniMessage. Will parse PAPI placeholders and Prisma color codes.
+     *
+     * @param sender  Recipient of the message
+     * @param message The message formatted in MiniMessage
+     */
+    public void send(@NonNull CommandSender sender, @NonNull String message) {
+        send(sender, message, null);
+    }
+
+    /**
+     * Send a message formatted in MiniMessage. Will parse PAPI placeholders, Prisma color codes,
+     * and supplied placeholders.
+     * <p>
+     * The supplied Placeholders will be parsed like this: {key} -> value
+     *
+     * @param sender       Recipient of the message
+     * @param message      The message formatted in MiniMessage
+     * @param placeholders The Placeholders
+     */
+    public void send(@NonNull CommandSender sender, @NonNull String message, @Nullable Map<String, String> placeholders) {
+        String finalMessage;
+        if (sender instanceof Player) {
+            finalMessage = replacePlaceholders((Player) sender, message, placeholders);
+        } else {
+            finalMessage = miniMessage.stripTokens(replacePlaceholders(null, message, placeholders));
+        }
+        Component component = miniMessage.parse(finalMessage);
+        if (sender instanceof Player) {
+            audience.player((Player) sender).sendMessage(component);
+        } else {
+            audience.console().sendMessage(component);
+        }
+    }
+
+    private String replacePlaceholders(@Nullable Player player, @NonNull String message, @Nullable Map<String, String> placeholders) {
+        String finalMessage = message;
+        if (placeholders != null) {
+            for (Map.Entry<String, String> placeholder : placeholders.entrySet()) {
+                finalMessage = finalMessage.replace("{" + placeholder.getKey() + "}", placeholder.getValue());
+            }
+        }
+        if (prisma != null) {
+            finalMessage = prisma.translate(finalMessage);
+        }
+        if (player != null && papi != null) {
+            return papi.translate(player, finalMessage);
+        } else {
+            return finalMessage;
+        }
+    }
 
     public enum DefaultFontInfo {
         A('A', 5),
