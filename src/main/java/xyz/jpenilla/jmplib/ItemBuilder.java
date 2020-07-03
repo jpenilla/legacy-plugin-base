@@ -73,7 +73,6 @@ public class ItemBuilder {
      * Set the amount of Items in the ItemStack for this ItemBuilder instance
      *
      * @param amount The amount of items for the ItemStack
-     *
      * @return The ItemBuilder instance
      */
     @NonNull
@@ -86,7 +85,6 @@ public class ItemBuilder {
      * Set the Display Name of the ItemStack
      *
      * @param displayName The display name to use. Will be colorized using the {@literal &} color code
-     *
      * @return The ItemBuilder instance
      */
     @NonNull
@@ -99,7 +97,6 @@ public class ItemBuilder {
      * Set the lore of the ItemStack from one or multiple strings
      *
      * @param lore The String(s) to use for lore. Will be colorized using the {@literal &} color code
-     *
      * @return The ItemBuilder instance
      */
     @NonNull
@@ -112,7 +109,6 @@ public class ItemBuilder {
      * Add one or more Strings to the lore of the ItemStack
      *
      * @param lore The String(s) to add to the lore. Will be colorized using the {@literal &} color code
-     *
      * @return The ItemBuilder instance
      */
     @NonNull
@@ -131,7 +127,6 @@ public class ItemBuilder {
      * Add a List of Strings to the lore of the ItemStack
      *
      * @param lore The List of Strings to add to the lore. Will be colorized using the {@literal &} color code
-     *
      * @return The ItemBuilder instance
      */
     @NonNull
@@ -150,7 +145,6 @@ public class ItemBuilder {
      * Set the lore of the ItemStack from a List of Strings
      *
      * @param lore The {@link List} of {@link String} to use as lore. Will be colorized using the {@literal &} color code
-     *
      * @return The ItemBuilder instance
      */
     @NonNull
@@ -184,7 +178,6 @@ public class ItemBuilder {
      * Clears the Enchantments from the ItemBuilder and replaces them with the provided ones
      *
      * @param enchants {@link Map} of {@link Enchantment},{@link Integer} containing the Enchants and their levels
-     *
      * @return The ItemBuilder instance
      */
     @NonNull
@@ -199,7 +192,6 @@ public class ItemBuilder {
      *
      * @param enchantment The {@link Enchantment} to add
      * @param level       The level to use for the Enchantment
-     *
      * @return The ItemBuilder instance
      */
     @NonNull
@@ -212,7 +204,6 @@ public class ItemBuilder {
      * Adds multiple Enchantments to the ItemBuilder with levels
      *
      * @param enchants {@link Map} of {@link Enchantment},{@link Integer} containing the Enchants and their levels
-     *
      * @return The ItemBuilder instance
      */
     @NonNull
