@@ -111,11 +111,35 @@ public class Chat {
         }
     }
 
-    private String replacePlaceholders(@Nullable Player player, @NonNull String message, @Nullable Map<String, String> placeholders) {
+    /**
+     * Parse the given string with PAPI, Prisma, and Placeholders
+     *
+     * @param player The player
+     * @param message The message
+     * @param placeholders Placeholders
+     * @return Parsed Message
+     */
+    public String replacePlaceholders(@Nullable Player player, @NonNull String message, @Nullable Map<String, String> placeholders) {
         String finalMessage = TextUtil.replacePlaceholders(message, placeholders);
         if (prisma != null) {
             finalMessage = prisma.translate(finalMessage);
         }
         return papiParse(player, finalMessage);
+    }
+
+    /**
+     * Parse the given strings with PAPI, Prisma, and Placeholders
+     *
+     * @param player The player
+     * @param messages The message
+     * @param placeholders Placeholders
+     * @return Parsed messages
+     */
+    public List<String> replacePlaceholders(@Nullable Player player, @NonNull List<String> messages, @Nullable Map<String, String> placeholders) {
+        ArrayList<String> l = new ArrayList<>();
+        for (String m : messages) {
+            l.add(replacePlaceholders(player, m, placeholders));
+        }
+        return l;
     }
 }
