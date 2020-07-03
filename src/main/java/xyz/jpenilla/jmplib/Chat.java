@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import xyz.jpenilla.jmplib.compatability.JMPLibPAPIHook;
 import xyz.jpenilla.jmplib.compatability.JMPLibPrismaHook;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +51,25 @@ public class Chat {
             return papi.translate(player, message);
         } else {
             return message;
+        }
+    }
+
+    /**
+     * Parse a list of string with PlaceholderAPI returning an unchanged list if Player is null
+     *
+     * @param player   The player
+     * @param messages The messages
+     * @return The parsed messages
+     */
+    public List<String> papiParse(@Nullable Player player, @NonNull List<String> messages) {
+        if (player != null && papi != null) {
+            ArrayList<String> l = new ArrayList<>();
+            for (String m : messages) {
+                l.add(papiParse(player, m));
+            }
+            return l;
+        } else {
+            return messages;
         }
     }
 
