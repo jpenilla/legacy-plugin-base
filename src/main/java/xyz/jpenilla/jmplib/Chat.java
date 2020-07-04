@@ -36,7 +36,7 @@ public class Chat {
         if (Bukkit.getPluginManager().isPluginEnabled("Prisma")) {
             prisma = new JMPLibPrismaHook();
         }
-        miniMessage = MiniMessage.instance();
+        miniMessage = MiniMessage.get();
     }
 
     /**

@@ -8,7 +8,10 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -35,8 +38,7 @@ public class ItemBuilder {
      * @param material the {@link Material} to use
      */
     public ItemBuilder(@NonNull Material material) {
-        this.itemStack = new ItemStack(material);
-        this.meta = itemStack.getItemMeta();
+        this(new ItemStack(material));
     }
 
     /**
@@ -46,26 +48,6 @@ public class ItemBuilder {
      */
     public ItemBuilder(@NonNull ItemStack itemStack) {
         this.itemStack = itemStack;
-        this.meta = itemStack.getItemMeta();
-    }
-
-    /**
-     * ItemBuilder constructor from base64 Player Head URL
-     *
-     * @param base64 the {@link String} containing the base64 URL
-     */
-    public ItemBuilder(@NonNull String base64) {
-        this.itemStack = SkullCreator.itemFromBase64(base64);
-        this.meta = itemStack.getItemMeta();
-    }
-
-    /**
-     * ItemBuilder constructor from Player {@link UUID} to get their head
-     *
-     * @param uuid the {@link UUID} of the player whose head we want
-     */
-    public ItemBuilder(@NonNull UUID uuid) {
-        this.itemStack = SkullCreator.itemFromUuid(uuid);
         this.meta = itemStack.getItemMeta();
     }
 
@@ -119,8 +101,7 @@ public class ItemBuilder {
         } else {
             temp.addAll(Arrays.stream(lore).collect(Collectors.toList()));
         }
-        setLore(temp);
-        return this;
+        return setLore(temp);
     }
 
     /**
@@ -137,8 +118,7 @@ public class ItemBuilder {
         } else {
             temp.addAll(lore);
         }
-        setLore(temp);
-        return this;
+        return setLore(temp);
     }
 
     /**
@@ -183,8 +163,7 @@ public class ItemBuilder {
     @NonNull
     public ItemBuilder setEnchants(@NonNull Map<Enchantment, Integer> enchants) {
         clearEnchants();
-        addEnchants(enchants);
-        return this;
+        return addEnchants(enchants);
     }
 
     /**
