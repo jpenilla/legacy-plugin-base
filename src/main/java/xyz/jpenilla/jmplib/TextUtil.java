@@ -62,19 +62,35 @@ public class TextUtil {
     }
 
     /**
-     * Replace placeholders in a string from a given Map
+     * Replace placeholders in a string from a given Map. Replaces {key} with value
      *
      * @param message      The message to parse
      * @param placeholders The placeholder Map
      * @return The parsed message
      */
     public static String replacePlaceholders(@NonNull String message, @Nullable Map<String, String> placeholders) {
+        return replacePlaceholders(message, placeholders, true);
+    }
+
+    /**
+     * Replace placeholders in a string from a given Map
+     *
+     * @param message       The message to parse
+     * @param placeholders  The placeholder Map
+     * @param curlyBrackets Whether to check for {} around the key
+     * @return The parsed message
+     */
+    public static String replacePlaceholders(@NonNull String message, @Nullable Map<String, String> placeholders, @NonNull boolean curlyBrackets) {
         if (placeholders == null) {
             return message;
         } else {
             String finalMessage = message;
             for (Map.Entry<String, String> placeholder : placeholders.entrySet()) {
-                finalMessage = finalMessage.replace("{" + placeholder.getKey() + "}", placeholder.getValue());
+                String key = placeholder.getKey();
+                if (curlyBrackets) {
+                    key = "{" + key + "}";
+                }
+                finalMessage = finalMessage.replace(key, placeholder.getValue());
             }
             return finalMessage;
         }

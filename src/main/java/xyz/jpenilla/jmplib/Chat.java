@@ -12,6 +12,7 @@ import xyz.jpenilla.jmplib.compatability.JMPLibPAPIHook;
 import xyz.jpenilla.jmplib.compatability.JMPLibPrismaHook;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,10 +25,13 @@ public class Chat {
     private final JavaPlugin instance;
     private final BukkitAudiences audience;
     private final MiniMessage miniMessage;
+    private final HashMap<String, String> centeredTempReplacements = new HashMap<>();
     private JMPLibPAPIHook papi = null;
     private JMPLibPrismaHook prisma = null;
 
     public Chat(JavaPlugin plugin) {
+        centeredTempReplacements.put("<bold>", "§l");
+        centeredTempReplacements.put("</bold>", "§r");
         instance = plugin;
         audience = BukkitAudiences.create(plugin);
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
@@ -112,10 +116,31 @@ public class Chat {
     }
 
     /**
+     * Get the amount of spaces needed to center the message
+     *
+     * @param message MiniMessage formatted message
+     * @return String of spaces
+     */
+    public String getCenteredSpacePrefix(String message) {
+        String specialMessage = TextUtil.replacePlaceholders(message, centeredTempReplacements, false);
+        return LegacyChat.getCenteredSpacePrefix(miniMessage.stripTokens(specialMessage));
+    }
+
+    /**
+     * Get a MiniMessage string prefixed with spaces to center it
+     *
+     * @param message MiniMessage formatted message
+     * @return Centered MiniMessage
+     */
+    public String getCenteredMessage(String message) {
+        return getCenteredSpacePrefix(message) + message;
+    }
+
+    /**
      * Parse the given string with PAPI, Prisma, and Placeholders
      *
-     * @param player The player
-     * @param message The message
+     * @param player       The player
+     * @param message      The message
      * @param placeholders Placeholders
      * @return Parsed Message
      */
@@ -130,8 +155,8 @@ public class Chat {
     /**
      * Parse the given strings with PAPI, Prisma, and Placeholders
      *
-     * @param player The player
-     * @param messages The message
+     * @param player       The player
+     * @param messages     The message
      * @param placeholders Placeholders
      * @return Parsed messages
      */

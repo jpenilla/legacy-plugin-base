@@ -82,12 +82,17 @@ public class LegacyChat {
      * @param message The message to colorize and center and send
      */
     public static void sendCenteredMessage(@NonNull Player player, @NonNull String message) {
+        sendMsg(player, getCenteredSpacePrefix(message) + message);
+    }
+
+    public static String getCenteredSpacePrefix(String message) {
+        message = TextUtil.colorize(message);
         int messagePxSize = 0;
         boolean previousCode = false;
         boolean isBold = false;
 
         for (char c : message.toCharArray()) {
-            if (c == '&') {
+            if (c == '§') {
                 previousCode = true;
             } else if (previousCode) {
                 previousCode = false;
@@ -108,7 +113,7 @@ public class LegacyChat {
             sb.append(" ");
             compensated += spaceLength;
         }
-        sendMsg(player, sb.toString() + message);
+        return sb.toString();
     }
 
     /**
