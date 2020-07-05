@@ -137,6 +137,20 @@ public class Chat {
     }
 
     /**
+     * Center a list of MiniMessage Strings
+     *
+     * @param messages List of MiniMessage Strings
+     * @return Centered MiniMessage Strings
+     */
+    public List<String> getCenteredMessage(@NonNull List<String> messages) {
+        ArrayList<String> l = new ArrayList<>();
+        for (String message : messages) {
+            l.add(getCenteredMessage(message));
+        }
+        return l;
+    }
+
+    /**
      * Parse the given string with PAPI, Prisma, and Placeholders
      *
      * @param player       The player
