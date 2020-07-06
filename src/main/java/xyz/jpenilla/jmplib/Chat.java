@@ -99,7 +99,7 @@ public class Chat {
     }
 
     public void sendPlaceholders(@NonNull CommandSender sender, @NonNull String message, @Nullable Map<String, String> placeholders) {
-        String msg;
+        final String msg;
         if (sender instanceof Player) {
             msg = replacePlaceholders((Player) sender, message, placeholders);
         } else {
@@ -121,8 +121,8 @@ public class Chat {
     }
 
     public Title getTitle(@NonNull String title, @NonNull String subTitle, @NonNull ChronoUnit fadeInTimeUnit, @NonNull int fadeInTime, @NonNull ChronoUnit stayTimeUnit, @NonNull int stayTime, @NonNull ChronoUnit fadeOutTimeUnit, @NonNull int fadeOutTime) {
-        Component titleComponent = miniMessage.parse(title);
-        Component subTitleComponent = miniMessage.parse(subTitle);
+        final Component titleComponent = miniMessage.parse(title);
+        final Component subTitleComponent = miniMessage.parse(subTitle);
         return Title.of(titleComponent, subTitleComponent, Duration.of(fadeInTime, fadeInTimeUnit), Duration.of(stayTime, stayTimeUnit), Duration.of(fadeOutTime, fadeOutTimeUnit));
     }
 
@@ -210,7 +210,7 @@ public class Chat {
      * @return Parsed messages
      */
     public List<String> replacePlaceholders(@Nullable Player player, @NonNull List<String> messages, @Nullable Map<String, String> placeholders) {
-        ArrayList<String> l = new ArrayList<>();
+        final ArrayList<String> l = new ArrayList<>();
         for (String m : messages) {
             l.add(replacePlaceholders(player, m, placeholders));
         }
