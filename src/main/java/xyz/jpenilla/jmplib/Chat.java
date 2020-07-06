@@ -133,17 +133,13 @@ public class Chat {
         audience.player(player).showTitle(title);
     }
 
-    public BukkitTask sendActionBar(@NonNull Player player, @NonNull int durationSeconds, @NonNull String text) {
-        BukkitTask task = Bukkit.getScheduler().runTaskTimerAsynchronously(instance, () -> {
-            audience.player(player).sendActionBar(miniMessage.parse(text));
-        }, 0, 20L * 2);
-        Bukkit.getScheduler().runTaskLaterAsynchronously(instance, task::cancel, 20L * durationSeconds);
-        return task;
+    public void sendActionBar(@NonNull Player player, @NonNull String text) {
+        audience.player(player).sendActionBar(miniMessage.parse(text));
     }
 
-    public BukkitTask sendActionBarPlaceholders(@NonNull Player player, @NonNull int durationSeconds, @NonNull String text) {
+    public BukkitTask sendActionBar(@NonNull Player player, @NonNull int durationSeconds, @NonNull String text) {
         BukkitTask task = Bukkit.getScheduler().runTaskTimerAsynchronously(instance, () -> {
-            audience.player(player).sendActionBar(miniMessage.parse(replacePlaceholders(player, text, null)));
+            sendActionBar(player, text);
         }, 0, 20L * 2);
         Bukkit.getScheduler().runTaskLaterAsynchronously(instance, task::cancel, 20L * durationSeconds);
         return task;
