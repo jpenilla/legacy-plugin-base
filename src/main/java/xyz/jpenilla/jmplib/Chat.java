@@ -2,15 +2,19 @@ package xyz.jpenilla.jmplib;
 
 import lombok.NonNull;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.Nullable;
 import xyz.jpenilla.jmplib.compatability.JMPLibPAPIHook;
 import xyz.jpenilla.jmplib.compatability.JMPLibPrismaHook;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -115,13 +119,43 @@ public class Chat {
         }
     }
 
+    public Title getTitle(@NonNull String title, @NonNull String subTitle, @NonNull Duration fadeInTime, @NonNull Duration stayTime, @NonNull Duration fadeOutTime) {
+        Component titleComponent = miniMessage.parse(title);
+        Component subTitleComponent = miniMessage.parse(subTitle);
+        return Title.of(titleComponent, subTitleComponent, fadeInTime, stayTime, fadeOutTime);
+    }
+
+    public void showTitle(@NonNull Player player, @NonNull String title, @NonNull String subTitle, @NonNull Duration fadeInTime, @NonNull Duration stayTime, @NonNull Duration fadeOutTime) {
+        showTitle(player, getTitle(title, subTitle, fadeInTime, stayTime, fadeOutTime));
+    }
+
+    public void showTitle(@NonNull Player player, @NonNull Title title) {
+        audience.player(player).showTitle(title);
+    }
+
+    public BukkitTask sendActionBar(@NonNull Player player, @NonNull int durationSeconds, @NonNull String text) {
+        BukkitTask task = Bukkit.getScheduler().runTaskTimerAsynchronously(instance, () -> {
+            audience.player(player).sendActionBar(miniMessage.parse(text));
+        }, 0, 20L * 2);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(instance, task::cancel, 20L * durationSeconds);
+        return task;
+    }
+
+    public BukkitTask sendActionBarPlaceholders(@NonNull Player player, @NonNull int durationSeconds, @NonNull String text) {
+        BukkitTask task = Bukkit.getScheduler().runTaskTimerAsynchronously(instance, () -> {
+            audience.player(player).sendActionBar(miniMessage.parse(replacePlaceholders(player, text, null)));
+        }, 0, 20L * 2);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(instance, task::cancel, 20L * durationSeconds);
+        return task;
+    }
+
     /**
      * Get the amount of spaces needed to center the message
      *
      * @param message MiniMessage formatted message
      * @return String of spaces
      */
-    public String getCenteredSpacePrefix(String message) {
+    public String getCenteredSpacePrefix(@NonNull String message) {
         String specialMessage = TextUtil.replacePlaceholders(message, centeredTempReplacements, false);
         return LegacyChat.getCenteredSpacePrefix(miniMessage.stripTokens(specialMessage));
     }
@@ -132,7 +166,7 @@ public class Chat {
      * @param message MiniMessage formatted message
      * @return Centered MiniMessage
      */
-    public String getCenteredMessage(String message) {
+    public String getCenteredMessage(@NonNull String message) {
         return getCenteredSpacePrefix(message) + message;
     }
 
