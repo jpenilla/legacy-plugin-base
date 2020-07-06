@@ -15,6 +15,7 @@ import xyz.jpenilla.jmplib.compatability.JMPLibPAPIHook;
 import xyz.jpenilla.jmplib.compatability.JMPLibPrismaHook;
 
 import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -119,14 +120,18 @@ public class Chat {
         }
     }
 
-    public Title getTitle(@NonNull String title, @NonNull String subTitle, @NonNull Duration fadeInTime, @NonNull Duration stayTime, @NonNull Duration fadeOutTime) {
+    public Title getTitle(@NonNull String title, @NonNull String subTitle, @NonNull ChronoUnit fadeInTimeUnit, @NonNull int fadeInTime, @NonNull ChronoUnit stayTimeUnit, @NonNull int stayTime, @NonNull ChronoUnit fadeOutTimeUnit, @NonNull int fadeOutTime) {
         Component titleComponent = miniMessage.parse(title);
         Component subTitleComponent = miniMessage.parse(subTitle);
-        return Title.of(titleComponent, subTitleComponent, fadeInTime, stayTime, fadeOutTime);
+        return Title.of(titleComponent, subTitleComponent, Duration.of(fadeInTime, fadeInTimeUnit), Duration.of(stayTime, stayTimeUnit), Duration.of(fadeOutTime, fadeOutTimeUnit));
     }
 
-    public void showTitle(@NonNull Player player, @NonNull String title, @NonNull String subTitle, @NonNull Duration fadeInTime, @NonNull Duration stayTime, @NonNull Duration fadeOutTime) {
-        showTitle(player, getTitle(title, subTitle, fadeInTime, stayTime, fadeOutTime));
+    public Title getTitleSeconds(@NonNull String title, @NonNull String subTitle, @NonNull int fadeInTime, @NonNull int stayTime, @NonNull int fadeOutTime) {
+        return getTitle(title, subTitle, ChronoUnit.SECONDS, fadeInTime, ChronoUnit.SECONDS, stayTime, ChronoUnit.SECONDS, fadeOutTime);
+    }
+
+    public void showTitle(@NonNull Player player, @NonNull String title, @NonNull String subTitle, @NonNull ChronoUnit fadeInTimeUnit, @NonNull int fadeInTime, @NonNull ChronoUnit stayTimeUnit, @NonNull int stayTime, @NonNull ChronoUnit fadeOutTimeUnit, @NonNull int fadeOutTime) {
+        showTitle(player, getTitle(title, subTitle, fadeInTimeUnit, fadeInTime, stayTimeUnit, stayTime, fadeOutTimeUnit, fadeOutTime));
     }
 
     public void showTitle(@NonNull Player player, @NonNull Title title) {
