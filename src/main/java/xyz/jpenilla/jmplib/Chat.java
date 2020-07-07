@@ -18,10 +18,7 @@ import xyz.jpenilla.jmplib.compatability.JMPLibPrismaHook;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Chat message sending utilities
@@ -81,6 +78,17 @@ public class Chat {
             return l;
         } else {
             return messages;
+        }
+    }
+
+    public void playSounds(@NonNull Player player, @NonNull String sounds, @NonNull boolean randomize) {
+        final String[] s = sounds.split(",");
+        if (randomize) {
+            playSound(player, s[new Random().nextInt(s.length)]);
+        } else {
+            for (String sound : s) {
+                playSound(player, sound);
+            }
         }
     }
 
