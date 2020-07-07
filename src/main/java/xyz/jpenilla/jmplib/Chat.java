@@ -1,7 +1,9 @@
 package xyz.jpenilla.jmplib;
 
 import lombok.NonNull;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.title.Title;
@@ -80,6 +82,10 @@ public class Chat {
         } else {
             return messages;
         }
+    }
+
+    public void playSound(@NonNull Player player, @NonNull String sound) {
+        audience.player(player).playSound(Sound.of(Key.of(sound), Sound.Source.MASTER, 1.0f, 1.0f));
     }
 
     public void sendPlaceholders(@NonNull CommandSender sender, @NonNull List<String> messages) {
