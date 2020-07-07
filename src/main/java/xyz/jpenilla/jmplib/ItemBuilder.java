@@ -71,7 +71,7 @@ public class ItemBuilder {
      */
     @NonNull
     public ItemBuilder setName(String displayName) {
-        meta.setDisplayName(TextUtil.colorize(displayName));
+        meta.setDisplayName(MiniMessageUtil.miniMessageToLegacy(displayName));
         return this;
     }
 
@@ -83,7 +83,7 @@ public class ItemBuilder {
      */
     @NonNull
     public ItemBuilder setLore(String... lore) {
-        meta.setLore(TextUtil.colorize(Arrays.stream(lore).collect(Collectors.toList())));
+        meta.setLore(MiniMessageUtil.miniMessageToLegacy(Arrays.stream(lore).collect(Collectors.toList())));
         return this;
     }
 
@@ -129,7 +129,7 @@ public class ItemBuilder {
      */
     @NonNull
     public ItemBuilder setLore(List<String> lore) {
-        meta.setLore(TextUtil.colorize(lore));
+        meta.setLore(MiniMessageUtil.miniMessageToLegacy(lore));
         return this;
     }
 
