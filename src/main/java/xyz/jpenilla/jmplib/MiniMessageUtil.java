@@ -14,7 +14,7 @@ public class MiniMessageUtil {
      * @return The legacy text (including hex colors)
      */
     public static String miniMessageToLegacy(String message) {
-        return TextUtil.colorize(LegacyComponentSerializer.builder().hexColors().useUnusualXRepeatedCharacterHexFormat().build().serialize(MiniMessage.get().parse(message)));
+        return LegacyComponentSerializer.builder().hexColors().useUnusualXRepeatedCharacterHexFormat().build().serialize(MiniMessage.get().parse(message));
     }
 
     /**
