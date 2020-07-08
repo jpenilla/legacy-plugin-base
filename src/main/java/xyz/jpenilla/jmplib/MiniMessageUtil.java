@@ -26,7 +26,7 @@ public class MiniMessageUtil {
     public static List<String> miniMessageToLegacy(List<String> messages) {
         final List<String> l = new ArrayList<>();
         for (String message : messages) {
-            l.add(miniMessageToLegacy(message));
+            l.add(miniMessageToLegacy(Chat.get().replacePlaceholders(null, message, null)));
         }
         return l;
     }

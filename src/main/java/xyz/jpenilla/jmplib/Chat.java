@@ -26,6 +26,8 @@ import java.util.*;
  * @author jmp
  */
 public class Chat {
+    private static Chat CHAT_INSTANCE = null;
+
     private final JavaPlugin instance;
     private final BukkitAudiences audience;
     private final MiniMessage miniMessage;
@@ -33,7 +35,7 @@ public class Chat {
     private JMPLibPAPIHook papi = null;
     private JMPLibPrismaHook prisma = null;
 
-    public Chat(JavaPlugin plugin) {
+    private Chat(JavaPlugin plugin) {
         centeredTempReplacements.put("<bold>", "§l");
         centeredTempReplacements.put("</bold>", "§r");
         instance = plugin;
@@ -45,6 +47,24 @@ public class Chat {
             prisma = new JMPLibPrismaHook();
         }
         miniMessage = MiniMessage.get();
+    }
+
+    /**
+     * Will return null if chat hasn't been gotten with a JavaPlugin using {@link Chat#get(JavaPlugin)}
+     *
+     * @return The Chat instance
+     */
+    @Nullable
+    public static Chat get() {
+        return CHAT_INSTANCE;
+    }
+
+    @NonNull
+    public static Chat get(@NonNull JavaPlugin plugin) {
+        if (CHAT_INSTANCE == null) {
+            CHAT_INSTANCE = new Chat(plugin);
+        }
+        return CHAT_INSTANCE;
     }
 
     /**
