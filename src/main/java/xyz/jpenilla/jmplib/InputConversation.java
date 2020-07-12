@@ -5,44 +5,44 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 public class InputConversation {
     private final ConversationFactory conversationFactory;
-    private Consumer<String> acceptedListener;
-    private Consumer<String> deniedListener;
-    private Predicate<String> inputValidator;
-    private Function<ConversationContext, String> promptHandler;
-    private BiFunction<ConversationContext, String, String> confirmText;
+    private BiConsumer<Player, String> acceptedListener;
+    private BiConsumer<Player, String> deniedListener;
+    private BiPredicate<Player, String> inputValidator;
+    private Function<Player, String> promptHandler;
+    private BiFunction<Player, String, String> confirmText;
 
     public InputConversation(ConversationFactory conversationFactory) {
         this.conversationFactory = conversationFactory;
     }
 
-    public InputConversation onAccepted(Consumer<String> acceptedListener) {
+    public InputConversation onAccepted(BiConsumer<Player, String> acceptedListener) {
         this.acceptedListener = acceptedListener;
         return this;
     }
 
-    public InputConversation onDenied(Consumer<String> deniedListener) {
+    public InputConversation onDenied(BiConsumer<Player, String> deniedListener) {
         this.deniedListener = deniedListener;
         return this;
     }
 
-    public InputConversation onValidateInput(Predicate<String> inputValidator) {
+    public InputConversation onValidateInput(BiPredicate<Player, String> inputValidator) {
         this.inputValidator = inputValidator;
         return this;
     }
 
-    public InputConversation onPromptText(Function<ConversationContext, String> promptHandler) {
+    public InputConversation onPromptText(Function<Player, String> promptHandler) {
         this.promptHandler = promptHandler;
         return this;
     }
 
-    public InputConversation onConfirmText(BiFunction<ConversationContext, String, String> confirmTextHandler) {
+    public InputConversation onConfirmText(BiFunction<Player, String, String> confirmTextHandler) {
         this.confirmText = confirmTextHandler;
         return this;
     }
@@ -52,12 +52,12 @@ public class InputConversation {
                 .withFirstPrompt(new StringPrompt() {
                     @Override
                     public @NotNull String getPromptText(@NotNull ConversationContext conversationContext) {
-                        return promptHandler.apply(conversationContext);
+                        return promptHandler.apply((Player) conversationContext.getForWhom());
                     }
 
                     @Override
                     public Prompt acceptInput(@NotNull ConversationContext conversationContext, @Nullable String s) {
-                        if (!inputValidator.test(s)) {
+                        if (!inputValidator.test((Player) conversationContext.getForWhom(), s)) {
                             return this;
                         }
                         if (acceptedListener != null || deniedListener != null) {
@@ -65,16 +65,16 @@ public class InputConversation {
                                 @Override
                                 protected @Nullable Prompt acceptValidatedInput(@NotNull ConversationContext conversationContext, boolean b) {
                                     if (b && acceptedListener != null) {
-                                        acceptedListener.accept(s);
+                                        acceptedListener.accept((Player) conversationContext.getForWhom(), s);
                                     } else if (deniedListener != null) {
-                                        deniedListener.accept(s);
+                                        deniedListener.accept((Player) conversationContext.getForWhom(), s);
                                     }
                                     return null;
                                 }
 
                                 @Override
                                 public @NotNull String getPromptText(@NotNull ConversationContext conversationContext) {
-                                    return confirmText.apply(conversationContext, s);
+                                    return confirmText.apply((Player) conversationContext.getForWhom(), s);
                                 }
                             };
                         }
