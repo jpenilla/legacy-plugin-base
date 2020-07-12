@@ -126,6 +126,16 @@ public class Chat {
         }
     }
 
+    public void broadcast(@NonNull String message) {
+        audience.players().sendMessage(miniMessage.parse(message));
+    }
+
+    public void broadcast(@NonNull List<String> messages) {
+        for (String message : messages) {
+            broadcast(message);
+        }
+    }
+
     public void send(@NonNull CommandSender sender, @NonNull List<String> messages) {
         for (String message : messages) {
             send(sender, message);
