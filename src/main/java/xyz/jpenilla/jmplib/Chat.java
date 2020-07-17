@@ -5,16 +5,12 @@ import net.kyori.adventure.key.Key;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.Nullable;
-import xyz.jpenilla.jmplib.compatability.JMPLibPAPIHook;
-import xyz.jpenilla.jmplib.compatability.JMPLibPrismaHook;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -26,45 +22,15 @@ import java.util.*;
  * @author jmp
  */
 public class Chat {
-    private static Chat CHAT_INSTANCE = null;
-
-    private final JavaPlugin instance;
+    private final BasePlugin basePlugin;
     private final BukkitAudiences audience;
-    private final MiniMessage miniMessage;
     private final HashMap<String, String> centeredTempReplacements = new HashMap<>();
-    private JMPLibPAPIHook papi = null;
-    private JMPLibPrismaHook prisma = null;
 
-    private Chat(JavaPlugin plugin) {
+    public Chat(BasePlugin plugin) {
         centeredTempReplacements.put("<bold>", "§l");
         centeredTempReplacements.put("</bold>", "§r");
-        instance = plugin;
+        basePlugin = plugin;
         audience = BukkitAudiences.create(plugin);
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            papi = new JMPLibPAPIHook();
-        }
-        if (Bukkit.getPluginManager().isPluginEnabled("Prisma")) {
-            prisma = new JMPLibPrismaHook();
-        }
-        miniMessage = MiniMessage.get();
-    }
-
-    /**
-     * Will return null if chat hasn't been gotten with a JavaPlugin using {@link Chat#get(JavaPlugin)}
-     *
-     * @return The Chat instance
-     */
-    @Nullable
-    public static Chat get() {
-        return CHAT_INSTANCE;
-    }
-
-    @NonNull
-    public static Chat get(@NonNull JavaPlugin plugin) {
-        if (CHAT_INSTANCE == null) {
-            CHAT_INSTANCE = new Chat(plugin);
-        }
-        return CHAT_INSTANCE;
     }
 
     /**
@@ -75,8 +41,8 @@ public class Chat {
      * @return The parsed message
      */
     public String papiParse(@Nullable Player player, @NonNull String message) {
-        if (player != null && papi != null) {
-            return papi.translate(player, message);
+        if (player != null && basePlugin.getPapi() != null) {
+            return basePlugin.getPapi().translate(player, message);
         } else {
             return message;
         }
@@ -90,7 +56,7 @@ public class Chat {
      * @return The parsed messages
      */
     public List<String> papiParse(@Nullable Player player, @NonNull List<String> messages) {
-        if (player != null && papi != null) {
+        if (player != null && basePlugin.getPapi() != null) {
             ArrayList<String> l = new ArrayList<>();
             for (String m : messages) {
                 l.add(papiParse(player, m));
@@ -158,15 +124,15 @@ public class Chat {
 
     public void send(@NonNull CommandSender sender, @NonNull String message) {
         if (sender instanceof Player) {
-            audience.player((Player) sender).sendMessage(miniMessage.parse(message));
+            audience.player((Player) sender).sendMessage(basePlugin.getMiniMessage().parse(message));
         } else {
-            audience.console().sendMessage(miniMessage.parse(miniMessage.stripTokens(message)));
+            audience.console().sendMessage(basePlugin.getMiniMessage().parse(basePlugin.getMiniMessage().stripTokens(message)));
         }
     }
 
     public Title getTitle(@NonNull String title, @NonNull String subTitle, @NonNull ChronoUnit fadeInTimeUnit, @NonNull int fadeInTime, @NonNull ChronoUnit stayTimeUnit, @NonNull int stayTime, @NonNull ChronoUnit fadeOutTimeUnit, @NonNull int fadeOutTime) {
-        final Component titleComponent = miniMessage.parse(title);
-        final Component subTitleComponent = miniMessage.parse(subTitle);
+        final Component titleComponent = basePlugin.getMiniMessage().parse(title);
+        final Component subTitleComponent = basePlugin.getMiniMessage().parse(subTitle);
         return Title.of(titleComponent, subTitleComponent, Duration.of(fadeInTime, fadeInTimeUnit), Duration.of(stayTime, stayTimeUnit), Duration.of(fadeOutTime, fadeOutTimeUnit));
     }
 
@@ -183,14 +149,14 @@ public class Chat {
     }
 
     public void sendActionBar(@NonNull Player player, @NonNull String text) {
-        audience.player(player).sendActionBar(miniMessage.parse(text));
+        audience.player(player).sendActionBar(basePlugin.getMiniMessage().parse(text));
     }
 
     public BukkitTask sendActionBar(@NonNull Player player, @NonNull int durationSeconds, @NonNull String text) {
-        BukkitTask task = Bukkit.getScheduler().runTaskTimerAsynchronously(instance, () -> {
+        BukkitTask task = Bukkit.getScheduler().runTaskTimerAsynchronously(basePlugin, () -> {
             sendActionBar(player, text);
         }, 0, 20L * 2);
-        Bukkit.getScheduler().runTaskLaterAsynchronously(instance, task::cancel, 20L * durationSeconds);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(basePlugin, task::cancel, 20L * durationSeconds);
         return task;
     }
 
@@ -202,7 +168,7 @@ public class Chat {
      */
     public String getCenteredSpacePrefix(@NonNull String message) {
         String specialMessage = TextUtil.replacePlaceholders(message, centeredTempReplacements, false);
-        return LegacyChat.getCenteredSpacePrefix(miniMessage.stripTokens(specialMessage));
+        return LegacyChat.getCenteredSpacePrefix(basePlugin.getMiniMessage().stripTokens(specialMessage));
     }
 
     /**
@@ -239,8 +205,8 @@ public class Chat {
      */
     public String replacePlaceholders(@Nullable Player player, @NonNull String message, @Nullable Map<String, String> placeholders) {
         String finalMessage = TextUtil.replacePlaceholders(message, placeholders);
-        if (prisma != null) {
-            finalMessage = prisma.translate(finalMessage);
+        if (basePlugin.getPrisma() != null) {
+            finalMessage = basePlugin.getPrisma().translate(finalMessage);
         }
         return papiParse(player, finalMessage);
     }
