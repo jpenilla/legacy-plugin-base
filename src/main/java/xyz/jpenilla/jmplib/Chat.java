@@ -93,7 +93,7 @@ public class Chat {
     }
 
     public void broadcast(@NonNull String message) {
-        audience.players().sendMessage(miniMessage.parse(message));
+        audience.players().sendMessage(basePlugin.getMiniMessage().parse(message));
     }
 
     public void broadcast(@NonNull List<String> messages) {
