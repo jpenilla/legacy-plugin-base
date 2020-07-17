@@ -95,13 +95,14 @@ public class ItemBuilder {
      */
     @NonNull
     public ItemBuilder addLore(String... lore) {
-        List<String> temp = meta.getLore();
-        if (temp == null) {
-            temp = Arrays.stream(lore).collect(Collectors.toList());
+        final List<String> newLore = meta.getLore();
+        final List<String> newLines = MiniMessageUtil.miniMessageToLegacy(Arrays.stream(lore).collect(Collectors.toList()));
+        if (newLore != null) {
+            newLore.addAll(newLines);
+            return setLore(newLore);
         } else {
-            temp.addAll(Arrays.stream(lore).collect(Collectors.toList()));
+            return setLore(newLines);
         }
-        return setLore(temp);
     }
 
     /**
@@ -114,9 +115,9 @@ public class ItemBuilder {
     public ItemBuilder addLore(List<String> lore) {
         List<String> temp = meta.getLore();
         if (temp == null) {
-            temp = lore;
+            temp = MiniMessageUtil.miniMessageToLegacy(lore);
         } else {
-            temp.addAll(lore);
+            temp.addAll(MiniMessageUtil.miniMessageToLegacy(lore));
         }
         return setLore(temp);
     }

@@ -11,16 +11,11 @@ import java.util.function.BiPredicate;
 import java.util.function.Function;
 
 public class InputConversation {
-    private final ConversationFactory conversationFactory;
     private BiConsumer<Player, String> acceptedListener;
     private BiConsumer<Player, String> deniedListener;
     private BiPredicate<Player, String> inputValidator;
     private Function<Player, String> promptHandler;
     private BiFunction<Player, String, String> confirmText;
-
-    public InputConversation(ConversationFactory conversationFactory) {
-        this.conversationFactory = conversationFactory;
-    }
 
     public InputConversation onAccepted(BiConsumer<Player, String> acceptedListener) {
         this.acceptedListener = acceptedListener;
@@ -48,7 +43,7 @@ public class InputConversation {
     }
 
     public void start(Player player) {
-        Conversation conversation = conversationFactory
+        Conversation conversation = BasePlugin.getBasePlugin().getConversationFactory()
                 .withFirstPrompt(new StringPrompt() {
                     @Override
                     public @NotNull String getPromptText(@NotNull ConversationContext conversationContext) {
