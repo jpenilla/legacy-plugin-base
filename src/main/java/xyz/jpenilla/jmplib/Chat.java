@@ -67,15 +67,19 @@ public class Chat {
         }
     }
 
-    public void playSounds(@NonNull Player player, @NonNull String sounds, @NonNull boolean randomize) {
-        final String[] s = sounds.split(",");
+    public void playSounds(@NonNull Player player, @NonNull boolean randomize, @NonNull String... sounds) {
         if (randomize) {
-            playSound(player, s[new Random().nextInt(s.length)]);
+            playSound(player, sounds[new Random().nextInt(sounds.length)]);
         } else {
-            for (String sound : s) {
+            for (String sound : sounds) {
                 playSound(player, sound);
             }
         }
+    }
+
+    public void playSounds(@NonNull Player player, @NonNull boolean randomize, @NonNull String sounds) {
+        String[] s = sounds.split(",");
+        playSounds(player, randomize, s);
     }
 
     public void playSound(@NonNull Player player, @NonNull String sound) {
