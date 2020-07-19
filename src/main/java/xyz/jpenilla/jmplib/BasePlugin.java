@@ -17,7 +17,7 @@ public abstract class BasePlugin extends JavaPlugin {
     @Getter private ConversationFactory conversationFactory;
 
     @Override
-    public void onEnable() {
+    public final void onEnable() {
         basePlugin = this;
         this.miniMessage = MiniMessage.get();
         this.conversationFactory = new ConversationFactory(this);
