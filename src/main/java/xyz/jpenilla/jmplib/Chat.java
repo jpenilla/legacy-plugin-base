@@ -2,7 +2,6 @@ package xyz.jpenilla.jmplib;
 
 import lombok.NonNull;
 import net.kyori.adventure.key.Key;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
@@ -23,14 +22,12 @@ import java.util.*;
  */
 public class Chat {
     private final BasePlugin basePlugin;
-    private final BukkitAudiences audience;
     private final HashMap<String, String> centeredTempReplacements = new HashMap<>();
 
     public Chat(BasePlugin plugin) {
         centeredTempReplacements.put("<bold>", "§l");
         centeredTempReplacements.put("</bold>", "§r");
         basePlugin = plugin;
-        audience = BukkitAudiences.create(plugin);
     }
 
     /**
@@ -83,21 +80,21 @@ public class Chat {
     }
 
     public void playSound(@NonNull Player player, @NonNull String sound) {
-        audience.player(player).playSound(Sound.of(Key.of(sound), Sound.Source.MASTER, 1.0f, 1.0f));
+        basePlugin.getAudience().player(player).playSound(Sound.of(Key.of(sound), Sound.Source.MASTER, 1.0f, 1.0f));
     }
 
-    public void sendPlaceholders(@NonNull CommandSender sender, @NonNull List<String> messages) {
-        sendPlaceholders(sender, messages, null);
+    public void sendParsed(@NonNull CommandSender sender, @NonNull List<String> messages) {
+        sendParsed(sender, messages, null);
     }
 
-    public void sendPlaceholders(@NonNull CommandSender sender, @NonNull List<String> messages, @Nullable Map<String, String> placeholders) {
+    public void sendParsed(@NonNull CommandSender sender, @NonNull List<String> messages, @Nullable Map<String, String> placeholders) {
         for (String message : messages) {
-            sendPlaceholders(sender, message, placeholders);
+            sendParsed(sender, message, placeholders);
         }
     }
 
     public void broadcast(@NonNull String message) {
-        audience.players().sendMessage(basePlugin.getMiniMessage().parse(message));
+        basePlugin.getAudience().players().sendMessage(basePlugin.getMiniMessage().parse(message));
     }
 
     public void broadcast(@NonNull List<String> messages) {
@@ -112,25 +109,25 @@ public class Chat {
         }
     }
 
-    public void sendPlaceholders(@NonNull CommandSender sender, @NonNull String message, @Nullable Map<String, String> placeholders) {
+    public void sendParsed(@NonNull CommandSender sender, @NonNull String message, @Nullable Map<String, String> placeholders) {
         final String msg;
         if (sender instanceof Player) {
-            msg = replacePlaceholders((Player) sender, message, placeholders);
+            msg = parse((Player) sender, message, placeholders);
         } else {
-            msg = replacePlaceholders(null, message, placeholders);
+            msg = parse(null, message, placeholders);
         }
         send(sender, msg);
     }
 
-    public void sendPlaceholders(@NonNull CommandSender sender, @NonNull String message) {
-        sendPlaceholders(sender, message, null);
+    public void sendParsed(@NonNull CommandSender sender, @NonNull String message) {
+        sendParsed(sender, message, null);
     }
 
     public void send(@NonNull CommandSender sender, @NonNull String message) {
         if (sender instanceof Player) {
-            audience.player((Player) sender).sendMessage(basePlugin.getMiniMessage().parse(message));
+            basePlugin.getAudience().player((Player) sender).sendMessage(basePlugin.getMiniMessage().parse(message));
         } else {
-            audience.console().sendMessage(basePlugin.getMiniMessage().parse(basePlugin.getMiniMessage().stripTokens(message)));
+            basePlugin.getAudience().console().sendMessage(basePlugin.getMiniMessage().parse(basePlugin.getMiniMessage().stripTokens(message)));
         }
     }
 
@@ -149,11 +146,11 @@ public class Chat {
     }
 
     public void showTitle(@NonNull Player player, @NonNull Title title) {
-        audience.player(player).showTitle(title);
+        basePlugin.getAudience().player(player).showTitle(title);
     }
 
     public void sendActionBar(@NonNull Player player, @NonNull String text) {
-        audience.player(player).sendActionBar(basePlugin.getMiniMessage().parse(text));
+        basePlugin.getAudience().player(player).sendActionBar(basePlugin.getMiniMessage().parse(text));
     }
 
     public BukkitTask sendActionBar(@NonNull Player player, @NonNull int durationSeconds, @NonNull String text) {
@@ -207,7 +204,7 @@ public class Chat {
      * @param placeholders Placeholders
      * @return Parsed Message
      */
-    public String replacePlaceholders(@Nullable Player player, @NonNull String message, @Nullable Map<String, String> placeholders) {
+    public String parse(@Nullable Player player, @NonNull String message, @Nullable Map<String, String> placeholders) {
         String finalMessage = TextUtil.replacePlaceholders(message, placeholders);
         if (basePlugin.getPrisma() != null) {
             finalMessage = basePlugin.getPrisma().translate(finalMessage);
@@ -223,10 +220,10 @@ public class Chat {
      * @param placeholders Placeholders
      * @return Parsed messages
      */
-    public List<String> replacePlaceholders(@Nullable Player player, @NonNull List<String> messages, @Nullable Map<String, String> placeholders) {
+    public List<String> parse(@Nullable Player player, @NonNull List<String> messages, @Nullable Map<String, String> placeholders) {
         final ArrayList<String> l = new ArrayList<>();
         for (String m : messages) {
-            l.add(replacePlaceholders(player, m, placeholders));
+            l.add(parse(player, m, placeholders));
         }
         return l;
     }
