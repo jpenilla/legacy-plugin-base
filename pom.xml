@@ -57,12 +57,6 @@
            <scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.8.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>me.clip</groupId>
 			<artifactId>placeholderapi</artifactId>
 			<version>2.10.6</version>
@@ -122,40 +116,6 @@
 						<configuration>
 							<addOutputDirectory>false</addOutputDirectory>
 							<sourceDirectory>src/main/java</sourceDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.2.4</version>
-				<configuration>
-					<minimizeJar>false</minimizeJar>
-					<relocations>
-						<relocation>
-							<pattern>net.kyori.examination</pattern>
-							<shadedPattern>xyz.jpenilla.jmplib.lib.kyori.examination</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>net.kyori.adventure</pattern>
-							<shadedPattern>xyz.jpenilla.jmplib.lib.kyori.adventure</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>org.checkerframework</pattern>
-							<shadedPattern>xyz.jpenilla.jmplib.lib.checkerframework</shadedPattern>
-						</relocation>
-					</relocations>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<createDependencyReducedPom>false</createDependencyReducedPom>
 						</configuration>
 					</execution>
 				</executions>
