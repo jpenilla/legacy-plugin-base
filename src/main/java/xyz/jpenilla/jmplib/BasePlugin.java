@@ -17,6 +17,7 @@ public abstract class BasePlugin extends JavaPlugin {
     @Getter private BukkitAudiences audience = null;
     @Getter private MiniMessage miniMessage;
     @Getter private ConversationFactory conversationFactory;
+    @Getter private boolean isPaperServer;
 
     @Override
     public final void onEnable() {
@@ -24,6 +25,13 @@ public abstract class BasePlugin extends JavaPlugin {
         this.audience = BukkitAudiences.create(this);
         this.miniMessage = MiniMessage.get();
         this.conversationFactory = new ConversationFactory(this);
+
+        try {
+            Class.forName("com.destroystokyo.paper.PaperConfig");
+            isPaperServer = true;
+        } catch (ClassNotFoundException e) {
+            isPaperServer = false;
+        }
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             this.papi = new JMPLibPAPIHook();
