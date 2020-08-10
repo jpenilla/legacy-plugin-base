@@ -18,10 +18,18 @@ public abstract class BasePlugin extends JavaPlugin {
     @Getter private MiniMessage miniMessage;
     @Getter private ConversationFactory conversationFactory;
     @Getter private boolean isPaperServer;
+    @Getter private String serverPackageName;
+    @Getter private String serverApiVersion;
+    @Getter private int majorMinecraftVersion;
 
     @Override
     public final void onEnable() {
         basePlugin = this;
+
+        serverPackageName = this.getServer().getClass().getPackage().getName();
+        serverApiVersion = serverPackageName.substring(serverPackageName.lastIndexOf('.') + 1);
+        majorMinecraftVersion = Integer.parseInt(serverApiVersion.split("_")[1]);
+
         this.audience = BukkitAudiences.create(this);
         this.miniMessage = MiniMessage.get();
         this.conversationFactory = new ConversationFactory(this);
