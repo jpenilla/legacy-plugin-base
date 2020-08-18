@@ -1,5 +1,5 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -8,12 +8,13 @@ java {
 
 plugins {
     `java-library`
+    `maven-publish`
     id("com.github.johnrengelman.shadow") version "5.2.0"
 }
 
 val projectName = "jmplib"
 group = "xyz.jpenilla"
-version = "1.0.0+{BUILD_NUMBER}-SNAPSHOT"
+version = "1.0.0+{BUILDID}-SNAPSHOT"
 
 repositories {
     mavenLocal()
@@ -48,5 +49,27 @@ tasks {
         archiveFileName.set("$projectName-${project.version}.jar")
         dependsOn(autoRelocate)
         minimize()
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/jmanpenilla/jmplib")
+            credentials {
+                username = System.getenv("USERNAME")
+                password = System.getenv("TOKEN")
+            }
+        }
+    }
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = project.group.toString()
+            artifactId = projectName
+            version = project.version.toString()
+
+            from(components["java"])
+        }
     }
 }
