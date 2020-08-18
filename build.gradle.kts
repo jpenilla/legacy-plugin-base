@@ -62,6 +62,14 @@ publishing {
                 password = System.getenv("TOKEN")
             }
         }
+        maven {
+            name = "Repo"
+            url = uri("https://repo.jpenilla.xyz/snapshots")
+            credentials {
+                username = System.getenv("REPO_USER")
+                password = System.getenv("REPO_TOKEN")
+            }
+        }
     }
     publications {
         create<MavenPublication>("maven") {
