@@ -23,12 +23,12 @@ repositories {
 
 dependencies {
     annotationProcessor("org.projectlombok", "lombok", "1.18.12")
+    api("com.github.jmanpenilla", "adventure-text-minimessage", "2cb5077c9d")
+    api("net.kyori", "adventure-platform-bukkit", "4.0.0-SNAPSHOT")
+    api("net.kyori", "adventure-text-feature-pagination", "4.0.0-SNAPSHOT")
     compileOnly("org.projectlombok", "lombok", "1.18.12")
     compileOnly("org.jetbrains", "annotations", "20.0.0")
     compileOnly("org.spigotmc", "spigot-api", "1.13.2-R0.1-SNAPSHOT")
-    compileOnly("com.github.jmanpenilla", "adventure-text-minimessage", "2cb5077c9d")
-    compileOnly("net.kyori", "adventure-platform-bukkit", "4.0.0-SNAPSHOT")
-    compileOnly("net.kyori", "adventure-text-feature-pagination", "4.0.0-SNAPSHOT")
     compileOnly("me.clip", "placeholderapi", "2.10.9")
     compileOnly("com.github.DiamondDagger590", "Prisma", "a622d01b80")
 }
