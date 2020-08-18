@@ -1,11 +1,12 @@
 # JMPLib ![jmplib](https://github.com/jmanpenilla/jmplib/workflows/jmplib/badge.svg)
 
 
-# Maven Repo
+# Dependency Info
+
 ```
 <repository>
   <id>jmp-repo</id>
-  <url>http://mvn.jpenilla.xyz/repository/internal</url>
+  <url>http://repo.jpenilla.xyz/snapshots</url>
 </repository>
 ```
 
@@ -18,10 +19,13 @@
   <scope>compile</scope>
 </dependency>
 ```
-* Replace VERSION with a version from the list [here](http://mvn.ccmc.fun/#artifact/xyz.jpenilla/jmplib)
+
+```
+maven(url = "https://repo.jpenilla.xyz/snapshots")
+```
 
 
-[Gradle Usage](https://jitpack.io/#jmanpenilla/jmplib)
-
-
-[JavaDoc](https://tc.jpenilla.xyz/viewType.html?buildTypeId=Jmplib_Build&tab=buildTypeStatusDiv)
+```
+implementation("xyz.jpenilla", "jmplib", "VERSION")
+```
+* Replace VERSION with a version from the list [here](https://repo.jpenilla.xyz/snapshots/xyz/jpenilla/jmplib)

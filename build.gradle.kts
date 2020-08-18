@@ -1,6 +1,3 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -9,7 +6,6 @@ java {
 plugins {
     `java-library`
     `maven-publish`
-    id("com.github.johnrengelman.shadow") version "5.2.0"
 }
 
 val projectName = "jmplib"
@@ -35,21 +31,6 @@ dependencies {
     compileOnly("net.kyori", "adventure-text-feature-pagination", "4.0.0-SNAPSHOT")
     compileOnly("me.clip", "placeholderapi", "2.10.9")
     compileOnly("com.github.DiamondDagger590", "Prisma", "a622d01b80")
-}
-
-val autoRelocate by tasks.register<ConfigureShadowRelocation>("configureShadowRelocation", ConfigureShadowRelocation::class) {
-    target = tasks.getByName("shadowJar") as ShadowJar?
-    val packageName = "${project.group}.${project.name.toLowerCase()}"
-    prefix = "$packageName.shaded"
-}
-
-tasks {
-    withType<ShadowJar> {
-        archiveClassifier.set("")
-        archiveFileName.set("$projectName-${project.version}.jar")
-        dependsOn(autoRelocate)
-        minimize()
-    }
 }
 
 publishing {
