@@ -134,7 +134,7 @@ public class Chat {
     public Title getTitle(@NonNull String title, @NonNull String subTitle, @NonNull ChronoUnit fadeInTimeUnit, @NonNull int fadeInTime, @NonNull ChronoUnit stayTimeUnit, @NonNull int stayTime, @NonNull ChronoUnit fadeOutTimeUnit, @NonNull int fadeOutTime) {
         final Component titleComponent = basePlugin.getMiniMessage().parse(title);
         final Component subTitleComponent = basePlugin.getMiniMessage().parse(subTitle);
-        return Title.of(titleComponent, subTitleComponent, Duration.of(fadeInTime, fadeInTimeUnit), Duration.of(stayTime, stayTimeUnit), Duration.of(fadeOutTime, fadeOutTimeUnit));
+        return Title.of(titleComponent, subTitleComponent, Title.Times.of(Duration.of(fadeInTime, fadeInTimeUnit), Duration.of(stayTime, stayTimeUnit), Duration.of(fadeOutTime, fadeOutTimeUnit)));
     }
 
     public Title getTitleSeconds(@NonNull String title, @NonNull String subTitle, @NonNull int fadeInTime, @NonNull int stayTime, @NonNull int fadeOutTime) {
