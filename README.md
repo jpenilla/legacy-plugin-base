@@ -26,6 +26,6 @@ maven(url = "https://repo.jpenilla.xyz/snapshots")
 
 
 ```
-implementation("xyz.jpenilla", "jmplib", "VERSION")
+implementation("xyz.jpenilla", "jmplib", "version")
 ```
 * Replace VERSION with a version from the list [here](https://repo.jpenilla.xyz/snapshots/xyz/jpenilla/jmplib)
