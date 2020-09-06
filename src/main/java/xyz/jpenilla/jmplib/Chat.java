@@ -103,9 +103,25 @@ public class Chat {
         }
     }
 
-    public void send(@NonNull CommandSender sender, @NonNull List<String> messages) {
-        for (String message : messages) {
-            send(sender, message);
+    public void send(@NonNull CommandSender sender, @NonNull Component component) {
+        if (sender instanceof Player) {
+            basePlugin.getAudience().player((Player) sender).sendMessage(component);
+        } else {
+            basePlugin.getAudience().console().sendMessage(component);
+        }
+    }
+
+    public void send(@NonNull CommandSender sender, @NonNull List<?> messages) {
+        if (!messages.isEmpty()) {
+            if (messages.get(0) instanceof String) {
+                for (Object message : messages) {
+                    send(sender, (String) message);
+                }
+            } else {
+                for (Object message : messages) {
+                    send(sender, (Component) message);
+                }
+            }
         }
     }
 
@@ -124,11 +140,7 @@ public class Chat {
     }
 
     public void send(@NonNull CommandSender sender, @NonNull String message) {
-        if (sender instanceof Player) {
-            basePlugin.getAudience().player((Player) sender).sendMessage(basePlugin.getMiniMessage().parse(message));
-        } else {
-            basePlugin.getAudience().console().sendMessage(basePlugin.getMiniMessage().parse(basePlugin.getMiniMessage().stripTokens(message)));
-        }
+        send(sender, basePlugin.getMiniMessage().parse(message));
     }
 
     public Title getTitle(@NonNull String title, @NonNull String subTitle, @NonNull ChronoUnit fadeInTimeUnit, @NonNull int fadeInTime, @NonNull ChronoUnit stayTimeUnit, @NonNull int stayTime, @NonNull ChronoUnit fadeOutTimeUnit, @NonNull int fadeOutTime) {
