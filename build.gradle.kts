@@ -10,7 +10,7 @@ plugins {
 
 val projectName = "jmplib"
 group = "xyz.jpenilla"
-version = "1.0.0+{BUILDID}-SNAPSHOT"
+version = "1.0.1+{BUILDID}-SNAPSHOT"
 
 repositories {
     mavenLocal()
