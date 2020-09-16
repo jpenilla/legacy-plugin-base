@@ -15,7 +15,7 @@ version = "1.0.1+{BUILDID}-SNAPSHOT"
 repositories {
     mavenLocal()
     mavenCentral()
-    maven(url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    maven(url = "https://papermc.io/repo/repository/maven-public/")
     maven(url = "https://oss.sonatype.org/content/groups/public/")
     maven(url = "https://repo.extendedclip.com/content/repositories/placeholderapi")
     maven(url = "https://jitpack.io")
@@ -28,7 +28,7 @@ dependencies {
     api("net.kyori", "adventure-text-feature-pagination", "4.0.0-SNAPSHOT")
     compileOnly("org.projectlombok", "lombok", "1.18.12")
     compileOnly("org.jetbrains", "annotations", "20.0.0")
-    compileOnly("org.spigotmc", "spigot-api", "1.13.2-R0.1-SNAPSHOT")
+    compileOnly("com.destroystokyo.paper", "paper-api", "1.16.3-R0.1-SNAPSHOT")
     compileOnly("me.clip", "placeholderapi", "2.10.9")
     compileOnly("com.github.DiamondDagger590", "Prisma", "a622d01b80")
 }

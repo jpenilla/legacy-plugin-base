@@ -3,6 +3,10 @@ package xyz.jpenilla.jmplib;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.bungeecord.BungeeCordComponentSerializer;
+import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -12,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -22,6 +25,10 @@ import java.util.stream.Collectors;
  * @author jmp
  */
 public class ItemBuilder {
+    private static final BungeeCordComponentSerializer serializer = BungeeCordComponentSerializer.get();
+    private static final MiniMessage miniMessage = MiniMessage.get();
+    private final boolean hasComponentApi = BasePlugin.getBasePlugin().isPaperServer() && BasePlugin.getBasePlugin().getMajorMinecraftVersion() > 15;
+
     private final ItemStack itemStack;
 
     /**
@@ -64,74 +71,94 @@ public class ItemBuilder {
     }
 
     /**
-     * Set the Display Name of the ItemStack
+     * Set the Display Name of the ItemStack using a MiniMessage string
      *
-     * @param displayName The display name to use. Will be colorized using the {@literal &} color code
+     * @param displayName The display name to use.
      * @return The ItemBuilder instance
      */
     @NonNull
     public ItemBuilder setName(String displayName) {
-        meta.setDisplayName(MiniMessageUtil.miniMessageToLegacy(displayName));
+        if (hasComponentApi) {
+            meta.setDisplayNameComponent(serializer.serialize(miniMessage.parse(displayName).decoration(TextDecoration.ITALIC, false)));
+        } else {
+            meta.setDisplayName(MiniMessageUtil.miniMessageToLegacy(displayName));
+        }
         return this;
     }
 
     /**
-     * Set the lore of the ItemStack from one or multiple strings
+     * Set the lore of the ItemStack from one or multiple MiniMessage strings
      *
-     * @param lore The String(s) to use for lore. Will be colorized using the {@literal &} color code
+     * @param lore The String(s) to use for lore.
      * @return The ItemBuilder instance
      */
     @NonNull
     public ItemBuilder setLore(String... lore) {
-        meta.setLore(MiniMessageUtil.miniMessageToLegacy(Arrays.stream(lore).collect(Collectors.toList())));
+        if (hasComponentApi) {
+            final List<BaseComponent[]> newLore = new ArrayList<>();
+            for (String line : lore) {
+                newLore.add(serializer.serialize(miniMessage.parse(line).decoration(TextDecoration.ITALIC, false)));
+            }
+            meta.setLoreComponents(newLore);
+        } else {
+            meta.setLore(MiniMessageUtil.miniMessageToLegacy(Arrays.asList(lore)));
+        }
         return this;
     }
 
     /**
-     * Add one or more Strings to the lore of the ItemStack
+     * Add one or more MiniMessage Strings to the lore of the ItemStack
      *
-     * @param lore The String(s) to add to the lore. Will be colorized using the {@literal &} color code
+     * @param lore The String(s) to add to the lore.
      * @return The ItemBuilder instance
      */
     @NonNull
     public ItemBuilder addLore(String... lore) {
-        final List<String> newLore = meta.getLore();
-        final List<String> newLines = MiniMessageUtil.miniMessageToLegacy(Arrays.stream(lore).collect(Collectors.toList()));
-        if (newLore != null) {
-            newLore.addAll(newLines);
-            return setLore(newLore);
+        if (hasComponentApi) {
+            final List<BaseComponent[]> newLore = meta.getLoreComponents();
+            final List<BaseComponent[]> newLines = new ArrayList<>();
+            for (String line : lore) {
+                newLines.add(serializer.serialize(miniMessage.parse(line).decoration(TextDecoration.ITALIC, false)));
+            }
+            if (newLore != null) {
+                newLore.addAll(newLines);
+                meta.setLoreComponents(newLore);
+            } else {
+                meta.setLoreComponents(newLines);
+            }
+            return this;
         } else {
-            return setLore(newLines);
+            final List<String> newLore = meta.getLore();
+            final List<String> newLines = MiniMessageUtil.miniMessageToLegacy(Arrays.asList(lore));
+            if (newLore != null) {
+                newLore.addAll(newLines);
+                return setLore(newLore);
+            } else {
+                return setLore(newLines);
+            }
         }
     }
 
     /**
-     * Add a List of Strings to the lore of the ItemStack
+     * Add a List of MiniMessage Strings to the lore of the ItemStack
      *
-     * @param lore The List of Strings to add to the lore. Will be colorized using the {@literal &} color code
+     * @param lore The List of Strings to add to the lore.
      * @return The ItemBuilder instance
      */
     @NonNull
     public ItemBuilder addLore(List<String> lore) {
-        List<String> temp = meta.getLore();
-        if (temp == null) {
-            temp = MiniMessageUtil.miniMessageToLegacy(lore);
-        } else {
-            temp.addAll(MiniMessageUtil.miniMessageToLegacy(lore));
-        }
-        return setLore(temp);
+        return addLore(lore.toArray(new String[0]));
     }
 
     /**
-     * Set the lore of the ItemStack from a List of Strings
+     * Set the lore of the ItemStack from a List of MiniMessage Strings
      *
-     * @param lore The {@link List} of {@link String} to use as lore. Will be colorized using the {@literal &} color code
+     * @param lore The {@link List} of {@link String} to use as lore.
      * @return The ItemBuilder instance
      */
     @NonNull
     public ItemBuilder setLore(List<String> lore) {
-        meta.setLore(MiniMessageUtil.miniMessageToLegacy(lore));
-        return this;
+        return setLore(lore.toArray(new String[0]));
     }
 
     /**

@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MiniMessageUtil {
+    private static final LegacyComponentSerializer serializer = LegacyComponentSerializer.builder().hexColors().useUnusualXRepeatedCharacterHexFormat().build();
+    private static final MiniMessage miniMessage = MiniMessage.get();
+
     /**
      * This sucks avoid using it at all costs
      *
@@ -14,7 +17,7 @@ public class MiniMessageUtil {
      * @return The legacy text (including hex colors)
      */
     public static String miniMessageToLegacy(String message) {
-        return LegacyComponentSerializer.builder().hexColors().useUnusualXRepeatedCharacterHexFormat().build().serialize(MiniMessage.get().parse(BasePlugin.getBasePlugin().getChat().parse(null, message, null)));
+        return serializer.serialize(miniMessage.parse(BasePlugin.getBasePlugin().getChat().parse(null, message, null)));
     }
 
     /**
