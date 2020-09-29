@@ -80,7 +80,7 @@ public class Chat {
     }
 
     public void playSound(@NonNull Player player, @NonNull String sound) {
-        basePlugin.getAudience().player(player).playSound(Sound.of(Key.of(sound), Sound.Source.MASTER, 1.0f, 1.0f));
+        basePlugin.getAudience().player(player).playSound(Sound.sound(Key.key(sound), Sound.Source.MASTER, 1.0f, 1.0f));
     }
 
     public void sendParsed(@NonNull CommandSender sender, @NonNull List<String> messages) {
@@ -146,7 +146,7 @@ public class Chat {
     public Title getTitle(@NonNull String title, @NonNull String subTitle, @NonNull ChronoUnit fadeInTimeUnit, @NonNull int fadeInTime, @NonNull ChronoUnit stayTimeUnit, @NonNull int stayTime, @NonNull ChronoUnit fadeOutTimeUnit, @NonNull int fadeOutTime) {
         final Component titleComponent = basePlugin.getMiniMessage().parse(title);
         final Component subTitleComponent = basePlugin.getMiniMessage().parse(subTitle);
-        return Title.of(titleComponent, subTitleComponent, Title.Times.of(Duration.of(fadeInTime, fadeInTimeUnit), Duration.of(stayTime, stayTimeUnit), Duration.of(fadeOutTime, fadeOutTimeUnit)));
+        return Title.title(titleComponent, subTitleComponent, Title.Times.of(Duration.of(fadeInTime, fadeInTimeUnit), Duration.of(stayTime, stayTimeUnit), Duration.of(fadeOutTime, fadeOutTimeUnit)));
     }
 
     public Title getTitleSeconds(@NonNull String title, @NonNull String subTitle, @NonNull int fadeInTime, @NonNull int stayTime, @NonNull int fadeOutTime) {
