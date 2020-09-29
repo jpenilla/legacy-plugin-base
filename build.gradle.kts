@@ -15,8 +15,8 @@ version = "1.0.1+{BUILDID}-SNAPSHOT"
 repositories {
     mavenLocal()
     mavenCentral()
-    maven(url = "https://papermc.io/repo/repository/maven-public/")
     maven(url = "https://oss.sonatype.org/content/groups/public/")
+    maven(url = "https://papermc.io/repo/repository/maven-public/")
     maven(url = "https://repo.extendedclip.com/content/repositories/placeholderapi")
     maven(url = "https://jitpack.io")
 }
