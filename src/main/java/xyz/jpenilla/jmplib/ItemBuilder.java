@@ -5,7 +5,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.serializer.bungeecord.BungeeCordComponentSerializer;
+import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -25,7 +25,7 @@ import java.util.Map;
  * @author jmp
  */
 public class ItemBuilder {
-    private static final BungeeCordComponentSerializer serializer = BungeeCordComponentSerializer.get();
+    private static final BungeeComponentSerializer serializer = BungeeComponentSerializer.get();
     private static final MiniMessage miniMessage = MiniMessage.get();
     private final boolean hasComponentApi = BasePlugin.getBasePlugin().isPaperServer() && BasePlugin.getBasePlugin().getMajorMinecraftVersion() > 15;
 
