@@ -1,7 +1,6 @@
 package xyz.jpenilla.jmplib;
 
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -11,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,8 +64,7 @@ public class ItemBuilder {
      * @param amount The amount of items for the ItemStack
      * @return The ItemBuilder instance
      */
-    @NonNull
-    public ItemBuilder setAmount(int amount) {
+    public @NonNull ItemBuilder setAmount(int amount) {
         itemStack.setAmount(amount);
         return this;
     }
@@ -76,8 +75,7 @@ public class ItemBuilder {
      * @param displayName The display name to use.
      * @return The ItemBuilder instance
      */
-    @NonNull
-    public ItemBuilder setName(String displayName) {
+    public @NonNull ItemBuilder setName(String displayName) {
         if (hasComponentApi) {
             meta.setDisplayNameComponent(serializer.serialize(miniMessage.parse(displayName).decoration(TextDecoration.ITALIC, false)));
         } else {
@@ -92,8 +90,7 @@ public class ItemBuilder {
      * @param lore The String(s) to use for lore.
      * @return The ItemBuilder instance
      */
-    @NonNull
-    public ItemBuilder setLore(String... lore) {
+    public @NonNull ItemBuilder setLore(String... lore) {
         if (hasComponentApi) {
             final List<BaseComponent[]> newLore = new ArrayList<>();
             for (String line : lore) {
@@ -112,8 +109,7 @@ public class ItemBuilder {
      * @param lore The String(s) to add to the lore.
      * @return The ItemBuilder instance
      */
-    @NonNull
-    public ItemBuilder addLore(String... lore) {
+    public @NonNull ItemBuilder addLore(String... lore) {
         if (hasComponentApi) {
             final List<BaseComponent[]> newLore = meta.getLoreComponents();
             final List<BaseComponent[]> newLines = new ArrayList<>();
@@ -145,8 +141,7 @@ public class ItemBuilder {
      * @param lore The List of Strings to add to the lore.
      * @return The ItemBuilder instance
      */
-    @NonNull
-    public ItemBuilder addLore(List<String> lore) {
+    public @NonNull ItemBuilder addLore(@NonNull List<String> lore) {
         return addLore(lore.toArray(new String[0]));
     }
 
@@ -156,8 +151,7 @@ public class ItemBuilder {
      * @param lore The {@link List} of {@link String} to use as lore.
      * @return The ItemBuilder instance
      */
-    @NonNull
-    public ItemBuilder setLore(List<String> lore) {
+    public @NonNull ItemBuilder setLore(@NonNull List<String> lore) {
         return setLore(lore.toArray(new String[0]));
     }
 
@@ -166,8 +160,7 @@ public class ItemBuilder {
      *
      * @return The ItemBuilder instance
      */
-    @NonNull
-    public ItemBuilder clearLore() {
+    public @NonNull ItemBuilder clearLore() {
         meta.setLore(new ArrayList<>());
         return this;
     }
@@ -177,8 +170,7 @@ public class ItemBuilder {
      *
      * @return {@link Map} of {@link Enchantment},{@link Integer}
      */
-    @NonNull
-    public Map<Enchantment, Integer> getEnchants() {
+    public @NonNull Map<Enchantment, Integer> getEnchants() {
         return meta.getEnchants();
     }
 
@@ -188,8 +180,7 @@ public class ItemBuilder {
      * @param enchants {@link Map} of {@link Enchantment},{@link Integer} containing the Enchants and their levels
      * @return The ItemBuilder instance
      */
-    @NonNull
-    public ItemBuilder setEnchants(@NonNull Map<Enchantment, Integer> enchants) {
+    public @NonNull ItemBuilder setEnchants(@NonNull Map<Enchantment, Integer> enchants) {
         clearEnchants();
         return addEnchants(enchants);
     }
@@ -201,8 +192,7 @@ public class ItemBuilder {
      * @param level       The level to use for the Enchantment
      * @return The ItemBuilder instance
      */
-    @NonNull
-    public ItemBuilder addEnchant(@NonNull Enchantment enchantment, int level) {
+    public @NonNull ItemBuilder addEnchant(@NonNull Enchantment enchantment, int level) {
         meta.addEnchant(enchantment, level, true);
         return this;
     }
@@ -213,8 +203,7 @@ public class ItemBuilder {
      * @param enchants {@link Map} of {@link Enchantment},{@link Integer} containing the Enchants and their levels
      * @return The ItemBuilder instance
      */
-    @NonNull
-    public ItemBuilder addEnchants(@NonNull Map<Enchantment, Integer> enchants) {
+    public @NonNull ItemBuilder addEnchants(@NonNull Map<Enchantment, Integer> enchants) {
         enchants.keySet().forEach(e -> addEnchant(e, enchants.get(e)));
         return this;
     }
@@ -224,8 +213,7 @@ public class ItemBuilder {
      *
      * @return The ItemBuilder instance
      */
-    @NonNull
-    public ItemBuilder clearEnchants() {
+    public @NonNull ItemBuilder clearEnchants() {
         meta.getEnchants().keySet().forEach(meta::removeEnchant);
         return this;
     }
@@ -235,8 +223,7 @@ public class ItemBuilder {
      *
      * @return The built {@link ItemStack}
      */
-    @NonNull
-    public ItemStack build() {
+    public @NonNull ItemStack build() {
         itemStack.setItemMeta(meta);
         return itemStack;
     }

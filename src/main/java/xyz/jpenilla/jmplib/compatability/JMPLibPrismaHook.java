@@ -1,6 +1,6 @@
 package xyz.jpenilla.jmplib.compatability;
 
-import lombok.NonNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import us.eunoians.prisma.ColorProvider;
 import us.eunoians.prisma.PrismaColor;
 

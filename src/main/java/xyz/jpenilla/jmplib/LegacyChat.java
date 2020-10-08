@@ -1,10 +1,10 @@
 package xyz.jpenilla.jmplib;
 
-import lombok.NonNull;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class LegacyChat {
     private final static int CENTER_PX = 154;

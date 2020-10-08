@@ -1,6 +1,6 @@
 package xyz.jpenilla.jmplib;
 
-import lombok.NonNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.UUID;
 

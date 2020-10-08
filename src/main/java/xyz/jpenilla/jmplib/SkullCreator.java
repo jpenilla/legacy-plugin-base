@@ -24,7 +24,6 @@
 
 package xyz.jpenilla.jmplib;
 
-import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -32,6 +31,7 @@ import org.bukkit.block.Skull;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.net.URI;
 import java.net.URISyntaxException;

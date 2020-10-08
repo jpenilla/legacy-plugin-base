@@ -1,8 +1,8 @@
 package xyz.jpenilla.jmplib;
 
-import lombok.NonNull;
 import org.bukkit.ChatColor;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,8 +22,7 @@ public class TextUtil {
      * @param string The string to colorize
      * @return The colorized string
      */
-    @NonNull
-    public static String colorize(@NonNull String string) {
+    public static @NonNull String colorize(@NonNull String string) {
         return ChatColor.translateAlternateColorCodes('&', string);
     }
 
@@ -33,8 +32,7 @@ public class TextUtil {
      * @param strings The array of strings to colorize
      * @return The colorized string array
      */
-    @NonNull
-    public static String[] colorize(@NonNull String[] strings) {
+    public static @NonNull String[] colorize(@NonNull String[] strings) {
         return Arrays.stream(strings).map(TextUtil::colorize).toArray(String[]::new);
     }
 
@@ -44,8 +42,7 @@ public class TextUtil {
      * @param stringList The list of strings to colorize
      * @return The colorized strings as an ArrayList
      */
-    @NonNull
-    public static ArrayList<String> colorize(@NonNull List<String> stringList) {
+    public static @NonNull ArrayList<String> colorize(@NonNull List<String> stringList) {
         return stringList.stream().map(TextUtil::colorize).collect(Collectors.toCollection(ArrayList::new));
     }
 
