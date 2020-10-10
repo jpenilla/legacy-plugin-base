@@ -64,7 +64,7 @@ public class Chat {
         }
     }
 
-    public void playSounds(@NonNull Player player, @NonNull boolean randomize, @NonNull String... sounds) {
+    public void playSounds(@NonNull Player player, boolean randomize, @NonNull String... sounds) {
         if (randomize) {
             playSound(player, sounds[new Random().nextInt(sounds.length)]);
         } else {
@@ -74,7 +74,7 @@ public class Chat {
         }
     }
 
-    public void playSounds(@NonNull Player player, @NonNull boolean randomize, @NonNull String sounds) {
+    public void playSounds(@NonNull Player player, boolean randomize, @NonNull String sounds) {
         String[] s = sounds.split(",");
         playSounds(player, randomize, s);
     }
@@ -143,17 +143,17 @@ public class Chat {
         send(sender, basePlugin.getMiniMessage().parse(message));
     }
 
-    public Title getTitle(@NonNull String title, @NonNull String subTitle, @NonNull ChronoUnit fadeInTimeUnit, @NonNull int fadeInTime, @NonNull ChronoUnit stayTimeUnit, @NonNull int stayTime, @NonNull ChronoUnit fadeOutTimeUnit, @NonNull int fadeOutTime) {
+    public Title getTitle(@NonNull String title, @NonNull String subTitle, @NonNull ChronoUnit fadeInTimeUnit, int fadeInTime, @NonNull ChronoUnit stayTimeUnit, int stayTime, @NonNull ChronoUnit fadeOutTimeUnit, int fadeOutTime) {
         final Component titleComponent = basePlugin.getMiniMessage().parse(title);
         final Component subTitleComponent = basePlugin.getMiniMessage().parse(subTitle);
         return Title.title(titleComponent, subTitleComponent, Title.Times.of(Duration.of(fadeInTime, fadeInTimeUnit), Duration.of(stayTime, stayTimeUnit), Duration.of(fadeOutTime, fadeOutTimeUnit)));
     }
 
-    public Title getTitleSeconds(@NonNull String title, @NonNull String subTitle, @NonNull int fadeInTime, @NonNull int stayTime, @NonNull int fadeOutTime) {
+    public Title getTitleSeconds(@NonNull String title, @NonNull String subTitle, int fadeInTime, int stayTime, int fadeOutTime) {
         return getTitle(title, subTitle, ChronoUnit.SECONDS, fadeInTime, ChronoUnit.SECONDS, stayTime, ChronoUnit.SECONDS, fadeOutTime);
     }
 
-    public void showTitle(@NonNull Player player, @NonNull String title, @NonNull String subTitle, @NonNull ChronoUnit fadeInTimeUnit, @NonNull int fadeInTime, @NonNull ChronoUnit stayTimeUnit, @NonNull int stayTime, @NonNull ChronoUnit fadeOutTimeUnit, @NonNull int fadeOutTime) {
+    public void showTitle(@NonNull Player player, @NonNull String title, @NonNull String subTitle, @NonNull ChronoUnit fadeInTimeUnit, int fadeInTime, @NonNull ChronoUnit stayTimeUnit, int stayTime, @NonNull ChronoUnit fadeOutTimeUnit, int fadeOutTime) {
         showTitle(player, getTitle(title, subTitle, fadeInTimeUnit, fadeInTime, stayTimeUnit, stayTime, fadeOutTimeUnit, fadeOutTime));
     }
 
@@ -165,7 +165,7 @@ public class Chat {
         basePlugin.getAudience().player(player).sendActionBar(basePlugin.getMiniMessage().parse(text));
     }
 
-    public BukkitTask sendActionBar(@NonNull Player player, @NonNull int durationSeconds, @NonNull String text) {
+    public BukkitTask sendActionBar(@NonNull Player player, int durationSeconds, @NonNull String text) {
         BukkitTask task = Bukkit.getScheduler().runTaskTimerAsynchronously(basePlugin, () -> {
             sendActionBar(player, text);
         }, 0, 20L * 2);
