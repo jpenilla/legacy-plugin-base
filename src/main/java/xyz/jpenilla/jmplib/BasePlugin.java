@@ -15,12 +15,24 @@ public abstract class BasePlugin extends JavaPlugin {
     @Getter private JMPLibPAPIHook papi = null;
     @Getter private JMPLibPrismaHook prisma = null;
     @Getter private BukkitAudiences audience = null;
-    @Getter private MiniMessage miniMessage;
     @Getter private ConversationFactory conversationFactory;
     @Getter private boolean isPaperServer;
     @Getter private String serverPackageName;
     @Getter private String serverApiVersion;
     @Getter private int majorMinecraftVersion;
+    @Getter private final MiniMessage miniMessage;
+
+    public BasePlugin() {
+        super();
+        this.miniMessage = MiniMessage.get();
+
+        try {
+            Class.forName("com.destroystokyo.paper.PaperConfig");
+            isPaperServer = true;
+        } catch (ClassNotFoundException e) {
+            isPaperServer = false;
+        }
+    }
 
     @Override
     public final void onEnable() {
@@ -31,15 +43,7 @@ public abstract class BasePlugin extends JavaPlugin {
         majorMinecraftVersion = Integer.parseInt(serverApiVersion.split("_")[1]);
 
         this.audience = BukkitAudiences.create(this);
-        this.miniMessage = MiniMessage.get();
         this.conversationFactory = new ConversationFactory(this);
-
-        try {
-            Class.forName("com.destroystokyo.paper.PaperConfig");
-            isPaperServer = true;
-        } catch (ClassNotFoundException e) {
-            isPaperServer = false;
-        }
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             this.papi = new JMPLibPAPIHook();
@@ -50,7 +54,7 @@ public abstract class BasePlugin extends JavaPlugin {
 
         this.chat = new Chat(this);
 
-        onPluginEnable();
+        this.onPluginEnable();
     }
 
     public abstract void onPluginEnable();
