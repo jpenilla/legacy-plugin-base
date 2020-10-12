@@ -24,10 +24,11 @@ repositories {
 dependencies {
     annotationProcessor("org.projectlombok", "lombok", "1.18.12")
 
-    api("com.github.jmanpenilla", "adventure-text-minimessage", "918595ff89")
-    api("net.kyori", "adventure-platform-bukkit", "4.0.0-SNAPSHOT")
-    api("net.kyori", "adventure-text-feature-pagination", "4.0.0-SNAPSHOT")
-    api("net.kyori", "adventure-text-serializer-gson", "4.0.0-SNAPSHOT") {
+    val adventureVersion = "4.0.0-SNAPSHOT"
+    api("net.kyori", "adventure-text-minimessage", adventureVersion)
+    api("net.kyori", "adventure-platform-bukkit", adventureVersion)
+    api("net.kyori", "adventure-text-feature-pagination", adventureVersion)
+    api("net.kyori", "adventure-text-serializer-gson", adventureVersion) {
         exclude("com.google.code.gson", "gson")
     }
 
