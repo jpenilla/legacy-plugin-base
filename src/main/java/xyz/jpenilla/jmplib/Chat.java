@@ -1,6 +1,7 @@
 package xyz.jpenilla.jmplib;
 
 import lombok.NonNull;
+import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
@@ -94,7 +95,7 @@ public class Chat {
     }
 
     public void broadcast(@NonNull String message) {
-        basePlugin.getAudience().players().sendMessage(basePlugin.getMiniMessage().parse(message));
+        basePlugin.getAudience().players().sendMessage(Identity.nil(), basePlugin.getMiniMessage().parse(message));
     }
 
     public void broadcast(@NonNull List<String> messages) {
@@ -105,9 +106,9 @@ public class Chat {
 
     public void send(@NonNull CommandSender sender, @NonNull Component component) {
         if (sender instanceof Player) {
-            basePlugin.getAudience().player((Player) sender).sendMessage(component);
+            basePlugin.getAudience().player((Player) sender).sendMessage(Identity.nil(), component);
         } else {
-            basePlugin.getAudience().console().sendMessage(component);
+            basePlugin.getAudience().console().sendMessage(Identity.nil(), component);
         }
     }
 
