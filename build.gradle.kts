@@ -27,9 +27,13 @@ dependencies {
     val adventureVersion = "4.0.0"
     api("net.kyori", "adventure-api", adventureVersion)
     api("net.kyori", "adventure-text-minimessage", "4.0.0-SNAPSHOT")
-    api("net.kyori", "adventure-platform-bukkit", "4.0.0-SNAPSHOT")
     api("net.kyori", "adventure-text-feature-pagination", "4.0.0-SNAPSHOT")
-    api("net.kyori", "adventure-text-serializer-gson", "4.0.0-SNAPSHOT")
+    api("net.kyori", "adventure-platform-bukkit", "4.0.0-SNAPSHOT") {
+        exclude("com.google.code.gson", "gson")
+    }
+    api("net.kyori", "adventure-text-serializer-gson", "4.0.0-SNAPSHOT") {
+        exclude("com.google.code.gson", "gson")
+    }
 
     compileOnly("org.checkerframework", "checker-qual", "3.5.0")
     compileOnly("org.projectlombok", "lombok", "1.18.12")
