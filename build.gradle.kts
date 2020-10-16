@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    annotationProcessor("org.projectlombok", "lombok", "1.18.12")
+    annotationProcessor("org.projectlombok", "lombok", "1.18.16")
 
     val adventureVersion = "4.0.1"
     api("net.kyori", "adventure-api", adventureVersion)
@@ -44,14 +44,6 @@ dependencies {
 
 publishing {
     repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/jmanpenilla/jmplib")
-            credentials {
-                username = System.getenv("USERNAME")
-                password = System.getenv("TOKEN")
-            }
-        }
         maven {
             name = "Repo"
             url = uri("https://repo.jpenilla.xyz/snapshots")
