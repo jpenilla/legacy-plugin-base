@@ -24,7 +24,7 @@ repositories {
 dependencies {
     annotationProcessor("org.projectlombok", "lombok", "1.18.12")
 
-    val adventureVersion = "4.0.0"
+    val adventureVersion = "4.0.1"
     api("net.kyori", "adventure-api", adventureVersion)
     api("net.kyori", "adventure-text-minimessage", "4.0.0-SNAPSHOT")
     api("net.kyori", "adventure-text-feature-pagination", "4.0.0-SNAPSHOT")
