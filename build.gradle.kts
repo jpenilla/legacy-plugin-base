@@ -24,14 +24,14 @@ repositories {
 dependencies {
     annotationProcessor("org.projectlombok", "lombok", "1.18.16")
 
-    val adventureVersion = "4.0.1"
+    val adventureVersion = "4.1.0"
     api("net.kyori", "adventure-api", adventureVersion)
     api("net.kyori", "adventure-text-minimessage", "4.0.0-SNAPSHOT")
     api("net.kyori", "adventure-text-feature-pagination", "4.0.0-SNAPSHOT")
     api("net.kyori", "adventure-platform-bukkit", "4.0.0-SNAPSHOT") {
         exclude("com.google.code.gson", "gson")
     }
-    api("net.kyori", "adventure-text-serializer-gson", "4.0.0-SNAPSHOT") {
+    api("net.kyori", "adventure-text-serializer-gson", adventureVersion) {
         exclude("com.google.code.gson", "gson")
     }
 
@@ -54,7 +54,7 @@ publishing {
         }
     }
     publications {
-        create<MavenPublication>("maven") {
+        create<MavenPublication>("maven") {//todo try putting back github packages
             groupId = project.group.toString()
             artifactId = projectName
             version = project.version.toString()
