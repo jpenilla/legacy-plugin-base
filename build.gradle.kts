@@ -26,12 +26,19 @@ dependencies {
 
     val adventureVersion = "4.2.0"
     api("net.kyori", "adventure-api", adventureVersion)
+    api("net.kyori", "adventure-text-serializer-gson", adventureVersion) {
+        exclude("com.google.code.gson", "gson")
+    }
+    api("net.kyori", "adventure-text-serializer-legacy", adventureVersion) {
+        exclude("com.google.code.gson", "gson")
+    }
+
     api("net.kyori", "adventure-text-minimessage", "4.0.0-SNAPSHOT")
     api("net.kyori", "adventure-text-feature-pagination", "4.0.0-SNAPSHOT")
     api("net.kyori", "adventure-platform-bukkit", "4.0.0-SNAPSHOT") {
         exclude("com.google.code.gson", "gson")
     }
-    api("net.kyori", "adventure-text-serializer-gson", adventureVersion) {
+    api("net.kyori", "adventure-text-serializer-bungeecord", "4.0.0-SNAPSHOT") {
         exclude("com.google.code.gson", "gson")
     }
 
