@@ -9,6 +9,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import xyz.jpenilla.jmplib.compatability.JMPLibPAPIHook;
 import xyz.jpenilla.jmplib.compatability.JMPLibPrismaHook;
 
+import java.nio.file.Path;
+
 public abstract class BasePlugin extends JavaPlugin {
     @Getter private static BasePlugin basePlugin;
     @Getter private Chat chat;
@@ -17,10 +19,11 @@ public abstract class BasePlugin extends JavaPlugin {
     @Getter private BukkitAudiences audience = null;
     @Getter private ConversationFactory conversationFactory;
     @Getter private boolean isPaperServer;
-    @Getter private String serverPackageName;
-    @Getter private String serverApiVersion;
-    @Getter private int majorMinecraftVersion;
+    @Getter private final String serverPackageName;
+    @Getter private final String serverApiVersion;
+    @Getter private final int majorMinecraftVersion;
     @Getter private final MiniMessage miniMessage;
+    @Getter private Path dataPath;
 
     public BasePlugin() {
         super();
@@ -28,20 +31,21 @@ public abstract class BasePlugin extends JavaPlugin {
 
         try {
             Class.forName("com.destroystokyo.paper.PaperConfig");
-            isPaperServer = true;
+            this.isPaperServer = true;
         } catch (ClassNotFoundException e) {
-            isPaperServer = false;
+            this.isPaperServer = false;
         }
+
+        this.serverPackageName = this.getServer().getClass().getPackage().getName();
+        this.serverApiVersion = this.serverPackageName.substring(this.serverPackageName.lastIndexOf('.') + 1);
+        this.majorMinecraftVersion = Integer.parseInt(this.serverApiVersion.split("_")[1]);
     }
 
     @Override
     public final void onEnable() {
         basePlugin = this;
 
-        serverPackageName = this.getServer().getClass().getPackage().getName();
-        serverApiVersion = serverPackageName.substring(serverPackageName.lastIndexOf('.') + 1);
-        majorMinecraftVersion = Integer.parseInt(serverApiVersion.split("_")[1]);
-
+        this.dataPath = getDataFolder().toPath();
         this.audience = BukkitAudiences.create(this);
         this.conversationFactory = new ConversationFactory(this);
 
