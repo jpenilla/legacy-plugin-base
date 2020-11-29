@@ -33,7 +33,7 @@ dependencies {
         exclude("com.google.code.gson", "gson")
     }
 
-    api("net.kyori", "adventure-text-minimessage", "4.0.0-SNAPSHOT")
+    api("net.kyori", "adventure-text-minimessage", "4.1.0-SNAPSHOT")
     api("net.kyori", "adventure-text-feature-pagination", "4.0.0-SNAPSHOT")
     api("net.kyori", "adventure-platform-bukkit", "4.0.0-SNAPSHOT") {
         exclude("com.google.code.gson", "gson")
