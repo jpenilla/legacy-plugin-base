@@ -15,6 +15,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Chat message sending utilities
@@ -23,7 +24,7 @@ import java.util.*;
  */
 public class Chat {
     private final BasePlugin basePlugin;
-    private final HashMap<String, String> centeredTempReplacements = new HashMap<>();
+    private final Map<String, String> centeredTempReplacements = new HashMap<>();
 
     public Chat(BasePlugin plugin) {
         centeredTempReplacements.put("<bold>", "§l");
@@ -67,7 +68,7 @@ public class Chat {
 
     public void playSounds(@NonNull Player player, boolean randomize, @NonNull String... sounds) {
         if (randomize) {
-            playSound(player, sounds[new Random().nextInt(sounds.length)]);
+            playSound(player, sounds[ThreadLocalRandom.current().nextInt(sounds.length)]);
         } else {
             for (String sound : sounds) {
                 playSound(player, sound);
