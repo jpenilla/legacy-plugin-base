@@ -1,44 +1,34 @@
 package xyz.jpenilla.jmplib;
 
-import lombok.Getter;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import xyz.jpenilla.jmplib.compatability.JMPLibPAPIHook;
 import xyz.jpenilla.jmplib.compatability.JMPLibPrismaHook;
 
 import java.nio.file.Path;
 
 public abstract class BasePlugin extends JavaPlugin {
-    @Getter private static BasePlugin basePlugin;
-    @Getter private Chat chat;
-    @Getter private JMPLibPAPIHook papi = null;
-    @Getter private JMPLibPrismaHook prisma = null;
-    @Getter private BukkitAudiences audience = null;
-    @Getter private ConversationFactory conversationFactory;
-    @Getter private boolean isPaperServer;
-    @Getter private final String serverPackageName;
-    @Getter private final String serverApiVersion;
-    @Getter private final int majorMinecraftVersion;
-    @Getter private final MiniMessage miniMessage;
-    @Getter private Path dataPath;
+    private static BasePlugin basePlugin;
+    private Chat chat;
+    private JMPLibPAPIHook papi = null;
+    private JMPLibPrismaHook prisma = null;
+    private BukkitAudiences audiences;
+    private ConversationFactory conversationFactory;
+    private final MiniMessage miniMessage;
+    private Path dataPath;
 
     public BasePlugin() {
         super();
         this.miniMessage = MiniMessage.get();
+    }
 
-        try {
-            Class.forName("com.destroystokyo.paper.PaperConfig");
-            this.isPaperServer = true;
-        } catch (ClassNotFoundException e) {
-            this.isPaperServer = false;
-        }
-
-        this.serverPackageName = this.getServer().getClass().getPackage().getName();
-        this.serverApiVersion = this.serverPackageName.substring(this.serverPackageName.lastIndexOf('.') + 1);
-        this.majorMinecraftVersion = Integer.parseInt(this.serverApiVersion.split("_")[1]);
+    public static BasePlugin getBasePlugin() {
+        return BasePlugin.basePlugin;
     }
 
     @Override
@@ -46,7 +36,7 @@ public abstract class BasePlugin extends JavaPlugin {
         basePlugin = this;
 
         this.dataPath = getDataFolder().toPath();
-        this.audience = BukkitAudiences.create(this);
+        this.audiences = BukkitAudiences.create(this);
         this.conversationFactory = new ConversationFactory(this);
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
@@ -62,4 +52,32 @@ public abstract class BasePlugin extends JavaPlugin {
     }
 
     public abstract void onPluginEnable();
+
+    public @NonNull Chat chat() {
+        return this.chat;
+    }
+
+    public @Nullable JMPLibPAPIHook papiHook() {
+        return this.papi;
+    }
+
+    public @Nullable JMPLibPrismaHook prismaHook() {
+        return this.prisma;
+    }
+
+    public @NonNull BukkitAudiences audiences() {
+        return this.audiences;
+    }
+
+    public @NonNull ConversationFactory conversationFactory() {
+        return this.conversationFactory;
+    }
+
+    public @NonNull MiniMessage miniMessage() {
+        return this.miniMessage;
+    }
+
+    public @NonNull Path dataPath() {
+        return this.dataPath;
+    }
 }

@@ -40,8 +40,8 @@ public class Chat {
      * @return The parsed message
      */
     public String papiParse(@Nullable Player player, @NonNull String message) {
-        if (player != null && basePlugin.getPapi() != null) {
-            return basePlugin.getPapi().translate(player, message);
+        if (player != null && basePlugin.papiHook() != null) {
+            return basePlugin.papiHook().translate(player, message);
         } else {
             return message;
         }
@@ -55,7 +55,7 @@ public class Chat {
      * @return The parsed messages
      */
     public List<String> papiParse(@Nullable Player player, @NonNull List<String> messages) {
-        if (player != null && basePlugin.getPapi() != null) {
+        if (player != null && basePlugin.papiHook() != null) {
             ArrayList<String> l = new ArrayList<>();
             for (String m : messages) {
                 l.add(papiParse(player, m));
@@ -82,7 +82,7 @@ public class Chat {
     }
 
     public void playSound(@NonNull Player player, @NonNull String sound) {
-        basePlugin.getAudience().player(player).playSound(Sound.sound(Key.key(sound), Sound.Source.MASTER, 1.0f, 1.0f));
+        basePlugin.audiences().player(player).playSound(Sound.sound(Key.key(sound), Sound.Source.MASTER, 1.0f, 1.0f));
     }
 
     public void sendParsed(@NonNull CommandSender sender, @NonNull List<String> messages) {
@@ -96,7 +96,7 @@ public class Chat {
     }
 
     public void broadcast(@NonNull String message) {
-        basePlugin.getAudience().players().sendMessage(Identity.nil(), basePlugin.getMiniMessage().parse(message));
+        basePlugin.audiences().players().sendMessage(Identity.nil(), basePlugin.miniMessage().parse(message));
     }
 
     public void broadcast(@NonNull List<String> messages) {
@@ -107,9 +107,9 @@ public class Chat {
 
     public void send(@NonNull CommandSender sender, @NonNull Component component) {
         if (sender instanceof Player) {
-            basePlugin.getAudience().player((Player) sender).sendMessage(Identity.nil(), component);
+            basePlugin.audiences().player((Player) sender).sendMessage(Identity.nil(), component);
         } else {
-            basePlugin.getAudience().console().sendMessage(Identity.nil(), component);
+            basePlugin.audiences().console().sendMessage(Identity.nil(), component);
         }
     }
 
@@ -142,12 +142,12 @@ public class Chat {
     }
 
     public void send(@NonNull CommandSender sender, @NonNull String message) {
-        send(sender, basePlugin.getMiniMessage().parse(message));
+        send(sender, basePlugin.miniMessage().parse(message));
     }
 
     public Title getTitle(@NonNull String title, @NonNull String subTitle, @NonNull ChronoUnit fadeInTimeUnit, int fadeInTime, @NonNull ChronoUnit stayTimeUnit, int stayTime, @NonNull ChronoUnit fadeOutTimeUnit, int fadeOutTime) {
-        final Component titleComponent = basePlugin.getMiniMessage().parse(title);
-        final Component subTitleComponent = basePlugin.getMiniMessage().parse(subTitle);
+        final Component titleComponent = basePlugin.miniMessage().parse(title);
+        final Component subTitleComponent = basePlugin.miniMessage().parse(subTitle);
         return Title.title(titleComponent, subTitleComponent, Title.Times.of(Duration.of(fadeInTime, fadeInTimeUnit), Duration.of(stayTime, stayTimeUnit), Duration.of(fadeOutTime, fadeOutTimeUnit)));
     }
 
@@ -160,11 +160,11 @@ public class Chat {
     }
 
     public void showTitle(@NonNull Player player, @NonNull Title title) {
-        basePlugin.getAudience().player(player).showTitle(title);
+        basePlugin.audiences().player(player).showTitle(title);
     }
 
     public void sendActionBar(@NonNull Player player, @NonNull String text) {
-        basePlugin.getAudience().player(player).sendActionBar(basePlugin.getMiniMessage().parse(text));
+        basePlugin.audiences().player(player).sendActionBar(basePlugin.miniMessage().parse(text));
     }
 
     public BukkitTask sendActionBar(@NonNull Player player, int durationSeconds, @NonNull String text) {
@@ -183,7 +183,7 @@ public class Chat {
      */
     public String getCenteredSpacePrefix(@NonNull String message) {
         String specialMessage = TextUtil.replacePlaceholders(message, centeredTempReplacements, false);
-        return LegacyChat.getCenteredSpacePrefix(basePlugin.getMiniMessage().stripTokens(specialMessage));
+        return LegacyChat.getCenteredSpacePrefix(basePlugin.miniMessage().stripTokens(specialMessage));
     }
 
     /**
@@ -220,8 +220,8 @@ public class Chat {
      */
     public String parse(@Nullable Player player, @NonNull String message, @Nullable Map<String, String> placeholders) {
         String finalMessage = TextUtil.replacePlaceholders(message, placeholders);
-        if (basePlugin.getPrisma() != null) {
-            finalMessage = basePlugin.getPrisma().translate(finalMessage);
+        if (basePlugin.prismaHook() != null) {
+            finalMessage = basePlugin.prismaHook().translate(finalMessage);
         }
         return papiParse(player, finalMessage);
     }

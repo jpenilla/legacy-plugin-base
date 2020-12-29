@@ -27,7 +27,7 @@ import java.util.Map;
 public class ItemBuilder {
     private static final BungeeComponentSerializer serializer = BungeeComponentSerializer.get();
     private static final MiniMessage miniMessage = MiniMessage.get();
-    private final boolean hasComponentApi = BasePlugin.getBasePlugin().isPaperServer() && BasePlugin.getBasePlugin().getMajorMinecraftVersion() > 15;
+    private final boolean hasComponentApi = Environment.paper() && Environment.majorMinecraftVersion() >= 16;
 
     private final ItemStack itemStack;
 

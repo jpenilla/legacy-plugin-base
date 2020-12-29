@@ -47,7 +47,7 @@ public class InputConversation {
     }
 
     public void start(Player player) {
-        Conversation conversation = BasePlugin.getBasePlugin().getConversationFactory()
+        Conversation conversation = BasePlugin.getBasePlugin().conversationFactory()
                 .withFirstPrompt(new StringPrompt() {
                     @Override
                     public @NonNull String getPromptText(@NonNull ConversationContext conversationContext) {

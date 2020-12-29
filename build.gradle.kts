@@ -44,7 +44,7 @@ dependencies {
 
     compileOnly("org.checkerframework", "checker-qual", "3.5.0")
     compileOnly("org.projectlombok", "lombok", "1.18.12")
-    compileOnly("com.destroystokyo.paper", "paper-api", "1.16.3-R0.1-SNAPSHOT")
+    compileOnly("com.destroystokyo.paper", "paper-api", "1.16.4-R0.1-SNAPSHOT")
     compileOnly("me.clip", "placeholderapi", "2.10.9")
     compileOnly("com.github.DiamondDagger590", "Prisma", "a622d01b80")
 }
