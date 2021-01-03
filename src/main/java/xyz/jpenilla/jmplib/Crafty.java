@@ -26,6 +26,7 @@ package xyz.jpenilla.jmplib;
 import org.bukkit.Bukkit;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.common.reflection.qual.ForName;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -188,6 +189,59 @@ public final class Crafty {
     }
 
     /**
+     * Gets a class field if possible and makes it accessible.
+     *
+     * @param holderClass a class
+     * @param fieldName a field name
+     * @return an accessible field
+     */
+    public static @Nullable Field findField(final @Nullable Class<?> holderClass, final @NonNull String fieldName) {
+        if(holderClass == null) return null;
+
+        final Field field;
+        try {
+            field = holderClass.getDeclaredField(fieldName);
+        } catch(final NoSuchFieldException ex) {
+            return null;
+        }
+
+        field.setAccessible(true);
+        return field;
+    }
+
+    /**
+     * Return a method handle that can set the value of the provided field.
+     *
+     * @param field the field to set
+     * @return a handle, if accessible
+     */
+    public static @Nullable MethodHandle findSetterOf(final @Nullable Field field) {
+        if(field == null) return null;
+
+        try {
+            return LOOKUP.unreflectSetter(field);
+        } catch(final IllegalAccessException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Return a method handle that can get the value of the provided field.
+     *
+     * @param field the field to get
+     * @return a handle, if accessible
+     */
+    public static @Nullable MethodHandle findGetterOf(final @Nullable Field field) {
+        if(field == null) return null;
+
+        try {
+            return LOOKUP.unreflectGetter(field);
+        } catch(final IllegalAccessException e) {
+            return null;
+        }
+    }
+
+    /**
      * Gets an enum value.
      *
      * @param enumClass an enum class
@@ -248,6 +302,7 @@ public final class Crafty {
      * @param className a class name, without the {@code org.bukkit.craftbukkit} prefix
      * @return a class or {@code null} if not found
      */
+    @ForName
     public static @Nullable Class<?> findCraftClass(final @NonNull String className) {
         final String craftClassName = findCraftClassName(className);
         if(craftClassName == null) {
@@ -261,8 +316,11 @@ public final class Crafty {
      * Gets a {@code org.bukkit.craftbukkit} class.
      *
      * @param className a class name, without the {@code org.bukkit.craftbukkit} prefix
+     * @param superClass a super class
      * @return a class or {@code null} if not found
+     * @param <T> a super type
      */
+    @ForName
     public static <T> @Nullable Class<? extends T> findCraftClass(final @NonNull String className, final @NonNull Class<T> superClass) {
         final Class<?> craftClass = findCraftClass(className);
         if(craftClass == null || !requireNonNull(superClass, "superClass").isAssignableFrom(craftClass)) {
@@ -278,6 +336,7 @@ public final class Crafty {
      * @return a class
      * @throws NullPointerException if the class was not found
      */
+    @ForName
     public static @NonNull Class<?> needCraftClass(final @NonNull String className) {
         return requireNonNull(findCraftClass(className), "Could not find org.bukkit.craftbukkit class " + className);
     }
@@ -298,6 +357,7 @@ public final class Crafty {
      * @param className a class name, without the {@code net.minecraft.server} prefix
      * @return a class name or {@code null} if not found
      */
+    @ForName
     public static @Nullable Class<?> findNmsClass(final @NonNull String className) {
         final String nmsClassName = findNmsClassName(className);
         if(nmsClassName == null) {
@@ -314,6 +374,7 @@ public final class Crafty {
      * @return a class
      * @throws NullPointerException if the class was not found
      */
+    @ForName
     public static @NonNull Class<?> needNmsClass(final @NonNull String className) {
         return requireNonNull(findNmsClass(className), "Could not find net.minecraft.server class " + className);
     }
