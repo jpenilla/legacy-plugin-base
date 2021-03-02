@@ -38,7 +38,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * Reflection utilities for accessing {@code net.minecraft.server}.
  *
- * <p>Use at your own risk!</p>
+ * <p>This is not an official API and can break at any time. You've been warned.</p>
  */
 public final class Crafty {
     private Crafty() {
@@ -52,9 +52,9 @@ public final class Crafty {
 
     static {
         final Class<?> serverClass = Bukkit.getServer().getClass(); // TODO: use reflection here too?
-        if(!serverClass.getSimpleName().equals(CRAFT_SERVER)) {
+        if (!serverClass.getSimpleName().equals(CRAFT_SERVER)) {
             VERSION = null;
-        } else if(serverClass.getName().equals(PREFIX_CRAFTBUKKIT + "." + CRAFT_SERVER)) {
+        } else if (serverClass.getName().equals(PREFIX_CRAFTBUKKIT + "." + CRAFT_SERVER)) {
             VERSION = ".";
         } else {
             String name = serverClass.getName();
@@ -70,10 +70,11 @@ public final class Crafty {
      * @param className a class name
      * @return a class or {@code null} if not found
      */
+    @ForName
     public static @Nullable Class<?> findClass(final @NonNull String className) {
         try {
             return Class.forName(className);
-        } catch(final ClassNotFoundException e) {
+        } catch (final ClassNotFoundException e) {
             return null;
         }
     }
@@ -91,21 +92,21 @@ public final class Crafty {
     /**
      * Gets a handle for a class method.
      *
-     * @param holderClass a class
-     * @param methodName a method name
-     * @param returnClass a method return class
+     * @param holderClass      a class
+     * @param methodName       a method name
+     * @param returnClass      a method return class
      * @param parameterClasses an array of method parameter classes
      * @return a method handle or {@code null} if not found
      */
     public static @Nullable MethodHandle findMethod(final @Nullable Class<?> holderClass, final String methodName, final @Nullable Class<?> returnClass, final Class<?>... parameterClasses) {
-        if(holderClass == null || returnClass == null) return null;
-        for(final Class<?> parameterClass : parameterClasses) {
-            if(parameterClass == null) return null;
+        if (holderClass == null || returnClass == null) return null;
+        for (final Class<?> parameterClass : parameterClasses) {
+            if (parameterClass == null) return null;
         }
 
         try {
             return LOOKUP.findVirtual(holderClass, methodName, MethodType.methodType(returnClass, parameterClasses));
-        } catch(final NoSuchMethodException | IllegalAccessException e) {
+        } catch (final NoSuchMethodException | IllegalAccessException e) {
             return null;
         }
     }
@@ -113,21 +114,21 @@ public final class Crafty {
     /**
      * Gets a handle for a class method.
      *
-     * @param holderClass a class
-     * @param methodName a method name
-     * @param returnClass a method return class
+     * @param holderClass      a class
+     * @param methodName       a method name
+     * @param returnClass      a method return class
      * @param parameterClasses an array of method parameter classes
      * @return a method handle or {@code null} if not found
      */
     public static @Nullable MethodHandle findStaticMethod(final @Nullable Class<?> holderClass, final String methodName, final @Nullable Class<?> returnClass, final Class<?>... parameterClasses) {
-        if(holderClass == null || returnClass == null) return null;
-        for(final Class<?> parameterClass : parameterClasses) {
-            if(parameterClass == null) return null;
+        if (holderClass == null || returnClass == null) return null;
+        for (final Class<?> parameterClass : parameterClasses) {
+            if (parameterClass == null) return null;
         }
 
         try {
             return LOOKUP.findStatic(holderClass, methodName, MethodType.methodType(returnClass, parameterClasses));
-        } catch(final NoSuchMethodException | IllegalAccessException e) {
+        } catch (final NoSuchMethodException | IllegalAccessException e) {
             return null;
         }
     }
@@ -136,20 +137,39 @@ public final class Crafty {
      * Gets whether a class has a method.
      *
      * @param holderClass a class
-     * @param methodName a method name
+     * @param name        a method name
+     * @param type        the field type
+     * @return if the method exists
+     */
+    public static boolean hasField(final @Nullable Class<?> holderClass, final String name, final Class<?> type) {
+        if (holderClass == null) return false;
+
+        try {
+            final Field field = holderClass.getDeclaredField(name);
+            return field.getType() == type;
+        } catch (final NoSuchFieldException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Gets whether a class has a method.
+     *
+     * @param holderClass      a class
+     * @param methodName       a method name
      * @param parameterClasses an array of method parameter classes
      * @return if the method exists
      */
     public static boolean hasMethod(final @Nullable Class<?> holderClass, final String methodName, final Class<?>... parameterClasses) {
-        if(holderClass == null) return false;
-        for(final Class<?> parameterClass : parameterClasses) {
-            if(parameterClass == null) return false;
+        if (holderClass == null) return false;
+        for (final Class<?> parameterClass : parameterClasses) {
+            if (parameterClass == null) return false;
         }
 
         try {
             holderClass.getMethod(methodName, parameterClasses);
             return true;
-        } catch(final NoSuchMethodException e) {
+        } catch (final NoSuchMethodException e) {
             return false;
         }
     }
@@ -157,19 +177,19 @@ public final class Crafty {
     /**
      * Gets a handle for a class constructor.
      *
-     * @param holderClass a class
+     * @param holderClass      a class
      * @param parameterClasses an array of method parameter classes
      * @return a method handle or {@code null} if not found
      */
     public static @Nullable MethodHandle findConstructor(final @Nullable Class<?> holderClass, final @Nullable Class<?>... parameterClasses) {
-        if(holderClass == null) return null;
-        for(final Class<?> parameterClass : parameterClasses) {
-            if(parameterClass == null) return null;
+        if (holderClass == null) return null;
+        for (final Class<?> parameterClass : parameterClasses) {
+            if (parameterClass == null) return null;
         }
 
         try {
             return LOOKUP.findConstructor(holderClass, MethodType.methodType(void.class, parameterClasses));
-        } catch(final NoSuchMethodException | IllegalAccessException e) {
+        } catch (final NoSuchMethodException | IllegalAccessException e) {
             return null;
         }
     }
@@ -178,7 +198,7 @@ public final class Crafty {
      * Gets a class field and makes it accessible.
      *
      * @param holderClass a class
-     * @param fieldName a field name
+     * @param fieldName   a field name
      * @return an accessible field
      * @throws NoSuchFieldException when thrown by {@link Class#getDeclaredField(String)}
      */
@@ -192,20 +212,35 @@ public final class Crafty {
      * Gets a class field if possible and makes it accessible.
      *
      * @param holderClass a class
-     * @param fieldName a field name
+     * @param fieldName   a field name
      * @return an accessible field
      */
     public static @Nullable Field findField(final @Nullable Class<?> holderClass, final @NonNull String fieldName) {
-        if(holderClass == null) return null;
+        return findField(holderClass, fieldName, null);
+    }
+
+    /**
+     * Gets a class field if it exists and is of the appropriate type and makes it accessible.
+     *
+     * @param holderClass a class
+     * @param fieldName   a field name
+     * @return an accessible field
+     */
+    public static @Nullable Field findField(final @Nullable Class<?> holderClass, final @NonNull String fieldName, final @Nullable Class<?> expectedType) {
+        if (holderClass == null) return null;
 
         final Field field;
         try {
             field = holderClass.getDeclaredField(fieldName);
-        } catch(final NoSuchFieldException ex) {
+        } catch (final NoSuchFieldException ex) {
             return null;
         }
 
         field.setAccessible(true);
+        if (expectedType != null && !expectedType.isAssignableFrom(field.getType())) {
+            return null;
+        }
+
         return field;
     }
 
@@ -216,11 +251,11 @@ public final class Crafty {
      * @return a handle, if accessible
      */
     public static @Nullable MethodHandle findSetterOf(final @Nullable Field field) {
-        if(field == null) return null;
+        if (field == null) return null;
 
         try {
             return LOOKUP.unreflectSetter(field);
-        } catch(final IllegalAccessException e) {
+        } catch (final IllegalAccessException e) {
             return null;
         }
     }
@@ -232,11 +267,11 @@ public final class Crafty {
      * @return a handle, if accessible
      */
     public static @Nullable MethodHandle findGetterOf(final @Nullable Field field) {
-        if(field == null) return null;
+        if (field == null) return null;
 
         try {
             return LOOKUP.unreflectGetter(field);
-        } catch(final IllegalAccessException e) {
+        } catch (final IllegalAccessException e) {
             return null;
         }
     }
@@ -245,7 +280,7 @@ public final class Crafty {
      * Gets an enum value.
      *
      * @param enumClass an enum class
-     * @param enumName an enum name
+     * @param enumName  an enum name
      * @return an enum value or {@code null} if not found
      */
     public static @Nullable Object findEnum(final @Nullable Class<?> enumClass, final @NonNull String enumName) {
@@ -255,21 +290,22 @@ public final class Crafty {
     /**
      * Gets an enum value.
      *
-     * @param enumClass an enum class
-     * @param enumName an enum name
+     * @param enumClass           an enum class
+     * @param enumName            an enum name
      * @param enumFallbackOrdinal an enum ordinal, when the name is not found
      * @return an enum value or {@code null} if not found
      */
+    @SuppressWarnings("unchecked")
     public static @Nullable Object findEnum(final @Nullable Class<?> enumClass, final @NonNull String enumName, final int enumFallbackOrdinal) {
-        if(enumClass == null || !Enum.class.isAssignableFrom(enumClass)) {
+        if (enumClass == null || !Enum.class.isAssignableFrom(enumClass)) {
             return null;
         }
 
         try {
             return Enum.valueOf(enumClass.asSubclass(Enum.class), enumName);
-        } catch(final IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             final Object[] constants = enumClass.getEnumConstants();
-            if(constants.length > enumFallbackOrdinal) {
+            if (constants.length > enumFallbackOrdinal) {
                 return constants[enumFallbackOrdinal];
             }
         }
@@ -305,7 +341,7 @@ public final class Crafty {
     @ForName
     public static @Nullable Class<?> findCraftClass(final @NonNull String className) {
         final String craftClassName = findCraftClassName(className);
-        if(craftClassName == null) {
+        if (craftClassName == null) {
             return null;
         }
 
@@ -315,15 +351,15 @@ public final class Crafty {
     /**
      * Gets a {@code org.bukkit.craftbukkit} class.
      *
-     * @param className a class name, without the {@code org.bukkit.craftbukkit} prefix
+     * @param className  a class name, without the {@code org.bukkit.craftbukkit} prefix
      * @param superClass a super class
+     * @param <T>        a super type
      * @return a class or {@code null} if not found
-     * @param <T> a super type
      */
     @ForName
     public static <T> @Nullable Class<? extends T> findCraftClass(final @NonNull String className, final @NonNull Class<T> superClass) {
         final Class<?> craftClass = findCraftClass(className);
-        if(craftClass == null || !requireNonNull(superClass, "superClass").isAssignableFrom(craftClass)) {
+        if (craftClass == null || !requireNonNull(superClass, "superClass").isAssignableFrom(craftClass)) {
             return null;
         }
         return craftClass.asSubclass(superClass);
@@ -360,7 +396,7 @@ public final class Crafty {
     @ForName
     public static @Nullable Class<?> findNmsClass(final @NonNull String className) {
         final String nmsClassName = findNmsClassName(className);
-        if(nmsClassName == null) {
+        if (nmsClassName == null) {
             return null;
         }
 
