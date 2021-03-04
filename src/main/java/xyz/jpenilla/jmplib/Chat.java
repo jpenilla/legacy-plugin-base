@@ -1,20 +1,24 @@
 package xyz.jpenilla.jmplib;
 
-import lombok.NonNull;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import xyz.jpenilla.jmplib.compatability.JMPLibPAPIHook;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -24,11 +28,8 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class Chat {
     private final BasePlugin basePlugin;
-    private final Map<String, String> centeredTempReplacements = new HashMap<>();
 
     public Chat(BasePlugin plugin) {
-        centeredTempReplacements.put("<bold>", "§l");
-        centeredTempReplacements.put("</bold>", "§r");
         basePlugin = plugin;
     }
 
@@ -40,8 +41,9 @@ public class Chat {
      * @return The parsed message
      */
     public String papiParse(@Nullable Player player, @NonNull String message) {
-        if (player != null && basePlugin.papiHook() != null) {
-            return basePlugin.papiHook().translate(player, message);
+        final JMPLibPAPIHook hook = basePlugin.papiHook();
+        if (player != null && hook != null) {
+            return hook.translate(player, message);
         } else {
             return message;
         }
@@ -168,9 +170,7 @@ public class Chat {
     }
 
     public BukkitTask sendActionBar(@NonNull Player player, int durationSeconds, @NonNull String text) {
-        BukkitTask task = Bukkit.getScheduler().runTaskTimerAsynchronously(basePlugin, () -> {
-            sendActionBar(player, text);
-        }, 0, 20L * 2);
+        final BukkitTask task = Bukkit.getScheduler().runTaskTimerAsynchronously(basePlugin, () -> sendActionBar(player, text), 0, 20L * 2);
         Bukkit.getScheduler().runTaskLaterAsynchronously(basePlugin, task::cancel, 20L * durationSeconds);
         return task;
     }
@@ -181,9 +181,8 @@ public class Chat {
      * @param message MiniMessage formatted message
      * @return String of spaces
      */
-    public String getCenteredSpacePrefix(@NonNull String message) {
-        String specialMessage = TextUtil.replacePlaceholders(message, centeredTempReplacements, false);
-        return LegacyChat.getCenteredSpacePrefix(basePlugin.miniMessage().stripTokens(specialMessage));
+    public static String getCenteredSpacePrefix(@NonNull String message) {
+        return ChatCentering.spacePrefix(MiniMessage.get().parse(message));
     }
 
     /**
@@ -192,7 +191,7 @@ public class Chat {
      * @param message MiniMessage formatted message
      * @return Centered MiniMessage
      */
-    public String getCenteredMessage(@NonNull String message) {
+    public static String getCenteredMessage(@NonNull String message) {
         return getCenteredSpacePrefix(message) + message;
     }
 
@@ -202,7 +201,7 @@ public class Chat {
      * @param messages List of MiniMessage Strings
      * @return Centered MiniMessage Strings
      */
-    public List<String> getCenteredMessage(@NonNull List<String> messages) {
+    public static List<String> getCenteredMessage(@NonNull List<String> messages) {
         ArrayList<String> l = new ArrayList<>();
         for (String message : messages) {
             l.add(getCenteredMessage(message));
@@ -219,11 +218,7 @@ public class Chat {
      * @return Parsed Message
      */
     public String parse(@Nullable Player player, @NonNull String message, @Nullable Map<String, String> placeholders) {
-        String finalMessage = TextUtil.replacePlaceholders(message, placeholders);
-        if (basePlugin.prismaHook() != null) {
-            finalMessage = basePlugin.prismaHook().translate(finalMessage);
-        }
-        return papiParse(player, finalMessage);
+        return papiParse(player, TextUtil.replacePlaceholders(message, placeholders));
     }
 
     /**

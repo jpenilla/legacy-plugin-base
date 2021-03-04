@@ -43,7 +43,6 @@ dependencies {
     compileOnly("org.checkerframework", "checker-qual", "3.11.0")
     compileOnly("com.destroystokyo.paper", "paper-api", "1.16.5-R0.1-SNAPSHOT")
     compileOnly("me.clip", "placeholderapi", "2.10.9")
-    compileOnly("com.github.DiamondDagger590", "Prisma", "a622d01b80")
     annotationProcessor(compileOnly("org.projectlombok", "lombok", "1.18.12"))
 }
 

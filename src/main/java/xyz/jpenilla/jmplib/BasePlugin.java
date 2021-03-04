@@ -8,7 +8,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import xyz.jpenilla.jmplib.compatability.JMPLibPAPIHook;
-import xyz.jpenilla.jmplib.compatability.JMPLibPrismaHook;
 
 import java.nio.file.Path;
 
@@ -16,7 +15,6 @@ public abstract class BasePlugin extends JavaPlugin {
     private static BasePlugin basePlugin;
     private Chat chat;
     private JMPLibPAPIHook papi = null;
-    private JMPLibPrismaHook prisma = null;
     private BukkitAudiences audiences;
     private ConversationFactory conversationFactory;
     private final MiniMessage miniMessage;
@@ -42,9 +40,6 @@ public abstract class BasePlugin extends JavaPlugin {
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             this.papi = new JMPLibPAPIHook();
         }
-        if (Bukkit.getPluginManager().isPluginEnabled("Prisma")) {
-            this.prisma = new JMPLibPrismaHook();
-        }
 
         this.chat = new Chat(this);
 
@@ -59,10 +54,6 @@ public abstract class BasePlugin extends JavaPlugin {
 
     public @Nullable JMPLibPAPIHook papiHook() {
         return this.papi;
-    }
-
-    public @Nullable JMPLibPrismaHook prismaHook() {
-        return this.prisma;
     }
 
     public @NonNull BukkitAudiences audiences() {
