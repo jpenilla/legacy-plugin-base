@@ -18,11 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>
- * Builder style class for ItemStacks
- * </p>
- *
- * @author jmp
+ * ItemStack builder
  */
 public class ItemBuilder {
     private static final BungeeComponentSerializer serializer = BungeeComponentSerializer.get();

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MiniMessageUtil {
     private static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer.builder().hexColors().useUnusualXRepeatedCharacterHexFormat().build();
-    private static final LegacyComponentSerializer DOWNSAMPLING_SERIALIZER = LegacyComponentSerializer.builder().build();
+    private static final LegacyComponentSerializer DOWNSAMPLING_SERIALIZER = LegacyComponentSerializer.legacySection();
     private static final MiniMessage miniMessage = MiniMessage.get();
 
     /**

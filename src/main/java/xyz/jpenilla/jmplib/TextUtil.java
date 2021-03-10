@@ -45,17 +45,16 @@ public class TextUtil {
     public static String replacePlaceholders(@NonNull String message, @Nullable Map<String, String> placeholders, boolean curlyBrackets) {
         if (placeholders == null) {
             return message;
-        } else {
-            String finalMessage = message;
-            for (Map.Entry<String, String> placeholder : placeholders.entrySet()) {
-                String key = placeholder.getKey();
-                if (curlyBrackets) {
-                    key = "{" + key + "}";
-                }
-                finalMessage = finalMessage.replace(key, placeholder.getValue());
-            }
-            return finalMessage;
         }
+        String finalMessage = message;
+        for (Map.Entry<String, String> placeholder : placeholders.entrySet()) {
+            String key = placeholder.getKey();
+            if (curlyBrackets) {
+                key = "{" + key + "}";
+            }
+            finalMessage = finalMessage.replace(key, placeholder.getValue());
+        }
+        return finalMessage;
     }
 
     /**
