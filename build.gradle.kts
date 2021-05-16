@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "xyz.jpenilla"
-version = "1.0.1+{BUILDID}-SNAPSHOT"
+version = "1.0.1+${System.getenv("GITHUB_RUN_NUMBER") ?: "local"}-SNAPSHOT"
 
 repositories {
     //mavenLocal()
