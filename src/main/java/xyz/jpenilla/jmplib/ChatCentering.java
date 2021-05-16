@@ -10,31 +10,38 @@ public final class ChatCentering {
 
     private final static int CENTER_PX = 154;
 
-    public static @NonNull String spacePrefix(final Component component) {
+    public static @NonNull String spacePrefix(final @NonNull Component component) {
         return spacePrefix(LegacyComponentSerializer.legacySection().serialize(component));
     }
 
-    public static @NonNull String spacePrefix(String legacyTextMessage) {
+    public static @NonNull String spacePrefix(final @NonNull String legacyTextMessage) {
+        return spacePrefix(measureLegacyText(legacyTextMessage));
+    }
+
+    private static int measureLegacyText(final @NonNull String legacyTextMessage) {
         int messagePxSize = 0;
         boolean previousCode = false;
         boolean isBold = false;
 
-        for (char c : legacyTextMessage.toCharArray()) {
+        for (final char c : legacyTextMessage.toCharArray()) {
             if (c == '§') {
                 previousCode = true;
             } else if (previousCode) {
                 previousCode = false;
                 isBold = c == 'l' || c == 'L';
             } else {
-                DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
-                messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
+                final DefaultFontInfo info = DefaultFontInfo.forCharacter(c);
+                messagePxSize += info.length(isBold);
                 messagePxSize++;
             }
         }
+        return messagePxSize;
+    }
 
-        int halvedMessageSize = messagePxSize / 2;
-        int toCompensate = CENTER_PX - halvedMessageSize;
-        int spaceLength = DefaultFontInfo.SPACE.getLength() + 1;
+    private static @NonNull String spacePrefix(final int messagePxSize) {
+        final int halvedMessageSize = messagePxSize / 2;
+        final int toCompensate = CENTER_PX - halvedMessageSize;
+        final int spaceLength = DefaultFontInfo.SPACE.length() + 1;
         int compensated = 0;
         StringBuilder sb = new StringBuilder();
         while (compensated < toCompensate) {
@@ -150,28 +157,32 @@ public final class ChatCentering {
             this.length = length;
         }
 
-        public static DefaultFontInfo getDefaultFontInfo(char c) {
+        public static DefaultFontInfo forCharacter(char c) {
             for (DefaultFontInfo dFI : DefaultFontInfo.values()) {
-                if (dFI.getCharacter() == c) {
+                if (dFI.character() == c) {
                     return dFI;
                 }
             }
             return DefaultFontInfo.DEFAULT;
         }
 
-        public char getCharacter() {
+        public char character() {
             return this.character;
         }
 
-        public int getLength() {
+        public int length() {
             return this.length;
         }
 
-        public int getBoldLength() {
+        public int boldLength() {
             if (this == DefaultFontInfo.SPACE) {
-                return this.getLength();
+                return this.length();
             }
             return this.length + 1;
+        }
+
+        public int length(final boolean bold) {
+            return bold ? this.boldLength() : this.length();
         }
     }
 }

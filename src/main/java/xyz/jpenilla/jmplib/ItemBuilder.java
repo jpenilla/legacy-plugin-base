@@ -1,7 +1,5 @@
 package xyz.jpenilla.jmplib;
 
-import lombok.Getter;
-import lombok.Setter;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
@@ -27,13 +25,7 @@ public class ItemBuilder {
 
     private final ItemStack itemStack;
 
-    /**
-     * The temporary {@link ItemMeta} store for the {@link ItemBuilder}
-     *
-     * @param meta The new {@link ItemMeta} to use for the Builder instance
-     * @return The {@link ItemMeta} of the Builder instance
-     */
-    @Getter @Setter private ItemMeta meta;
+    private ItemMeta meta;
 
     /**
      * ItemBuilder constructor from {@link Material}
@@ -222,5 +214,21 @@ public class ItemBuilder {
     public @NonNull ItemStack build() {
         itemStack.setItemMeta(meta);
         return itemStack;
+    }
+
+    public @NonNull ItemMeta getMeta() {
+        return this.meta;
+    }
+
+    public void setMeta(final @NonNull ItemMeta meta) {
+        this.meta = meta;
+    }
+
+    public @NonNull ItemMeta meta() {
+        return this.meta;
+    }
+
+    public void meta(final @NonNull ItemMeta meta) {
+        this.meta = meta;
     }
 }
