@@ -23,15 +23,15 @@
  */
 package xyz.jpenilla.jmplib;
 
-import org.bukkit.Bukkit;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.checkerframework.common.reflection.qual.ForName;
-
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import org.bukkit.Bukkit;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.common.reflection.qual.ForName;
 
 import static java.util.Objects.requireNonNull;
 
@@ -62,6 +62,27 @@ public final class Crafty {
             name = name.substring(0, name.length() - CRAFT_SERVER.length());
             VERSION = name;
         }
+    }
+
+    public static @NonNull Class<?> needNMSClassOrElse(
+            final @NonNull String nms,
+            final @NonNull String... classNames
+    ) throws RuntimeException {
+        final Class<?> nmsClass = findNmsClass(nms);
+        if (nmsClass != null) {
+            return nmsClass;
+        }
+        for (final String name : classNames) {
+            final Class<?> maybe = findClass(name);
+            if (maybe != null) {
+                return maybe;
+            }
+        }
+        throw new IllegalStateException(String.format(
+                "Couldn't find a class! NMS: '%s' or '%s'.",
+                nms,
+                Arrays.toString(classNames)
+        ));
     }
 
     /**
