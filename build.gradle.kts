@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    val adventureVersion = "4.7.0"
+    val adventureVersion = "4.8.0"
     api("net.kyori", "adventure-api", adventureVersion)
     api("net.kyori", "adventure-text-serializer-gson", adventureVersion) {
         exclude("com.google.code.gson", "gson")
