@@ -23,14 +23,14 @@
  */
 package xyz.jpenilla.jmplib;
 
+import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.checkerframework.checker.nullness.qual.NonNull;
-
-import java.util.UUID;
 
 /**
  * A library for the Bukkit API to create player skulls
@@ -50,6 +50,11 @@ public class SkullCreator {
     public static ItemStack itemFromUuid(UUID id) {
         ItemStack item = getPlayerSkullItem();
         return itemWithUuid(item, id);
+    }
+
+    public static ItemStack itemFromOfflinePlayer(final @NonNull OfflinePlayer player) {
+        final ItemStack item = getPlayerSkullItem();
+        return ItemBuilder.<SkullMeta>editMeta(item, meta -> meta.setOwningPlayer(player));
     }
 
     /**

@@ -1,8 +1,8 @@
 package xyz.jpenilla.jmplib;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 import java.util.UUID;
+import org.bukkit.OfflinePlayer;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class HeadBuilder extends ItemBuilder {
     /**
@@ -18,9 +18,15 @@ public class HeadBuilder extends ItemBuilder {
      * HeadBuilder constructor from Player {@link UUID} to get their head
      *
      * @param uuid the {@link UUID} of the player whose head we want
+     * @deprecated does a Bukkit.getOfflinePlayer lookup, use the OfflinePlayer variant instead to be more explicit about this behavior
      */
+    @Deprecated
     public HeadBuilder(@NonNull UUID uuid) {
         super(SkullCreator.itemFromUuid(uuid));
+    }
+
+    public HeadBuilder(@NonNull OfflinePlayer offlinePlayer) {
+        super(SkullCreator.itemFromOfflinePlayer(offlinePlayer));
     }
 
     /**

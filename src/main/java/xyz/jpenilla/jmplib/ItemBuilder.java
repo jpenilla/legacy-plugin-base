@@ -1,5 +1,10 @@
 package xyz.jpenilla.jmplib;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
@@ -9,11 +14,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.checkerframework.checker.nullness.qual.NonNull;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 /**
  * ItemStack builder
@@ -230,5 +230,23 @@ public class ItemBuilder {
 
     public void meta(final @NonNull ItemMeta meta) {
         this.meta = meta;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <I extends ItemMeta> @NonNull ItemBuilder editMeta(final @NonNull Consumer<I> consumer) {
+        final I meta = (I) this.meta();
+        consumer.accept(meta);
+        this.meta(meta);
+        return this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <I extends ItemMeta> @NonNull ItemStack editMeta(final @NonNull ItemStack stack, final @NonNull Consumer<I> consumer) {
+        if (stack.hasItemMeta()) {
+            final I meta = (I) stack.getItemMeta();
+            consumer.accept(meta);
+            stack.setItemMeta(meta);
+        }
+        return stack;
     }
 }
