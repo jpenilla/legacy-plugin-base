@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    val adventureVersion = "4.8.1"
+    val adventureVersion = "4.9.1"
     api("net.kyori", "adventure-api", adventureVersion)
     api("net.kyori", "adventure-text-serializer-gson", adventureVersion) {
         exclude("com.google.code.gson", "gson")
@@ -29,14 +29,14 @@ dependencies {
 
     api("net.kyori", "adventure-text-minimessage", "4.2.0-SNAPSHOT")
     api("net.kyori", "adventure-text-feature-pagination", "4.0.0-SNAPSHOT")
-    api("net.kyori", "adventure-platform-bukkit", "4.0.0-SNAPSHOT") {
+    api("net.kyori", "adventure-platform-bukkit", "4.0.0") {
         exclude("com.google.code.gson", "gson")
     }
-    api("net.kyori", "adventure-text-serializer-bungeecord", "4.0.0-SNAPSHOT") {
+    api("net.kyori", "adventure-text-serializer-bungeecord", "4.0.0") {
         exclude("com.google.code.gson", "gson")
     }
 
-    compileOnly("org.checkerframework", "checker-qual", "3.15.0")
+    compileOnly("org.checkerframework", "checker-qual", "3.18.0")
     compileOnly("com.destroystokyo.paper", "paper-api", "1.16.5-R0.1-SNAPSHOT")
     compileOnly("me.clip", "placeholderapi", "2.10.9")
 }
