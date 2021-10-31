@@ -20,7 +20,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  */
 public class ItemBuilder {
     private static final BungeeComponentSerializer serializer = BungeeComponentSerializer.get();
-    private static final MiniMessage miniMessage = MiniMessage.get();
+    private static final MiniMessage miniMessage = MiniMessage.miniMessage();
     private final boolean hasComponentApi = Environment.paper() && Environment.majorMinecraftVersion() >= 16;
 
     private final ItemStack itemStack;

@@ -6,6 +6,20 @@ plugins {
 group = "xyz.jpenilla"
 version = "1.0.1+${System.getenv("GITHUB_RUN_NUMBER") ?: "local"}-SNAPSHOT"
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+tasks {
+    withType<JavaCompile> {
+        options.encoding = Charsets.UTF_8.name()
+        options.release.set(8)
+        options.compilerArgs.addAll(listOf("-Xlint:deprecation"))
+    }
+}
+
 repositories {
     //mavenLocal()
     mavenCentral()
@@ -18,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    val adventureVersion = "4.9.2"
+    val adventureVersion = "4.9.3"
     api("net.kyori", "adventure-api", adventureVersion)
     api("net.kyori", "adventure-text-serializer-gson", adventureVersion) {
         exclude("com.google.code.gson", "gson")
@@ -29,21 +43,16 @@ dependencies {
 
     api("net.kyori", "adventure-text-minimessage", "4.2.0-SNAPSHOT")
     api("net.kyori", "adventure-text-feature-pagination", "4.0.0-SNAPSHOT")
-    api("net.kyori", "adventure-platform-bukkit", "4.0.0") {
+    api("net.kyori", "adventure-platform-bukkit", "4.0.1-SNAPSHOT") {
         exclude("com.google.code.gson", "gson")
     }
-    api("net.kyori", "adventure-text-serializer-bungeecord", "4.0.0") {
+    api("net.kyori", "adventure-text-serializer-bungeecord", "4.0.1-SNAPSHOT") {
         exclude("com.google.code.gson", "gson")
     }
 
-    compileOnly("org.checkerframework", "checker-qual", "3.18.0")
+    compileOnly("org.checkerframework", "checker-qual", "3.18.1")
     compileOnly("com.destroystokyo.paper", "paper-api", "1.16.5-R0.1-SNAPSHOT")
     compileOnly("me.clip", "placeholderapi", "2.10.9")
-}
-
-java {
-    sourceCompatibility = JavaVersion.toVersion(8)
-    targetCompatibility = JavaVersion.toVersion(8)
 }
 
 publishing {

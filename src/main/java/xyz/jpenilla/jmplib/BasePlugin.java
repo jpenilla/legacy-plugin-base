@@ -22,7 +22,7 @@ public abstract class BasePlugin extends JavaPlugin {
 
     public BasePlugin() {
         super();
-        this.miniMessage = MiniMessage.get();
+        this.miniMessage = MiniMessage.miniMessage();
     }
 
     public static BasePlugin getBasePlugin() {

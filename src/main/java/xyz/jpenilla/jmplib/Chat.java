@@ -182,7 +182,7 @@ public class Chat {
      * @return String of spaces
      */
     public static String getCenteredSpacePrefix(@NonNull String message) {
-        return ChatCentering.spacePrefix(MiniMessage.get().parse(message));
+        return ChatCentering.spacePrefix(MiniMessage.miniMessage().parse(message));
     }
 
     /**
