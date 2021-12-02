@@ -10,6 +10,7 @@ java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
+    disableAutoTargetJvm()
 }
 
 tasks {
@@ -43,15 +44,15 @@ dependencies {
 
     api("net.kyori", "adventure-text-minimessage", "4.2.0-SNAPSHOT")
     api("net.kyori", "adventure-text-feature-pagination", "4.0.0-SNAPSHOT")
-    api("net.kyori", "adventure-platform-bukkit", "4.0.1-SNAPSHOT") {
+    api("net.kyori", "adventure-platform-bukkit", "4.0.1") {
         exclude("com.google.code.gson", "gson")
     }
-    api("net.kyori", "adventure-text-serializer-bungeecord", "4.0.1-SNAPSHOT") {
+    api("net.kyori", "adventure-text-serializer-bungeecord", "4.0.1") {
         exclude("com.google.code.gson", "gson")
     }
 
-    compileOnly("org.checkerframework", "checker-qual", "3.18.1")
-    compileOnly("com.destroystokyo.paper", "paper-api", "1.16.5-R0.1-SNAPSHOT")
+    compileOnly("org.checkerframework", "checker-qual", "3.19.0")
+    compileOnly("io.papermc.paper", "paper-api", "1.18-R0.1-SNAPSHOT")
     compileOnly("me.clip", "placeholderapi", "2.10.9")
 }
 
