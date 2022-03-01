@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
@@ -57,6 +58,13 @@ public class ItemBuilder {
         return this;
     }
 
+    static Component removeItalics(final Component component) {
+        if (component.decoration(TextDecoration.ITALIC) == TextDecoration.State.NOT_SET) {
+            return component.decoration(TextDecoration.ITALIC, false);
+        }
+        return component;
+    }
+
     /**
      * Set the Display Name of the ItemStack using a MiniMessage string
      *
@@ -65,7 +73,7 @@ public class ItemBuilder {
      */
     public @NonNull ItemBuilder setName(String displayName) {
         if (hasComponentApi) {
-            meta.setDisplayNameComponent(serializer.serialize(miniMessage.parse(displayName).decoration(TextDecoration.ITALIC, false)));
+            meta.setDisplayNameComponent(serializer.serialize(removeItalics(miniMessage.deserialize(displayName))));
         } else {
             meta.setDisplayName(MiniMessageUtil.miniMessageToLegacy(displayName));
         }
@@ -82,11 +90,11 @@ public class ItemBuilder {
         if (hasComponentApi) {
             final List<BaseComponent[]> newLore = new ArrayList<>();
             for (String line : lore) {
-                newLore.add(serializer.serialize(miniMessage.parse(line).decoration(TextDecoration.ITALIC, false)));
+                newLore.add(serializer.serialize(removeItalics(miniMessage.deserialize(line))));
             }
             meta.setLoreComponents(newLore);
         } else {
-            meta.setLore(MiniMessageUtil.miniMessageToLegacy(Arrays.asList(lore)));
+            meta.setLore(MiniMessageUtil.miniMessageToLegacy(Arrays.asList(lore), true));
         }
         return this;
     }
@@ -102,7 +110,7 @@ public class ItemBuilder {
             final List<BaseComponent[]> newLore = meta.getLoreComponents();
             final List<BaseComponent[]> newLines = new ArrayList<>();
             for (String line : lore) {
-                newLines.add(serializer.serialize(miniMessage.parse(line).decoration(TextDecoration.ITALIC, false)));
+                newLines.add(serializer.serialize(removeItalics(miniMessage.deserialize(line))));
             }
             if (newLore != null) {
                 newLore.addAll(newLines);
@@ -113,7 +121,7 @@ public class ItemBuilder {
             return this;
         } else {
             final List<String> newLore = meta.getLore();
-            final List<String> newLines = MiniMessageUtil.miniMessageToLegacy(Arrays.asList(lore));
+            final List<String> newLines = MiniMessageUtil.miniMessageToLegacy(Arrays.asList(lore), true);
             if (newLore != null) {
                 newLore.addAll(newLines);
                 return setLore(newLore);

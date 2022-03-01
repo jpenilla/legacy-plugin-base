@@ -33,26 +33,26 @@ repositories {
 }
 
 dependencies {
-    val adventureVersion = "4.9.3"
-    api("net.kyori", "adventure-api", adventureVersion)
-    api("net.kyori", "adventure-text-serializer-gson", adventureVersion) {
+    api(platform("net.kyori:adventure-bom:4.10.0"))
+    api("net.kyori", "adventure-api")
+    api("net.kyori", "adventure-text-serializer-gson") {
         exclude("com.google.code.gson", "gson")
     }
-    api("net.kyori", "adventure-text-serializer-legacy", adventureVersion) {
+    api("net.kyori", "adventure-text-serializer-legacy") {
         exclude("com.google.code.gson", "gson")
     }
 
-    api("net.kyori", "adventure-text-minimessage", "4.2.0-SNAPSHOT")
+    api("net.kyori", "adventure-text-minimessage")
     api("net.kyori", "adventure-text-feature-pagination", "4.0.0-SNAPSHOT")
-    api("net.kyori", "adventure-platform-bukkit", "4.0.1") {
+    api("net.kyori", "adventure-platform-bukkit", "4.1.0") {
         exclude("com.google.code.gson", "gson")
     }
-    api("net.kyori", "adventure-text-serializer-bungeecord", "4.0.1") {
+    api("net.kyori", "adventure-text-serializer-bungeecord", "4.1.0") {
         exclude("com.google.code.gson", "gson")
     }
 
-    compileOnly("org.checkerframework", "checker-qual", "3.19.0")
-    compileOnly("io.papermc.paper", "paper-api", "1.18-R0.1-SNAPSHOT")
+    compileOnly("org.checkerframework", "checker-qual", "3.21.2")
+    compileOnly("io.papermc.paper", "paper-api", "1.18.1-R0.1-SNAPSHOT")
     compileOnly("me.clip", "placeholderapi", "2.10.9")
 }
 

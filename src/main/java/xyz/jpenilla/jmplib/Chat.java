@@ -1,5 +1,11 @@
 package xyz.jpenilla.jmplib;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
@@ -13,13 +19,6 @@ import org.bukkit.scheduler.BukkitTask;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import xyz.jpenilla.jmplib.compatability.JMPLibPAPIHook;
-
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Chat message sending utilities
@@ -98,7 +97,7 @@ public class Chat {
     }
 
     public void broadcast(@NonNull String message) {
-        basePlugin.audiences().players().sendMessage(Identity.nil(), basePlugin.miniMessage().parse(message));
+        basePlugin.audiences().players().sendMessage(Identity.nil(), basePlugin.miniMessage().deserialize(message));
     }
 
     public void broadcast(@NonNull List<String> messages) {
@@ -144,13 +143,13 @@ public class Chat {
     }
 
     public void send(@NonNull CommandSender sender, @NonNull String message) {
-        send(sender, basePlugin.miniMessage().parse(message));
+        send(sender, basePlugin.miniMessage().deserialize(message));
     }
 
     public Title getTitle(@NonNull String title, @NonNull String subTitle, @NonNull ChronoUnit fadeInTimeUnit, int fadeInTime, @NonNull ChronoUnit stayTimeUnit, int stayTime, @NonNull ChronoUnit fadeOutTimeUnit, int fadeOutTime) {
-        final Component titleComponent = basePlugin.miniMessage().parse(title);
-        final Component subTitleComponent = basePlugin.miniMessage().parse(subTitle);
-        return Title.title(titleComponent, subTitleComponent, Title.Times.of(Duration.of(fadeInTime, fadeInTimeUnit), Duration.of(stayTime, stayTimeUnit), Duration.of(fadeOutTime, fadeOutTimeUnit)));
+        final Component titleComponent = basePlugin.miniMessage().deserialize(title);
+        final Component subTitleComponent = basePlugin.miniMessage().deserialize(subTitle);
+        return Title.title(titleComponent, subTitleComponent, Title.Times.times(Duration.of(fadeInTime, fadeInTimeUnit), Duration.of(stayTime, stayTimeUnit), Duration.of(fadeOutTime, fadeOutTimeUnit)));
     }
 
     public Title getTitleSeconds(@NonNull String title, @NonNull String subTitle, int fadeInTime, int stayTime, int fadeOutTime) {
@@ -166,7 +165,7 @@ public class Chat {
     }
 
     public void sendActionBar(@NonNull Player player, @NonNull String text) {
-        basePlugin.audiences().player(player).sendActionBar(basePlugin.miniMessage().parse(text));
+        basePlugin.audiences().player(player).sendActionBar(basePlugin.miniMessage().deserialize(text));
     }
 
     public BukkitTask sendActionBar(@NonNull Player player, int durationSeconds, @NonNull String text) {
@@ -182,7 +181,7 @@ public class Chat {
      * @return String of spaces
      */
     public static String getCenteredSpacePrefix(@NonNull String message) {
-        return ChatCentering.spacePrefix(MiniMessage.miniMessage().parse(message));
+        return ChatCentering.spacePrefix(MiniMessage.miniMessage().deserialize(message));
     }
 
     /**
