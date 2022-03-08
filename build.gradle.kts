@@ -33,7 +33,7 @@ repositories {
 }
 
 dependencies {
-    api(platform("net.kyori:adventure-bom:4.10.0"))
+    api(platform("net.kyori:adventure-bom:4.10.1"))
     api("net.kyori", "adventure-api")
     api("net.kyori", "adventure-text-serializer-gson") {
         exclude("com.google.code.gson", "gson")
@@ -51,8 +51,8 @@ dependencies {
         exclude("com.google.code.gson", "gson")
     }
 
-    compileOnly("org.checkerframework", "checker-qual", "3.21.2")
-    compileOnly("io.papermc.paper", "paper-api", "1.18.1-R0.1-SNAPSHOT")
+    compileOnly("org.checkerframework", "checker-qual", "3.21.3")
+    compileOnly("io.papermc.paper", "paper-api", "1.18.2-R0.1-SNAPSHOT")
     compileOnly("me.clip", "placeholderapi", "2.10.9")
 }
 
