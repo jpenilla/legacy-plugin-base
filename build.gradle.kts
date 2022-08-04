@@ -44,15 +44,15 @@ dependencies {
 
     api("net.kyori", "adventure-text-minimessage")
     api("net.kyori", "adventure-text-feature-pagination", "4.0.0-SNAPSHOT")
-    api("net.kyori", "adventure-platform-bukkit", "4.1.1") {
+    api("net.kyori", "adventure-platform-bukkit", "4.1.2") {
         exclude("com.google.code.gson", "gson")
     }
     api("net.kyori", "adventure-text-serializer-bungeecord", "4.1.1") {
         exclude("com.google.code.gson", "gson")
     }
 
-    compileOnly("org.checkerframework", "checker-qual", "3.22.1")
-    compileOnly("io.papermc.paper", "paper-api", "1.19-R0.1-SNAPSHOT")
+    compileOnly("org.checkerframework", "checker-qual", "3.24.0")
+    compileOnly("io.papermc.paper", "paper-api", "1.19.1-R0.1-SNAPSHOT")
     compileOnly("me.clip", "placeholderapi", "2.10.9")
 }
 
