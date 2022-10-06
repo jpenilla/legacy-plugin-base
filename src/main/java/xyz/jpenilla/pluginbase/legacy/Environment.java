@@ -1,8 +1,10 @@
-package xyz.jpenilla.jmplib;
+package xyz.jpenilla.pluginbase.legacy;
 
 import org.bukkit.Bukkit;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;
 
+@DefaultQualifier(NonNull.class)
 public class Environment {
     private static final boolean paper;
     private static final String serverPackageName;
@@ -10,13 +12,14 @@ public class Environment {
     private static final int majorMinecraftVersion;
 
     static {
-        paper = classExists("com.destroystokyo.paper.PaperConfig");
+        paper = classExists("com.destroystokyo.paper.PaperConfig")
+                || classExists("io.papermc.paper.configuration.Configuration");
         serverPackageName = Bukkit.getServer().getClass().getPackage().getName();
         serverApiVersion = serverPackageName.substring(serverPackageName.lastIndexOf('.') + 1);
         majorMinecraftVersion = Integer.parseInt(serverApiVersion.split("_")[1]);
     }
 
-    public static boolean classExists(final @NonNull String fullyQualifiedName) {
+    public static boolean classExists(final String fullyQualifiedName) {
         try {
             Class.forName(fullyQualifiedName);
             return true;
@@ -29,11 +32,11 @@ public class Environment {
         return Environment.paper;
     }
 
-    public static @NonNull String serverPackageName() {
+    public static String serverPackageName() {
         return Environment.serverPackageName;
     }
 
-    public static @NonNull String serverApiVersion() {
+    public static String serverApiVersion() {
         return Environment.serverApiVersion;
     }
 

@@ -1,4 +1,4 @@
-package xyz.jpenilla.jmplib;
+package xyz.jpenilla.pluginbase.legacy;
 
 import org.bukkit.conversations.BooleanPrompt;
 import org.bukkit.conversations.Conversation;
@@ -47,7 +47,7 @@ public class InputConversation {
     }
 
     public void start(Player player) {
-        Conversation conversation = BasePlugin.getBasePlugin().conversationFactory()
+        Conversation conversation = PluginBase.instance().conversationFactory()
                 .withFirstPrompt(new StringPrompt() {
                     @Override
                     public @NonNull String getPromptText(@NonNull ConversationContext conversationContext) {

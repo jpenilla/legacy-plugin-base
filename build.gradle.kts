@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "xyz.jpenilla"
-version = "1.0.1+${System.getenv("GITHUB_RUN_NUMBER") ?: "local"}-SNAPSHOT"
+version = "0.0.1+${System.getenv("GITHUB_RUN_NUMBER") ?: "local"}-SNAPSHOT"
 
 java {
     toolchain {
@@ -22,10 +22,9 @@ tasks {
 }
 
 repositories {
-    //mavenLocal()
     mavenCentral()
     maven("https://oss.sonatype.org/content/groups/public/")
-    maven("https://papermc.io/repo/repository/maven-public/")
+    maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.jpenilla.xyz/snapshots/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi") {
         content { includeGroup("me.clip") }
@@ -51,7 +50,7 @@ dependencies {
         exclude("com.google.code.gson", "gson")
     }
 
-    compileOnly("org.checkerframework", "checker-qual", "3.24.0")
+    compileOnly("org.checkerframework", "checker-qual", "3.26.0")
     compileOnly("io.papermc.paper", "paper-api", "1.19.2-R0.1-SNAPSHOT")
     compileOnly("me.clip", "placeholderapi", "2.10.9")
 }

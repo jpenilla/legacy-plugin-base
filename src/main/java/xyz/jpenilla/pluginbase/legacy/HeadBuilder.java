@@ -1,4 +1,4 @@
-package xyz.jpenilla.jmplib;
+package xyz.jpenilla.pluginbase.legacy;
 
 import java.util.UUID;
 import org.bukkit.OfflinePlayer;

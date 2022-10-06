@@ -1,4 +1,4 @@
-package xyz.jpenilla.jmplib;
+package xyz.jpenilla.pluginbase.legacy;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;

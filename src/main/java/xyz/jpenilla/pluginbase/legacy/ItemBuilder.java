@@ -1,4 +1,4 @@
-package xyz.jpenilla.jmplib;
+package xyz.jpenilla.pluginbase.legacy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Material;
@@ -21,7 +20,6 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  */
 public class ItemBuilder {
     private static final BungeeComponentSerializer serializer = BungeeComponentSerializer.get();
-    private static final MiniMessage miniMessage = MiniMessage.miniMessage();
     private final boolean hasComponentApi = Environment.paper() && Environment.majorMinecraftVersion() >= 16;
 
     private final ItemStack itemStack;
@@ -73,7 +71,7 @@ public class ItemBuilder {
      */
     public @NonNull ItemBuilder setName(String displayName) {
         if (hasComponentApi) {
-            meta.setDisplayNameComponent(serializer.serialize(removeItalics(miniMessage.deserialize(displayName))));
+            meta.setDisplayNameComponent(serializer.serialize(removeItalics(PluginBase.instance().miniMessage().deserialize(displayName))));
         } else {
             meta.setDisplayName(MiniMessageUtil.miniMessageToLegacy(displayName));
         }
@@ -90,7 +88,7 @@ public class ItemBuilder {
         if (hasComponentApi) {
             final List<BaseComponent[]> newLore = new ArrayList<>();
             for (String line : lore) {
-                newLore.add(serializer.serialize(removeItalics(miniMessage.deserialize(line))));
+                newLore.add(serializer.serialize(removeItalics(PluginBase.instance().miniMessage().deserialize(line))));
             }
             meta.setLoreComponents(newLore);
         } else {
@@ -110,7 +108,7 @@ public class ItemBuilder {
             final List<BaseComponent[]> newLore = meta.getLoreComponents();
             final List<BaseComponent[]> newLines = new ArrayList<>();
             for (String line : lore) {
-                newLines.add(serializer.serialize(removeItalics(miniMessage.deserialize(line))));
+                newLines.add(serializer.serialize(removeItalics(PluginBase.instance().miniMessage().deserialize(line))));
             }
             if (newLore != null) {
                 newLore.addAll(newLines);

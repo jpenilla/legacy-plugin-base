@@ -1,1 +1,1 @@
-rootProject.name = "jmplib"
+rootProject.name = "legacy-plugin-base"
