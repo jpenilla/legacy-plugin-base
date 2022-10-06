@@ -11,6 +11,7 @@ java {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
     disableAutoTargetJvm()
+    withSourcesJar()
 }
 
 tasks {
