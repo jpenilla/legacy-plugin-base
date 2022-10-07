@@ -4,11 +4,8 @@ import java.util.NavigableMap;
 import java.util.Random;
 import java.util.TreeMap;
 import java.util.concurrent.ThreadLocalRandom;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
 
 @SuppressWarnings("unused")
-@DefaultQualifier(NonNull.class)
 public class WeightedRandom<E> {
     private final NavigableMap<Double, E> map = new TreeMap<>();
     private double total = 0;
