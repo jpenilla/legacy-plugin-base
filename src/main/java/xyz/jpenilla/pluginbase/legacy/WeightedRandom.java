@@ -23,9 +23,6 @@ public class WeightedRandom<E> {
     }
 
     public E next(final Random random) {
-        if (this.map.isEmpty()) {
-            throw new IllegalStateException("No elements to select from");
-        }
         return this.map.higherEntry(random.nextDouble() * this.total).getValue();
     }
 
