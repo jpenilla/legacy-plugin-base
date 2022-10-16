@@ -1,5 +1,9 @@
 package xyz.jpenilla.pluginbase.legacy;
 
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
+import java.util.function.Function;
 import org.bukkit.conversations.BooleanPrompt;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationContext;
@@ -9,17 +13,23 @@ import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
-import java.util.function.Function;
-
 public class InputConversation {
     private BiConsumer<Player, String> acceptedListener;
     private BiConsumer<Player, String> deniedListener;
     private BiPredicate<Player, String> inputValidator;
     private Function<Player, String> promptHandler;
     private BiFunction<Player, String, String> confirmText;
+    private final PluginBase pluginBase;
+    private boolean localEcho = false;
+
+    @Deprecated
+    public InputConversation() {
+        this(PluginBase.instance());
+    }
+
+    private InputConversation(final PluginBase pluginBase) {
+        this.pluginBase = pluginBase;
+    }
 
     public InputConversation onAccepted(BiConsumer<Player, String> acceptedListener) {
         this.acceptedListener = acceptedListener;
@@ -46,8 +56,13 @@ public class InputConversation {
         return this;
     }
 
-    public void start(Player player) {
-        Conversation conversation = PluginBase.instance().conversationFactory()
+    public InputConversation localEcho(final boolean localEcho) {
+        this.localEcho = localEcho;
+        return this;
+    }
+
+    public void start(final Player player) {
+        final Conversation conversation = this.pluginBase.conversationFactory()
                 .withFirstPrompt(new StringPrompt() {
                     @Override
                     public @NonNull String getPromptText(@NonNull ConversationContext conversationContext) {
@@ -80,8 +95,12 @@ public class InputConversation {
                         return null;
                     }
                 })
-                .withLocalEcho(false)
+                .withLocalEcho(this.localEcho)
                 .buildConversation(player);
         conversation.begin();
+    }
+
+    public static InputConversation create() {
+        return new InputConversation(PluginBase.instance());
     }
 }
