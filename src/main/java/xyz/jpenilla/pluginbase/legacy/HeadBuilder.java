@@ -4,6 +4,7 @@ import java.util.UUID;
 import org.bukkit.OfflinePlayer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+@Deprecated
 public class HeadBuilder extends ItemBuilder {
     /**
      * HeadBuilder constructor from base64 Player Head URL

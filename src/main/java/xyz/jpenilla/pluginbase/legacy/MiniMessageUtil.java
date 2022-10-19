@@ -12,18 +12,12 @@ public final class MiniMessageUtil {
     private MiniMessageUtil() {
     }
 
-    private static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer.builder()
-            .hexColors()
-            .useUnusualXRepeatedCharacterHexFormat()
-            .build();
-    private static final LegacyComponentSerializer DOWNSAMPLING_SERIALIZER = LegacyComponentSerializer.legacySection();
-
     public static String miniMessageToLegacy(final String message) {
         return miniMessageToLegacy(message, false);
     }
 
     public static String miniMessageToLegacy(final String message, final boolean disableItalics) {
-        final LegacyComponentSerializer serializer = Environment.majorMinecraftVersion() >= 16 ? SERIALIZER : DOWNSAMPLING_SERIALIZER;
+        final LegacyComponentSerializer serializer = ComponentUtil.legacySerializer();
         final Component comp = PluginBase.instance().miniMessage()
                 .deserialize(PluginBase.instance().chat().parse(null, message, null));
         return serializer.serialize(disableItalics ? ItemBuilder.removeItalics(comp) : comp);

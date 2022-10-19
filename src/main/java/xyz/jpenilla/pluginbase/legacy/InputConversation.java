@@ -100,7 +100,7 @@ public class InputConversation {
                 if (InputConversation.this.acceptedListener != null || InputConversation.this.deniedListener != null) {
                     return InputConversation.this.createSecondPrompt(s);
                 }
-                return null;
+                return END_OF_CONVERSATION;
             }
         };
     }
@@ -114,7 +114,7 @@ public class InputConversation {
                 } else if (InputConversation.this.deniedListener != null) {
                     InputConversation.this.deniedListener.accept((Player) conversationContext.getForWhom(), s);
                 }
-                return null;
+                return END_OF_CONVERSATION;
             }
 
             @Override

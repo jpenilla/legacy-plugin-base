@@ -18,6 +18,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 /**
  * ItemStack builder
  */
+@Deprecated
 public class ItemBuilder {
     private static final BungeeComponentSerializer serializer = BungeeComponentSerializer.get();
     private final boolean hasComponentApi = Environment.paper() && Environment.majorMinecraftVersion() >= 16;
