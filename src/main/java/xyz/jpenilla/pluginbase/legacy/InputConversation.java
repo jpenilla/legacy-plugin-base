@@ -1,34 +1,36 @@
 package xyz.jpenilla.pluginbase.legacy;
 
+import com.google.common.base.Preconditions;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import org.bukkit.conversations.BooleanPrompt;
-import org.bukkit.conversations.Conversation;
+import org.bukkit.conversations.ConversationAbandonedListener;
 import org.bukkit.conversations.ConversationContext;
+import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.StringPrompt;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.framework.qual.DefaultQualifier;
 
+@DefaultQualifier(NonNull.class)
 public class InputConversation {
-    private BiConsumer<Player, String> acceptedListener;
-    private BiConsumer<Player, String> deniedListener;
-    private BiPredicate<Player, String> inputValidator;
-    private Function<Player, String> promptHandler;
-    private BiFunction<Player, String, String> confirmText;
-    private final PluginBase pluginBase;
+    private final Plugin plugin;
+
+    private @Nullable BiConsumer<Player, String> acceptedListener;
+    private @Nullable BiConsumer<Player, String> deniedListener;
+    private @Nullable BiPredicate<Player, String> inputValidator;
+    private @Nullable Function<Player, String> promptHandler;
+    private @Nullable BiFunction<Player, String, String> confirmText;
+    private @Nullable ConversationAbandonedListener abandonListener;
     private boolean localEcho = false;
 
-    @Deprecated
-    public InputConversation() {
-        this(PluginBase.instance());
-    }
-
-    private InputConversation(final PluginBase pluginBase) {
-        this.pluginBase = pluginBase;
+    private InputConversation(final Plugin plugin) {
+        this.plugin = plugin;
     }
 
     public InputConversation onAccepted(BiConsumer<Player, String> acceptedListener) {
@@ -61,46 +63,72 @@ public class InputConversation {
         return this;
     }
 
+    public InputConversation abandonListener(final ConversationAbandonedListener conversationAbandonedListener) {
+        this.abandonListener = conversationAbandonedListener;
+        return this;
+    }
+
     public void start(final Player player) {
-        final Conversation conversation = this.pluginBase.conversationFactory()
-                .withFirstPrompt(new StringPrompt() {
-                    @Override
-                    public @NonNull String getPromptText(@NonNull ConversationContext conversationContext) {
-                        return promptHandler.apply((Player) conversationContext.getForWhom());
-                    }
+        Preconditions.checkArgument(this.promptHandler != null, "Must set onPromptText");
+        Preconditions.checkArgument(this.inputValidator != null, "Must set onValidateInput");
+        if (this.acceptedListener != null || this.deniedListener != null) {
+            Preconditions.checkArgument(this.confirmText != null, "Must set onConfirmText if onAccepted/onDenied is set");
+        }
 
-                    @Override
-                    public Prompt acceptInput(@NonNull ConversationContext conversationContext, @Nullable String s) {
-                        if (!inputValidator.test((Player) conversationContext.getForWhom(), s)) {
-                            return this;
-                        }
-                        if (acceptedListener != null || deniedListener != null) {
-                            return new BooleanPrompt() {
-                                @Override
-                                protected @Nullable Prompt acceptValidatedInput(@NonNull ConversationContext conversationContext, boolean b) {
-                                    if (b && acceptedListener != null) {
-                                        acceptedListener.accept((Player) conversationContext.getForWhom(), s);
-                                    } else if (deniedListener != null) {
-                                        deniedListener.accept((Player) conversationContext.getForWhom(), s);
-                                    }
-                                    return null;
-                                }
+        final ConversationFactory factory = new ConversationFactory(this.plugin)
+                .withFirstPrompt(this.createFirstPrompt())
+                .withLocalEcho(this.localEcho);
+        if (this.abandonListener != null) {
+            factory.addConversationAbandonedListener(this.abandonListener);
+        }
+        factory.buildConversation(player)
+                .begin();
+    }
 
-                                @Override
-                                public @NonNull String getPromptText(@NonNull ConversationContext conversationContext) {
-                                    return confirmText.apply((Player) conversationContext.getForWhom(), s);
-                                }
-                            };
-                        }
-                        return null;
-                    }
-                })
-                .withLocalEcho(this.localEcho)
-                .buildConversation(player);
-        conversation.begin();
+    private Prompt createFirstPrompt() {
+        return new StringPrompt() {
+            @Override
+            public String getPromptText(final ConversationContext conversationContext) {
+                return InputConversation.this.promptHandler.apply((Player) conversationContext.getForWhom());
+            }
+
+            @Override
+            public Prompt acceptInput(final ConversationContext conversationContext, final @Nullable String s) {
+                if (!InputConversation.this.inputValidator.test((Player) conversationContext.getForWhom(), s)) {
+                    return this;
+                }
+                if (InputConversation.this.acceptedListener != null || InputConversation.this.deniedListener != null) {
+                    return InputConversation.this.createSecondPrompt(s);
+                }
+                return null;
+            }
+        };
+    }
+
+    private BooleanPrompt createSecondPrompt(final String s) {
+        return new BooleanPrompt() {
+            @Override
+            protected @Nullable Prompt acceptValidatedInput(final ConversationContext conversationContext, final boolean b) {
+                if (b && InputConversation.this.acceptedListener != null) {
+                    InputConversation.this.acceptedListener.accept((Player) conversationContext.getForWhom(), s);
+                } else if (InputConversation.this.deniedListener != null) {
+                    InputConversation.this.deniedListener.accept((Player) conversationContext.getForWhom(), s);
+                }
+                return null;
+            }
+
+            @Override
+            public String getPromptText(final ConversationContext conversationContext) {
+                return InputConversation.this.confirmText.apply((Player) conversationContext.getForWhom(), s);
+            }
+        };
+    }
+
+    public static InputConversation create(final Plugin plugin) {
+        return new InputConversation(plugin);
     }
 
     public static InputConversation create() {
-        return new InputConversation(PluginBase.instance());
+        return create(PluginBase.instance());
     }
 }

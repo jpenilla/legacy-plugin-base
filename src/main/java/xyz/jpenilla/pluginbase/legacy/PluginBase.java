@@ -4,7 +4,6 @@ import java.nio.file.Path;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -15,7 +14,6 @@ public abstract class PluginBase extends JavaPlugin {
     private Chat chat;
     private PlaceholderAPIHook placeholderApi = null;
     private BukkitAudiences audiences;
-    private ConversationFactory conversationFactory;
     private final MiniMessage miniMessage;
     private Path dataPath;
 
@@ -34,7 +32,6 @@ public abstract class PluginBase extends JavaPlugin {
 
         this.dataPath = getDataFolder().toPath();
         this.audiences = BukkitAudiences.create(this);
-        this.conversationFactory = new ConversationFactory(this);
 
         this.checkForPlaceholderApi();
         // In case the softdepend is missing...
@@ -65,10 +62,6 @@ public abstract class PluginBase extends JavaPlugin {
 
     public @NonNull BukkitAudiences audiences() {
         return this.audiences;
-    }
-
-    public @NonNull ConversationFactory conversationFactory() {
-        return this.conversationFactory;
     }
 
     public @NonNull MiniMessage miniMessage() {
