@@ -9,6 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -102,11 +103,11 @@ public class Chat {
         }
     }
 
-    public void send(CommandSender sender, Component component) {
+    public void send(CommandSender sender, ComponentLike component) {
         if (sender instanceof Player) {
             this.plugin.audiences().player((Player) sender).sendMessage(component);
         } else {
-            this.plugin.audiences().console().sendMessage(component);
+            this.plugin.audiences().sender(sender).sendMessage(component);
         }
     }
 
