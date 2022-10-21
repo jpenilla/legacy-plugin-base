@@ -10,6 +10,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -83,18 +84,19 @@ public class ItemBuilder<B extends ItemBuilder<B, I>, I extends ItemMeta> {
         return this.edit((stack, meta) -> stack.setAmount(amount));
     }
 
-    public final B customName(final Component displayName) {
+    public final B customName(final ComponentLike displayName) {
         return this.editMeta(meta -> FACET.setCustomName.accept(
                 meta,
-                FACET.serialize.apply(ComponentUtil.disableItalics(displayName))
+                FACET.serialize.apply(ComponentUtil.disableItalics(displayName.asComponent()))
         ));
     }
 
-    public final B addLore(final List<Component> lore) {
+    public final B addLore(final List<? extends ComponentLike> lore) {
         return this.editMeta(meta -> {
             final List<Object> existing = new ArrayList<>(FACET.getLore.apply(meta));
             existing.addAll(
                     lore.stream()
+                            .map(ComponentLike::asComponent)
                             .map(ComponentUtil::disableItalics)
                             .map(FACET.serialize)
                             .collect(Collectors.toList())
@@ -103,13 +105,14 @@ public class ItemBuilder<B extends ItemBuilder<B, I>, I extends ItemMeta> {
         });
     }
 
-    public final B addLore(final Component... lore) {
+    public final B addLore(final ComponentLike... lore) {
         return this.addLore(Arrays.asList(lore));
     }
 
-    public final B lore(final List<Component> lore) {
+    public final B lore(final List<? extends ComponentLike> lore) {
         return this.editMeta(meta -> {
             final List<Object> mapped = lore.stream()
+                    .map(ComponentLike::asComponent)
                     .map(ComponentUtil::disableItalics)
                     .map(FACET.serialize)
                     .collect(Collectors.toList());
@@ -117,7 +120,7 @@ public class ItemBuilder<B extends ItemBuilder<B, I>, I extends ItemMeta> {
         });
     }
 
-    public final B lore(final Component... lore) {
+    public final B lore(final ComponentLike... lore) {
         return this.lore(Arrays.asList(lore));
     }
 
@@ -237,6 +240,9 @@ public class ItemBuilder<B extends ItemBuilder<B, I>, I extends ItemMeta> {
     }
 
     public final class MiniMessageContext {
+        private MiniMessageContext() {
+        }
+
         @SuppressWarnings("unchecked")
         public B exit() {
             return (B) ItemBuilder.this;
