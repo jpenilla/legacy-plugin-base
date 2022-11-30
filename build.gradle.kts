@@ -24,6 +24,7 @@ tasks {
 
 repositories {
     mavenCentral()
+    maven("https://s01.oss.sonatype.org/content/groups/public/")
     maven("https://oss.sonatype.org/content/groups/public/")
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.jpenilla.xyz/snapshots/")
@@ -44,10 +45,11 @@ dependencies {
 
     api("net.kyori", "adventure-text-minimessage")
     api("net.kyori", "adventure-text-feature-pagination", "4.0.0-SNAPSHOT")
-    api("net.kyori", "adventure-platform-bukkit", "4.1.2") {
+    val adventurePlatformVersion = "4.1.3-SNAPSHOT"
+    api("net.kyori", "adventure-platform-bukkit", adventurePlatformVersion) {
         exclude("com.google.code.gson", "gson")
     }
-    api("net.kyori", "adventure-text-serializer-bungeecord", "4.1.2") {
+    api("net.kyori", "adventure-text-serializer-bungeecord", adventurePlatformVersion) {
         exclude("com.google.code.gson", "gson")
     }
 
