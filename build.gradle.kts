@@ -53,7 +53,7 @@ dependencies {
         exclude("com.google.code.gson", "gson")
     }
 
-    compileOnly("org.checkerframework", "checker-qual", "3.29.0")
+    compileOnly("org.checkerframework", "checker-qual", "3.31.0")
     compileOnly("io.papermc.paper", "paper-api", "1.19.2-R0.1-SNAPSHOT")
     compileOnly("me.clip", "placeholderapi", "2.11.2")
 }
