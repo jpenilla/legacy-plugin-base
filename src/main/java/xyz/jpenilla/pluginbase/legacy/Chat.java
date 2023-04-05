@@ -173,6 +173,7 @@ public class Chat {
         this.plugin.audiences().player(player).sendActionBar(this.plugin.miniMessage().deserialize(text));
     }
 
+    @Deprecated
     public BukkitTask sendActionBar(Player player, int durationSeconds, String text) {
         final BukkitTask task = Bukkit.getScheduler().runTaskTimerAsynchronously(this.plugin, () -> this.sendActionBar(player, text), 0, 20L * 2);
         Bukkit.getScheduler().runTaskLaterAsynchronously(this.plugin, task::cancel, 20L * durationSeconds);
