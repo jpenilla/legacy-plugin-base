@@ -53,7 +53,7 @@ dependencies {
         exclude("com.google.code.gson", "gson")
     }
 
-    compileOnly("org.checkerframework", "checker-qual", "3.35.0")
+    compileOnly("org.checkerframework", "checker-qual", "3.37.0")
     compileOnly("dev.folia", "folia-api", "1.19.4-R0.1-SNAPSHOT")
     compileOnly("me.clip", "placeholderapi", "2.11.3")
 }
