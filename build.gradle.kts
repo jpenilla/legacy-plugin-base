@@ -34,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    api(platform("net.kyori:adventure-bom:4.14.0"))
+    api(platform("net.kyori:adventure-bom:4.15.0"))
     api("net.kyori", "adventure-api")
     api("net.kyori", "adventure-text-serializer-gson") {
         exclude("com.google.code.gson", "gson")
