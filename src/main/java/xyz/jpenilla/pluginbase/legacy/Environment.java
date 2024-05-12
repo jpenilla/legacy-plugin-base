@@ -1,5 +1,6 @@
 package xyz.jpenilla.pluginbase.legacy;
 
+import java.lang.reflect.Method;
 import org.bukkit.Bukkit;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;
@@ -7,16 +8,31 @@ import org.checkerframework.framework.qual.DefaultQualifier;
 @DefaultQualifier(NonNull.class)
 public class Environment {
     private static final boolean paper;
-    private static final String serverPackageName;
-    private static final String serverApiVersion;
     private static final int majorMinecraftVersion;
 
     static {
         paper = classExists("com.destroystokyo.paper.PaperConfig")
                 || classExists("io.papermc.paper.configuration.Configuration");
-        serverPackageName = Bukkit.getServer().getClass().getPackage().getName();
-        serverApiVersion = serverPackageName.substring(serverPackageName.lastIndexOf('.') + 1);
-        majorMinecraftVersion = Integer.parseInt(serverApiVersion.split("_")[1]);
+        final String serverPackageName = Bukkit.getServer().getClass().getPackage().getName();
+        final String serverApiVersion = serverPackageName.substring(
+                serverPackageName.lastIndexOf('.') + 1);
+        int majorVer = -1;
+        try {
+            majorVer = Integer.parseInt(serverApiVersion.split("_")[1]);
+        } catch (final NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            // No relocation (Paper 1.20.5+):
+            try {
+                final Class<?> sharedConstants = Class.forName("net.minecraft.SharedConstants");
+                final Method getCurrentVersion = sharedConstants.getDeclaredMethod("getCurrentVersion");
+                final Object currentVersion = getCurrentVersion.invoke(null);
+                final Method getName = currentVersion.getClass().getDeclaredMethod("getName");
+                final String versionName = (String) getName.invoke(currentVersion);
+                majorVer = Integer.parseInt(versionName.split("\\.")[1]);
+            } catch (final ReflectiveOperationException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        majorMinecraftVersion = majorVer;
     }
 
     public static boolean classExists(final String fullyQualifiedName) {
@@ -30,14 +46,6 @@ public class Environment {
 
     public static boolean paper() {
         return Environment.paper;
-    }
-
-    public static String serverPackageName() {
-        return Environment.serverPackageName;
-    }
-
-    public static String serverApiVersion() {
-        return Environment.serverApiVersion;
     }
 
     public static int majorMinecraftVersion() {
