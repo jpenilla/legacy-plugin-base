@@ -23,6 +23,8 @@
  */
 package xyz.jpenilla.pluginbase.legacy;
 
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
 import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -106,6 +108,13 @@ public class SkullCreator {
             return Bukkit.getUnsafe().modifyItemStack(item,
                     "{SkullOwner:{Id:\"" + hashAsId + "\",Properties:{textures:[{Value:\"" + base64 + "\"}]}}}"
             );
+        } else if (Environment.majorMinecraftVersion() >= 20) {
+            if (!Environment.paper()) {
+                throw new UnsupportedOperationException("Cannot set skull textures on Spigot 1.20.6+, requires Paper API");
+            }
+            final PlayerProfile profile = Bukkit.createProfile(hashAsId, "");
+            profile.setProperty(new ProfileProperty("textures", base64));
+            return ItemBuilder.<SkullMeta>editMeta(item, meta -> meta.setPlayerProfile(profile));
         } else {
             long m = hashAsId.getMostSignificantBits();
             long l = hashAsId.getLeastSignificantBits();

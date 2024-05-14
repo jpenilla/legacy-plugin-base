@@ -249,11 +249,9 @@ public class ItemBuilder {
 
     @SuppressWarnings("unchecked")
     public static <I extends ItemMeta> @NonNull ItemStack editMeta(final @NonNull ItemStack stack, final @NonNull Consumer<I> consumer) {
-        if (stack.hasItemMeta()) {
-            final I meta = (I) stack.getItemMeta();
-            consumer.accept(meta);
-            stack.setItemMeta(meta);
-        }
+        final I meta = (I) stack.getItemMeta();
+        consumer.accept(meta);
+        stack.setItemMeta(meta);
         return stack;
     }
 }
