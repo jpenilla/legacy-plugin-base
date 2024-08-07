@@ -46,7 +46,7 @@ dependencies {
     api("net.kyori", "adventure-text-minimessage")
     api("net.kyori", "adventure-text-serializer-plain")
     api("net.kyori", "adventure-text-feature-pagination", "4.0.0-SNAPSHOT")
-    val adventurePlatformVersion = "4.3.3"
+    val adventurePlatformVersion = "4.3.4"
     api("net.kyori", "adventure-platform-bukkit", adventurePlatformVersion) {
         exclude("com.google.code.gson", "gson")
     }
