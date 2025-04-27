@@ -7,11 +7,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - uses: gradle/actions/wrapper-validation@v3
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
       - name: Build
         run: ./gradlew build
