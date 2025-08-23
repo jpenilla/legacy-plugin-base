@@ -20,7 +20,7 @@ public final class MiniMessageUtil {
         final LegacyComponentSerializer serializer = ComponentUtil.legacySerializer();
         final Component comp = PluginBase.instance().miniMessage()
                 .deserialize(PluginBase.instance().chat().parse(null, message, null));
-        return serializer.serialize(disableItalics ? ItemBuilder.removeItalics(comp) : comp);
+        return serializer.serialize(disableItalics ? ComponentUtil.disableItalics(comp) : comp);
     }
 
     public static List<String> miniMessageToLegacy(final List<String> messages) {
