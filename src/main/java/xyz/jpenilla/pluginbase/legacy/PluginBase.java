@@ -1,18 +1,19 @@
 package xyz.jpenilla.pluginbase.legacy;
 
 import io.papermc.paper.threadedregions.RegionizedServerInitEvent;
-import java.nio.file.Path;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import xyz.jpenilla.pluginbase.legacy.compatability.PlaceholderAPIHook;
+
+import java.nio.file.Path;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class PluginBase extends JavaPlugin {
     private static PluginBase instance;

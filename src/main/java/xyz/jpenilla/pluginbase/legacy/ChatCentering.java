@@ -2,7 +2,7 @@ package xyz.jpenilla.pluginbase.legacy;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jspecify.annotations.NonNull;
 
 public final class ChatCentering {
     private ChatCentering() {

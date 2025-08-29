@@ -1,13 +1,13 @@
 package xyz.jpenilla.pluginbase.legacy;
 
-import java.util.ArrayList;
-import java.util.List;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
+import org.jspecify.annotations.NullMarked;
 
-@DefaultQualifier(NonNull.class)
+import java.util.ArrayList;
+import java.util.List;
+
+@NullMarked
 public final class MiniMessageUtil {
     private MiniMessageUtil() {
     }

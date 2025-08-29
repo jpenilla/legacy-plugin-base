@@ -3,10 +3,9 @@ package xyz.jpenilla.pluginbase.legacy;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
+import org.jspecify.annotations.NullMarked;
 
-@DefaultQualifier(NonNull.class)
+@NullMarked
 public final class ComponentUtil {
     private static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer.builder()
             .hexColors()

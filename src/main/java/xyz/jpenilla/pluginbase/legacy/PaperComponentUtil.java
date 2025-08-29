@@ -1,14 +1,14 @@
 package xyz.jpenilla.pluginbase.legacy;
 
 import com.google.gson.JsonElement;
-import java.lang.reflect.Method;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.checkerframework.framework.qual.DefaultQualifier;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
-@DefaultQualifier(NonNull.class)
+import java.lang.reflect.Method;
+
+@NullMarked
 public final class PaperComponentUtil {
     private static final String KYORI_PREFIX = String.join(".", "net", "kyori");
     private static final @Nullable Object NATIVE_GSON;

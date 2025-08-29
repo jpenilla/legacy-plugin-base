@@ -1,11 +1,11 @@
 package xyz.jpenilla.pluginbase.legacy;
 
-import java.lang.reflect.Method;
 import org.bukkit.Bukkit;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
+import org.jspecify.annotations.NullMarked;
 
-@DefaultQualifier(NonNull.class)
+import java.lang.reflect.Method;
+
+@NullMarked
 public class Environment {
     private static final boolean paper;
     private static final int majorMinecraftVersion;

@@ -23,15 +23,16 @@
  */
 package xyz.jpenilla.pluginbase.legacy;
 
+import org.bukkit.Bukkit;
+import org.checkerframework.common.reflection.qual.ForName;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
+
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import org.bukkit.Bukkit;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.checkerframework.common.reflection.qual.ForName;
 
 import static java.util.Objects.requireNonNull;
 
