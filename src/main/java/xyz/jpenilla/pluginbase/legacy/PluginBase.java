@@ -3,13 +3,10 @@ package xyz.jpenilla.pluginbase.legacy;
 import io.papermc.paper.threadedregions.RegionizedServerInitEvent;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
-import xyz.jpenilla.pluginbase.legacy.compatability.PlaceholderAPIHook;
 
 import java.nio.file.Path;
 import java.util.Queue;
@@ -17,7 +14,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class PluginBase extends JavaPlugin {
     private static PluginBase instance;
-    private PlaceholderAPIHook placeholderApi = null;
     private BukkitAudiences audiences;
     private final MiniMessage miniMessage;
     private Path dataPath;
@@ -40,10 +36,6 @@ public abstract class PluginBase extends JavaPlugin {
         this.dataPath = this.getDataFolder().toPath();
         this.audiences = BukkitAudiences.create(this);
 
-        this.checkForPlaceholderApi();
-        // In case the softdepend is missing...
-        this.initTasks.add(this::checkForPlaceholderApi);
-
         this.enable();
     }
 
@@ -60,18 +52,6 @@ public abstract class PluginBase extends JavaPlugin {
     }
 
     public abstract void disable();
-
-    private void checkForPlaceholderApi() {
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            this.placeholderApi = new PlaceholderAPIHook();
-        } else {
-            this.placeholderApi = null;
-        }
-    }
-
-    public @Nullable PlaceholderAPIHook placeholderApi() {
-        return this.placeholderApi;
-    }
 
     public @NonNull BukkitAudiences audiences() {
         return this.audiences;
