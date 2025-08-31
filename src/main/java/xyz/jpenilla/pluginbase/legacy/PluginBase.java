@@ -17,7 +17,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class PluginBase extends JavaPlugin {
     private static PluginBase instance;
-    private Chat chat;
     private PlaceholderAPIHook placeholderApi = null;
     private BukkitAudiences audiences;
     private final MiniMessage miniMessage;
@@ -45,8 +44,6 @@ public abstract class PluginBase extends JavaPlugin {
         // In case the softdepend is missing...
         this.initTasks.add(this::checkForPlaceholderApi);
 
-        this.chat = new Chat(this);
-
         this.enable();
     }
 
@@ -70,10 +67,6 @@ public abstract class PluginBase extends JavaPlugin {
         } else {
             this.placeholderApi = null;
         }
-    }
-
-    public @NonNull Chat chat() {
-        return this.chat;
     }
 
     public @Nullable PlaceholderAPIHook placeholderApi() {
