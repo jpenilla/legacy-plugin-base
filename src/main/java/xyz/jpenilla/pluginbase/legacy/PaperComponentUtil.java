@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
+import xyz.jpenilla.pluginbase.legacy.environment.Environment;
 
 import java.lang.reflect.Method;
 
