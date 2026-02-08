@@ -59,7 +59,7 @@ dependencies {
 
     compileOnly("org.jspecify:jspecify:1.0.0")
     compileOnly("dev.folia", "folia-api", "1.19.4-R0.1-SNAPSHOT")
-    compileOnly("me.clip", "placeholderapi", "2.11.6")
+    compileOnly("me.clip", "placeholderapi", "2.12.2")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.14.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
