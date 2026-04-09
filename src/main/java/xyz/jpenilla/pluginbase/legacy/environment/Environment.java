@@ -77,15 +77,7 @@ public final class Environment {
         }
 
         // We will treat pre-releases and rcs as releases for simplicity
-        final String[] split = versionName.split("[.-]");
-        final int major = Integer.parseInt(split[0]);
-        final int minor = Integer.parseInt(split[1]);
-        int patch = 0;
-        try {
-            patch = Integer.parseInt(split[2]);
-        } catch (final NumberFormatException | ArrayIndexOutOfBoundsException ignored) {
-        }
-        return new MinecraftRelease(major, minor, patch);
+        return MinecraftRelease.parse(versionName);
     }
 
     private static boolean classExists(final String fullyQualifiedName) {

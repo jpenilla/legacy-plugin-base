@@ -35,4 +35,21 @@ public final class MinecraftRelease implements MinecraftVersion, Comparable<Mine
     public static MinecraftRelease minecraftRelease(final int minor, final int patch) {
         return new MinecraftRelease(1, minor, patch);
     }
+
+    public static MinecraftRelease parse(final String versionName) {
+        final String[] split = versionName.split("[.-]");
+        if (split.length < 2) {
+            throw new IllegalArgumentException("Invalid release version: " + versionName);
+        }
+        final int major = Integer.parseInt(split[0]);
+        final int minor = Integer.parseInt(split[1]);
+        int patch = 0;
+        if (split.length > 2) {
+            try {
+                patch = Integer.parseInt(split[2]);
+            } catch (final NumberFormatException ignored) {
+            }
+        }
+        return new MinecraftRelease(major, minor, patch);
+    }
 }

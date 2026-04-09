@@ -101,4 +101,14 @@ class MinecraftVersionTest {
         final MinecraftVersion snapshot = new MinecraftSnapshot("25w41a");
         assertFalse(snapshot.isRelease());
     }
+
+    @Test
+    public void testParsesNewMojangReleaseSchema() {
+        final MinecraftRelease modern = MinecraftRelease.parse("26.1.1");
+        final MinecraftRelease modernRc = MinecraftRelease.parse("26.1.1-rc1");
+
+        assertTrue(modern.isAtLeast(v1_21_10));
+        assertTrue(modernRc.isAtLeast(v1_21_10));
+        assertTrue(v1_21_10.isOlderThan(modern));
+    }
 }
