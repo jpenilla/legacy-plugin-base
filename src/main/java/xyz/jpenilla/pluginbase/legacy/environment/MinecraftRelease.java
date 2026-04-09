@@ -37,8 +37,8 @@ public final class MinecraftRelease implements MinecraftVersion, Comparable<Mine
     }
 
     public static MinecraftRelease parse(final String versionName) {
-        final String stableVersion = versionName.split("-", 2)[0];
-        final String[] split = stableVersion.split("\\.");
+        final String baseVersion = versionName.split("-", 2)[0];
+        final String[] split = baseVersion.split("\\.");
         if (split.length < 2 || split.length > 3) {
             throw new IllegalArgumentException("Invalid release version: " + versionName);
         }
