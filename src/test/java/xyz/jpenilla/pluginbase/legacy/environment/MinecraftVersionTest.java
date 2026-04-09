@@ -16,7 +16,7 @@ class MinecraftVersionTest {
         // Older version should return false
         assertFalse(v1_20_4.isAtLeast(v1_21));
         assertFalse(v1_20_4.isAtLeast(v1_20_5));
-        assertFalse(v1_8.isAtLeast(v1_21_10));
+        assertFalse(v1_8.isAtLeast(v1_21_11));
 
         // Newer version should return true
         assertTrue(v1_21.isAtLeast(v1_20_4));
@@ -46,7 +46,7 @@ class MinecraftVersionTest {
         // Older version should return true
         assertTrue(v1_20_4.isOlderThan(v1_21));
         assertTrue(v1_20_4.isOlderThan(v1_20_5));
-        assertTrue(v1_8.isOlderThan(v1_21_10));
+        assertTrue(v1_8.isOlderThan(v1_21_11));
         assertTrue(v1_16.isOlderThan(v1_16_5));
 
         // Newer version should return false
@@ -73,7 +73,7 @@ class MinecraftVersionTest {
         // Older version should return true
         assertTrue(v1_20_4.isOrOlder(v1_21));
         assertTrue(v1_20_4.isOrOlder(v1_20_5));
-        assertTrue(v1_8.isOrOlder(v1_21_10));
+        assertTrue(v1_8.isOrOlder(v1_21_11));
         assertTrue(v1_16.isOrOlder(v1_16_5));
 
         // Newer version should return false
@@ -96,9 +96,42 @@ class MinecraftVersionTest {
         assertTrue(v1_20_4.isRelease());
         assertTrue(v1_21.isRelease());
         assertTrue(v1_8.isRelease());
-        assertTrue(v1_21_10.isRelease());
+        assertTrue(v1_21_11.isRelease());
 
         final MinecraftVersion snapshot = new MinecraftSnapshot("25w41a");
         assertFalse(snapshot.isRelease());
+    }
+
+    @Test
+    public void testParsesNewMojangReleaseSchema() {
+        final MinecraftRelease modern = MinecraftRelease.parse("26.1.1");
+
+        assertTrue(modern.isAtLeast(v26_1_1));
+        assertTrue(v26_1.isOlderThan(modern));
+    }
+
+    @Test
+    public void testCrossOldAndNewReleaseSchemaComparison() {
+        final MinecraftRelease oldSchema = MinecraftRelease.parse("1.21.11");
+        final MinecraftRelease newSchema = MinecraftRelease.parse("26.1.1");
+
+        assertTrue(newSchema.isAtLeast(oldSchema));
+        assertTrue(oldSchema.isOlderThan(newSchema));
+        assertFalse(newSchema.isOlderThan(oldSchema));
+        assertFalse(oldSchema.isAtLeast(newSchema));
+
+        assertTrue(v26_1_1.isAtLeast(v1_21_11));
+        assertTrue(v1_21_11.isOlderThan(v26_1_1));
+    }
+
+    @Test
+    public void testNewSnapshotRcPreFormats() {
+        assertTrue(MinecraftSnapshot.isSnapshot("26.1.1-snapshot-1"));
+        assertTrue(MinecraftSnapshot.isSnapshot("26.1.1-rc-1"));
+        assertTrue(MinecraftSnapshot.isSnapshot("26.1.1-pre-1"));
+
+        final MinecraftVersion rc = new MinecraftSnapshot("26.1.1-rc-1");
+        assertTrue(rc.isAtLeast(v26_1_1));
+        assertTrue(v26_1_1.isOlderThan(rc));
     }
 }

@@ -1,6 +1,10 @@
 package xyz.jpenilla.pluginbase.legacy.environment;
 
+import java.util.regex.Pattern;
+
 public final class MinecraftSnapshot implements MinecraftVersion {
+    private static final Pattern WEEKLY_SNAPSHOT = Pattern.compile("\\d{2}w\\d{2}[a-z]");
+    private static final Pattern TARGET_RELEASE_SUFFIX = Pattern.compile("\\d+(?:\\.\\d+){1,2}-(?:snapshot|rc|pre)-\\d+");
     private final String name;
 
     public MinecraftSnapshot(final String name) {
@@ -8,23 +12,8 @@ public final class MinecraftSnapshot implements MinecraftVersion {
     }
 
     public static boolean isSnapshot(final String versionName) {
-        // i.e.
-        //   25w41a - split on letters -> ["25", "41", ""]
-        //   1.21.8 - split on letters -> ["1.21.8"]
-        final String[] snapshotSplit = versionName.split("[a-z]");
-        if (snapshotSplit.length == 3) {
-            if (!snapshotSplit[2].isEmpty()) {
-                return false;
-            }
-            try {
-                Integer.parseInt(snapshotSplit[0]);
-                Integer.parseInt(snapshotSplit[1]);
-                return true;
-            } catch (final NumberFormatException ignored) {
-                return false;
-            }
-        }
-        return false;
+        return WEEKLY_SNAPSHOT.matcher(versionName).matches()
+                || TARGET_RELEASE_SUFFIX.matcher(versionName).matches();
     }
 
     @Override
