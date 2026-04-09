@@ -76,4 +76,6 @@ public final class MinecraftReleases {
     public static final MinecraftRelease v1_21_8 = minecraftRelease(21, 8);
     public static final MinecraftRelease v1_21_9 = minecraftRelease(21, 9);
     public static final MinecraftRelease v1_21_10 = minecraftRelease(21, 10);
+    public static final MinecraftRelease v26_1 = new MinecraftRelease(26, 1, 0);
+    public static final MinecraftRelease v26_1_1 = new MinecraftRelease(26, 1, 1);
 }
