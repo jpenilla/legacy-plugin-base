@@ -32,8 +32,12 @@ public final class MinecraftRelease implements MinecraftVersion, Comparable<Mine
         return this.major + "." + this.minor + "." + this.patch;
     }
 
-    public static MinecraftRelease minecraftRelease(final int minor, final int patch) {
+    public static MinecraftRelease oldSchemaRelease(final int minor, final int patch) {
         return new MinecraftRelease(1, minor, patch);
+    }
+
+    public static MinecraftRelease minecraftRelease(final int major, final int minor, final int patch) {
+        return new MinecraftRelease(major, minor, patch);
     }
 
     public static MinecraftRelease parse(final String versionName) {
