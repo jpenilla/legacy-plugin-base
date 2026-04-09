@@ -111,6 +111,20 @@ class MinecraftVersionTest {
     }
 
     @Test
+    public void testCrossOldAndNewReleaseSchemaComparison() {
+        final MinecraftRelease oldSchema = MinecraftRelease.parse("1.21.11");
+        final MinecraftRelease newSchema = MinecraftRelease.parse("26.1.1");
+
+        assertTrue(newSchema.isAtLeast(oldSchema));
+        assertTrue(oldSchema.isOlderThan(newSchema));
+        assertFalse(newSchema.isOlderThan(oldSchema));
+        assertFalse(oldSchema.isAtLeast(newSchema));
+
+        assertTrue(v26_1_1.isAtLeast(v1_21_11));
+        assertTrue(v1_21_11.isOlderThan(v26_1_1));
+    }
+
+    @Test
     public void testNewSnapshotRcPreFormats() {
         assertTrue(MinecraftSnapshot.isSnapshot("26.1.1-snapshot-1"));
         assertTrue(MinecraftSnapshot.isSnapshot("26.1.1-rc-1"));
