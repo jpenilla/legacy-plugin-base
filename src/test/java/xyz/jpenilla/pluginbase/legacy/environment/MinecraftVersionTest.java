@@ -105,10 +105,19 @@ class MinecraftVersionTest {
     @Test
     public void testParsesNewMojangReleaseSchema() {
         final MinecraftRelease modern = MinecraftRelease.parse("26.1.1");
-        final MinecraftRelease modernRc = MinecraftRelease.parse("26.1.1-rc1");
 
         assertTrue(modern.isAtLeast(v1_21_10));
-        assertTrue(modernRc.isAtLeast(v1_21_10));
         assertTrue(v1_21_10.isOlderThan(modern));
+    }
+
+    @Test
+    public void testNewSnapshotRcPreFormats() {
+        assertTrue(MinecraftSnapshot.isSnapshot("26.1.1-snapshot-1"));
+        assertTrue(MinecraftSnapshot.isSnapshot("26.1.1-rc-1"));
+        assertTrue(MinecraftSnapshot.isSnapshot("26.1.1-pre-1"));
+
+        final MinecraftVersion rc = new MinecraftSnapshot("26.1.1-rc-1");
+        assertTrue(rc.isAtLeast(v1_21_10));
+        assertTrue(v1_21_10.isOlderThan(rc));
     }
 }
