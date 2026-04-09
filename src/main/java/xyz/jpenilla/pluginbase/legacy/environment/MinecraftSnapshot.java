@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public final class MinecraftSnapshot implements MinecraftVersion {
     private static final Pattern WEEKLY_SNAPSHOT = Pattern.compile("\\d{2}w\\d{2}[a-z]");
-    private static final Pattern TARGET_RELEASE_PRERELEASE = Pattern.compile("\\d+(?:\\.\\d+){1,2}-(?:snapshot|rc|pre)-\\d+");
+    private static final Pattern TARGET_RELEASE_SUFFIX = Pattern.compile("\\d+(?:\\.\\d+){1,2}-(?:snapshot|rc|pre)-\\d+");
     private final String name;
 
     public MinecraftSnapshot(final String name) {
@@ -13,7 +13,7 @@ public final class MinecraftSnapshot implements MinecraftVersion {
 
     public static boolean isSnapshot(final String versionName) {
         return WEEKLY_SNAPSHOT.matcher(versionName).matches()
-                || TARGET_RELEASE_PRERELEASE.matcher(versionName).matches();
+                || TARGET_RELEASE_SUFFIX.matcher(versionName).matches();
     }
 
     @Override
