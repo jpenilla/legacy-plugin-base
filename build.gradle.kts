@@ -57,7 +57,7 @@ dependencies {
         exclude("com.google.code.gson", "gson")
     }
 
-    compileOnly("org.jspecify:jspecify:1.0.0")
+    compileOnly("org.jspecify:jspecify:1.0.1")
     compileOnly("dev.folia", "folia-api", "1.19.4-R0.1-SNAPSHOT")
     compileOnly("me.clip", "placeholderapi", "2.12.2")
 
