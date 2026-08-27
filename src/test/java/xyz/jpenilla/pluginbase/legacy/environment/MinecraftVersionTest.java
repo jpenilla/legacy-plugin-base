@@ -2,7 +2,9 @@ package xyz.jpenilla.pluginbase.legacy.environment;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static xyz.jpenilla.pluginbase.legacy.environment.MinecraftReleases.*;
 
@@ -133,5 +135,37 @@ class MinecraftVersionTest {
         final MinecraftVersion rc = new MinecraftSnapshot("26.1.1-rc-1");
         assertTrue(rc.isAtLeast(v26_1_1));
         assertTrue(v26_1_1.isOlderThan(rc));
+    }
+
+    @Test
+    public void testParsesNmsPackageVersions() {
+        final MinecraftRelease v1_8_R3 = MinecraftRelease.parseNmsVersion("v1_8_R3");
+        assertEquals("1.8.0", v1_8_R3.toString());
+        assertTrue(v1_8_R3.isAtLeast(v1_8));
+        assertTrue(v1_8_R3.isOlderThan(v1_9));
+        assertFalse(v1_8_R3.isAtLeast(v1_8_1));
+
+        assertEquals("1.12.0", MinecraftRelease.parseNmsVersion("v1_12_R1").toString());
+        assertEquals("1.16.0", MinecraftRelease.parseNmsVersion("v1_16_R3").toString());
+        assertEquals("1.20.0", MinecraftRelease.parseNmsVersion("v1_20_R3").toString());
+        assertEquals("1.8.0", MinecraftRelease.parseNmsVersion("1_8_R3").toString());
+    }
+
+    @Test
+    public void testParsesBukkitVersionStrings() {
+        assertEquals("1.8.8", MinecraftRelease.parse("1.8.8-R0.1-SNAPSHOT").toString());
+        assertEquals("1.16.5", MinecraftRelease.parse("1.16.5-R0.1-SNAPSHOT").toString());
+        assertEquals("1.20.4", MinecraftRelease.parse("1.20.4-R0.1-SNAPSHOT").toString());
+
+        final MinecraftRelease parsed = MinecraftRelease.parse("1.8.8-R0.1-SNAPSHOT");
+        assertTrue(parsed.isAtLeast(v1_8_8));
+        assertTrue(parsed.isOlderThan(v1_9));
+    }
+
+    @Test
+    public void testInvalidNmsPackageVersionsThrow() {
+        assertThrows(IllegalArgumentException.class, () -> MinecraftRelease.parseNmsVersion("craftbukkit"));
+        assertThrows(IllegalArgumentException.class, () -> MinecraftRelease.parseNmsVersion("v1"));
+        assertThrows(IllegalArgumentException.class, () -> MinecraftRelease.parseNmsVersion(""));
     }
 }

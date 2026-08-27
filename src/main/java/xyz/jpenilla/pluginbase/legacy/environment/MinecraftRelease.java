@@ -64,4 +64,24 @@ public final class MinecraftRelease implements MinecraftVersion, Comparable<Mine
         }
         return new MinecraftRelease(major, minor, patch);
     }
+
+    public static MinecraftRelease parseNmsVersion(final String nmsVersion) {
+        String version = nmsVersion;
+        if (!version.isEmpty() && (version.charAt(0) == 'v' || version.charAt(0) == 'V')) {
+            version = version.substring(1);
+        }
+        final String[] split = version.split("_");
+        if (split.length < 2) {
+            throw new IllegalArgumentException("Invalid NMS version: " + nmsVersion);
+        }
+        final int major;
+        final int minor;
+        try {
+            major = Integer.parseInt(split[0]);
+            minor = Integer.parseInt(split[1]);
+        } catch (final NumberFormatException ex) {
+            throw new IllegalArgumentException("Invalid NMS version: " + nmsVersion, ex);
+        }
+        return new MinecraftRelease(major, minor, 0);
+    }
 }
