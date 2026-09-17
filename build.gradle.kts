@@ -38,28 +38,28 @@ repositories {
 
 dependencies {
     api(platform("net.kyori:adventure-bom:4.26.1"))
-    api("net.kyori", "adventure-api")
-    api("net.kyori", "adventure-text-serializer-gson") {
+    api("net.kyori:adventure-api")
+    api("net.kyori:adventure-text-serializer-gson") {
         exclude("com.google.code.gson", "gson")
     }
-    api("net.kyori", "adventure-text-serializer-legacy") {
+    api("net.kyori:adventure-text-serializer-legacy") {
         exclude("com.google.code.gson", "gson")
     }
 
-    api("net.kyori", "adventure-text-minimessage")
-    api("net.kyori", "adventure-text-serializer-plain")
-    api("net.kyori", "adventure-text-feature-pagination", "4.0.0-SNAPSHOT")
+    api("net.kyori:adventure-text-minimessage")
+    api("net.kyori:adventure-text-serializer-plain")
+    api("net.kyori:adventure-text-feature-pagination:4.0.0-SNAPSHOT")
     val adventurePlatformVersion = "4.4.1"
-    api("net.kyori", "adventure-platform-bukkit", adventurePlatformVersion) {
+    api("net.kyori:adventure-platform-bukkit:$adventurePlatformVersion") {
         exclude("com.google.code.gson", "gson")
     }
-    api("net.kyori", "adventure-text-serializer-bungeecord", adventurePlatformVersion) {
+    api("net.kyori:adventure-text-serializer-bungeecord:$adventurePlatformVersion") {
         exclude("com.google.code.gson", "gson")
     }
 
     compileOnly("org.jspecify:jspecify:1.0.0")
-    compileOnly("dev.folia", "folia-api", "1.19.4-R0.1-SNAPSHOT")
-    compileOnly("me.clip", "placeholderapi", "2.12.2")
+    compileOnly("dev.folia:folia-api:1.19.4-R0.1-SNAPSHOT")
+    compileOnly("me.clip:placeholderapi:2.12.2")
 
     testImplementation("org.junit.jupiter:junit-jupiter:6.1.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
