@@ -80,4 +80,7 @@ public final class MinecraftReleases {
     public static final MinecraftRelease v1_21_11 = oldSchemaRelease(21, 11);
     public static final MinecraftRelease v26_1 = minecraftRelease(26, 1, 0);
     public static final MinecraftRelease v26_1_1 = minecraftRelease(26, 1, 1);
+    public static final MinecraftRelease v26_1_2 = minecraftRelease(26, 1, 2);
+    public static final MinecraftRelease v26_2 = minecraftRelease(26, 2, 0);
+    public static final MinecraftRelease v26_3 = minecraftRelease(26, 3, 0);
 }
