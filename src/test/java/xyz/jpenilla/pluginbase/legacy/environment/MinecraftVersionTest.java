@@ -2,6 +2,7 @@ package xyz.jpenilla.pluginbase.legacy.environment;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static xyz.jpenilla.pluginbase.legacy.environment.MinecraftReleases.*;
@@ -133,5 +134,17 @@ class MinecraftVersionTest {
         final MinecraftVersion rc = new MinecraftSnapshot("26.1.1-rc-1");
         assertTrue(rc.isAtLeast(v26_1_1));
         assertTrue(v26_1_1.isOlderThan(rc));
+    }
+
+    @Test
+    public void testParsesLegacyBukkitVersionStrings() {
+        // Bukkit.getBukkitVersion() on legacy servers, e.g. "1.8.8-R0.1-SNAPSHOT"
+        assertEquals("1.7.10", MinecraftRelease.parse("1.7.10-R0.1-SNAPSHOT").toString());
+        assertEquals("1.8.8", MinecraftRelease.parse("1.8.8-R0.1-SNAPSHOT").toString());
+        assertEquals("1.16.5", MinecraftRelease.parse("1.16.5-R0.1-SNAPSHOT").toString());
+
+        final MinecraftRelease legacy = MinecraftRelease.parse("1.8.8-R0.1-SNAPSHOT");
+        assertTrue(legacy.isAtLeast(v1_8_8));
+        assertFalse(legacy.isAtLeast(v1_9));
     }
 }

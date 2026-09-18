@@ -46,15 +46,7 @@ public final class Environment {
     }
 
     private static MinecraftVersion detectVersionLegacy() {
-        final String serverPackageName = Bukkit.getServer().getClass().getPackage().getName();
-        final String serverApiVersion = serverPackageName.substring(
-                serverPackageName.lastIndexOf('.') + 1);
-        final String[] split = serverApiVersion.split("_");
-        final int major = Integer.parseInt(split[0]);
-        final int minor = Integer.parseInt(split[1]);
-        // we can't get patch from package name, default to 0
-        // TODO better legacy detection?
-        return new MinecraftRelease(major, minor, 0);
+        return MinecraftRelease.parse(Bukkit.getBukkitVersion());
     }
 
     private static MinecraftVersion detectVersionModern() throws ReflectiveOperationException {
